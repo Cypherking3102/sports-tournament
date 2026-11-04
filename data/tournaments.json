@@ -1,0 +1,468 @@
+[
+  {
+    "id": "tourney-football-2026",
+    "title": "Metro Champions Cup 2026",
+    "sport": "Football",
+    "sportIcon": "⚽",
+    "scoreUnit": "Goals",
+    "bannerUrl": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80",
+    "format": "KNOCKOUT",
+    "status": "LIVE",
+    "startDate": "2026-11-10",
+    "endDate": "2026-11-20",
+    "location": "National Sports Arena, Pitch A",
+    "organizer": "City Football Association",
+    "description": "The premier 8-team knockout football tournament featuring the region's elite clubs competing for the prestigious Champions Trophy.",
+    "teams": [
+      {
+        "id": "tm-1",
+        "name": "Red Dragons FC",
+        "shortName": "RDF",
+        "seed": 1,
+        "logo": "🐉"
+      },
+      {
+        "id": "tm-2",
+        "name": "Apex Thunder",
+        "shortName": "APT",
+        "seed": 2,
+        "logo": "⚡"
+      },
+      {
+        "id": "tm-3",
+        "name": "Silver Strikers",
+        "shortName": "SST",
+        "seed": 3,
+        "logo": "⚔️"
+      },
+      {
+        "id": "tm-4",
+        "name": "Phoenix United",
+        "shortName": "PHX",
+        "seed": 4,
+        "logo": "🔥"
+      },
+      {
+        "id": "tm-5",
+        "name": "Blue Falcons",
+        "shortName": "BLF",
+        "seed": 5,
+        "logo": "🦅"
+      },
+      {
+        "id": "tm-6",
+        "name": "Iron Wolves",
+        "shortName": "IRW",
+        "seed": 6,
+        "logo": "🐺"
+      },
+      {
+        "id": "tm-7",
+        "name": "Golden Titans",
+        "shortName": "GTI",
+        "seed": 7,
+        "logo": "🛡️"
+      },
+      {
+        "id": "tm-8",
+        "name": "Shadow Cobras",
+        "shortName": "SCB",
+        "seed": 8,
+        "logo": "🐍"
+      }
+    ],
+    "rules": [
+      {
+        "id": "rule-1",
+        "title": "Match Duration & Intervals",
+        "category": "Gameplay",
+        "content": "Matches consist of two 45-minute halves with a 15-minute halftime interval. Stoppage time is added at the referee's discretion based on injury delays and substitutions."
+      },
+      {
+        "id": "rule-2",
+        "title": "Overtime & Tie-Breakers",
+        "category": "Knockout Rules",
+        "content": "In the event of a tie at the end of normal time, two 15-minute extra time periods will be played. If scores remain tied, a standard FIFA-sanctioned penalty shootout (5 kicks each, then sudden death) will determine the advancing team."
+      },
+      {
+        "id": "rule-3",
+        "title": "Substitutions & Rosters",
+        "category": "Rosters",
+        "content": "Each team may register up to 18 players per matchday squad (11 starting, 7 substitutes). A maximum of 5 substitutions are permitted over 3 substitution windows (excluding halftime)."
+      },
+      {
+        "id": "rule-4",
+        "title": "Disciplinary Code & Cards",
+        "category": "Conduct",
+        "content": "Two yellow cards in consecutive matches result in a one-match suspension. A direct red card results in an automatic minimum one-match suspension, subject to review by the tournament disciplinary committee."
+      }
+    ],
+    "matches": [
+      {
+        "id": "m-qf-1",
+        "round": 1,
+        "roundName": "Quarter-Final 1",
+        "stageName": "Quarter-Finals",
+        "teamAId": "tm-1",
+        "teamBId": "tm-8",
+        "scoreA": 3,
+        "scoreB": 1,
+        "status": "COMPLETED",
+        "winnerId": "tm-1",
+        "nextMatchId": "m-sf-1",
+        "nextMatchSlot": "A",
+        "scheduledAt": "2026-11-10 14:00",
+        "venue": "Pitch 1"
+      },
+      {
+        "id": "m-qf-2",
+        "round": 1,
+        "roundName": "Quarter-Final 2",
+        "stageName": "Quarter-Finals",
+        "teamAId": "tm-4",
+        "teamBId": "tm-5",
+        "scoreA": 2,
+        "scoreB": 0,
+        "status": "COMPLETED",
+        "winnerId": "tm-4",
+        "nextMatchId": "m-sf-1",
+        "nextMatchSlot": "B",
+        "scheduledAt": "2026-11-10 16:30",
+        "venue": "Pitch 1"
+      },
+      {
+        "id": "m-qf-3",
+        "round": 1,
+        "roundName": "Quarter-Final 3",
+        "stageName": "Quarter-Finals",
+        "teamAId": "tm-2",
+        "teamBId": "tm-7",
+        "scoreA": 2,
+        "scoreB": 2,
+        "status": "LIVE",
+        "winnerId": null,
+        "nextMatchId": "m-sf-2",
+        "nextMatchSlot": "A",
+        "scheduledAt": "2026-11-11 14:00",
+        "venue": "Pitch 2"
+      },
+      {
+        "id": "m-qf-4",
+        "round": 1,
+        "roundName": "Quarter-Final 4",
+        "stageName": "Quarter-Finals",
+        "teamAId": "tm-3",
+        "teamBId": "tm-6",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "nextMatchId": "m-sf-2",
+        "nextMatchSlot": "B",
+        "scheduledAt": "2026-11-11 16:30",
+        "venue": "Pitch 2"
+      },
+      {
+        "id": "m-sf-1",
+        "round": 2,
+        "roundName": "Semi-Final 1",
+        "stageName": "Semi-Finals",
+        "teamAId": "tm-1",
+        "teamBId": "tm-4",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "nextMatchId": "m-fn-1",
+        "nextMatchSlot": "A",
+        "scheduledAt": "2026-11-15 17:00",
+        "venue": "Main Stadium"
+      },
+      {
+        "id": "m-sf-2",
+        "round": 2,
+        "roundName": "Semi-Final 2",
+        "stageName": "Semi-Finals",
+        "teamAId": null,
+        "teamBId": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "nextMatchId": "m-fn-1",
+        "nextMatchSlot": "B",
+        "scheduledAt": "2026-11-15 19:30",
+        "venue": "Main Stadium"
+      },
+      {
+        "id": "m-fn-1",
+        "round": 3,
+        "roundName": "Championship Final",
+        "stageName": "Final",
+        "teamAId": null,
+        "teamBId": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "nextMatchId": null,
+        "nextMatchSlot": null,
+        "scheduledAt": "2026-11-20 18:00",
+        "venue": "Grand Arena Stadium"
+      }
+    ]
+  },
+  {
+    "id": "tourney-basketball-2026",
+    "title": "City Hoops League (Round Robin)",
+    "sport": "Basketball",
+    "sportIcon": "🏀",
+    "scoreUnit": "Points",
+    "bannerUrl": "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80",
+    "format": "ROUND_ROBIN",
+    "status": "LIVE",
+    "startDate": "2026-11-05",
+    "endDate": "2026-11-28",
+    "location": "Downtown Sports Complex, Court 1",
+    "organizer": "Metropolitan Basketball Federation",
+    "description": "A 5-team round robin tournament where every team battles for league supremacy. Top 2 teams advance to the Super Cup.",
+    "teams": [
+      {
+        "id": "bb-1",
+        "name": "Metro Vipers",
+        "shortName": "VIP",
+        "seed": 1,
+        "logo": "🐍"
+      },
+      {
+        "id": "bb-2",
+        "name": "Skyline Dunkers",
+        "shortName": "SKD",
+        "seed": 2,
+        "logo": "🌆"
+      },
+      {
+        "id": "bb-3",
+        "name": "Harbor Sharks",
+        "shortName": "SHK",
+        "seed": 3,
+        "logo": "🦈"
+      },
+      {
+        "id": "bb-4",
+        "name": "Glacier Grizzlies",
+        "shortName": "GRZ",
+        "seed": 4,
+        "logo": "🐻"
+      },
+      {
+        "id": "bb-5",
+        "name": "Blaze Hoopers",
+        "shortName": "BLZ",
+        "seed": 5,
+        "logo": "🔥"
+      }
+    ],
+    "rules": [
+      {
+        "id": "brule-1",
+        "title": "Quarter Duration & Shot Clock",
+        "category": "Gameplay",
+        "content": "4 quarters of 10 minutes stop-clock time. Standard 24-second shot clock (reset to 14 seconds on offensive rebound)."
+      },
+      {
+        "id": "brule-2",
+        "title": "Points System for Standings",
+        "category": "Scoring",
+        "content": "Win = 2 Points, Loss = 1 Point, Forfeit = 0 Points. Standings tie-breakers: 1) Head-to-head result, 2) Point differential, 3) Total points scored."
+      },
+      {
+        "id": "brule-3",
+        "title": "Foul Limits & Overtime",
+        "category": "Regulation",
+        "content": "5 personal fouls per player disqualifies the player. 5-minute overtime periods played until a winner is decided (no ties allowed)."
+      }
+    ],
+    "matches": [
+      {
+        "id": "bb-m-1",
+        "round": 1,
+        "roundName": "Week 1",
+        "stageName": "League Stage",
+        "teamAId": "bb-1",
+        "teamBId": "bb-2",
+        "scoreA": 88,
+        "scoreB": 82,
+        "status": "COMPLETED",
+        "winnerId": "bb-1",
+        "scheduledAt": "2026-11-05 18:00",
+        "venue": "Court 1"
+      },
+      {
+        "id": "bb-m-2",
+        "round": 1,
+        "roundName": "Week 1",
+        "stageName": "League Stage",
+        "teamAId": "bb-3",
+        "teamBId": "bb-4",
+        "scoreA": 76,
+        "scoreB": 80,
+        "status": "COMPLETED",
+        "winnerId": "bb-4",
+        "scheduledAt": "2026-11-05 20:00",
+        "venue": "Court 1"
+      },
+      {
+        "id": "bb-m-3",
+        "round": 2,
+        "roundName": "Week 2",
+        "stageName": "League Stage",
+        "teamAId": "bb-5",
+        "teamBId": "bb-1",
+        "scoreA": 91,
+        "scoreB": 94,
+        "status": "COMPLETED",
+        "winnerId": "bb-1",
+        "scheduledAt": "2026-11-12 18:00",
+        "venue": "Court 1"
+      },
+      {
+        "id": "bb-m-4",
+        "round": 2,
+        "roundName": "Week 2",
+        "stageName": "League Stage",
+        "teamAId": "bb-2",
+        "teamBId": "bb-3",
+        "scoreA": 71,
+        "scoreB": 69,
+        "status": "LIVE",
+        "winnerId": null,
+        "scheduledAt": "2026-11-12 20:00",
+        "venue": "Court 1"
+      },
+      {
+        "id": "bb-m-5",
+        "round": 3,
+        "roundName": "Week 3",
+        "stageName": "League Stage",
+        "teamAId": "bb-4",
+        "teamBId": "bb-5",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-19 18:00",
+        "venue": "Court 1"
+      }
+    ]
+  },
+  {
+    "id": "tourney-cricket-2026",
+    "title": "Super 6s Cricket Clash",
+    "sport": "Cricket",
+    "sportIcon": "🏏",
+    "scoreUnit": "Runs",
+    "bannerUrl": "https://images.unsplash.com/photo-1531415074868-036b107e775a?auto=format&fit=crop&w=1200&q=80",
+    "format": "KNOCKOUT",
+    "status": "UPCOMING",
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-04",
+    "location": "Oval Cricket Ground",
+    "organizer": "Premier Cricket League",
+    "description": "High-voltage T10 knockout cricket tournament with lightning-fast innings and explosive hitting.",
+    "teams": [
+      {
+        "id": "cr-1",
+        "name": "Royal Challengers",
+        "shortName": "RC",
+        "seed": 1,
+        "logo": "👑"
+      },
+      {
+        "id": "cr-2",
+        "name": "Super Kings",
+        "shortName": "SK",
+        "seed": 2,
+        "logo": "🦁"
+      },
+      {
+        "id": "cr-3",
+        "name": "Knight Riders",
+        "shortName": "KR",
+        "seed": 3,
+        "logo": "🛡️"
+      },
+      {
+        "id": "cr-4",
+        "name": "Sunrisers",
+        "shortName": "SR",
+        "seed": 4,
+        "logo": "☀️"
+      }
+    ],
+    "rules": [
+      {
+        "id": "crule-1",
+        "title": "Match Format & Overs",
+        "category": "Gameplay",
+        "content": "10 overs per side. Powerplay covers overs 1 to 3. Maximum of 2 overs per bowler."
+      },
+      {
+        "id": "crule-2",
+        "title": "Super Over Tie Breaker",
+        "category": "Tie-Breaker",
+        "content": "In case of a tie, a Super Over (6 balls per side) will be conducted. If the Super Over is tied, subsequent super overs are played until a winner emerges."
+      }
+    ],
+    "matches": [
+      {
+        "id": "cr-sf-1",
+        "round": 1,
+        "roundName": "Semi-Final 1",
+        "stageName": "Semi-Finals",
+        "teamAId": "cr-1",
+        "teamBId": "cr-4",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "nextMatchId": "cr-fn",
+        "nextMatchSlot": "A",
+        "scheduledAt": "2026-12-01 10:00",
+        "venue": "Oval Pitch 1"
+      },
+      {
+        "id": "cr-sf-2",
+        "round": 1,
+        "roundName": "Semi-Final 2",
+        "stageName": "Semi-Finals",
+        "teamAId": "cr-2",
+        "teamBId": "cr-3",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "nextMatchId": "cr-fn",
+        "nextMatchSlot": "B",
+        "scheduledAt": "2026-12-01 14:00",
+        "venue": "Oval Pitch 1"
+      },
+      {
+        "id": "cr-fn",
+        "round": 2,
+        "roundName": "Grand Final",
+        "stageName": "Final",
+        "teamAId": null,
+        "teamBId": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "nextMatchId": null,
+        "nextMatchSlot": null,
+        "scheduledAt": "2026-12-04 15:00",
+        "venue": "Oval Main Ground"
+      }
+    ]
+  }
+]
