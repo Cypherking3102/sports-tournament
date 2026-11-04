@@ -1,7 +1,21 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Trophy, Plus, Minus, Flame, CheckCircle, Save, Settings2, Calendar, MapPin, Users } from "lucide-react";
+import {
+  X,
+  Trophy,
+  Plus,
+  Minus,
+  Flame,
+  CheckCircle,
+  Save,
+  Settings2,
+  Calendar,
+  MapPin,
+  Users,
+  Award,
+  Clock
+} from "lucide-react";
 
 export default function ScoreModal({ match, tournament, onClose, onSave }) {
   const [activeMode, setActiveMode] = useState("score"); // "score" or "draw"
@@ -15,6 +29,9 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
   const [teamBId, setTeamBId] = useState(match?.teamBId || "");
   const [scheduledAt, setScheduledAt] = useState(match?.scheduledAt || "");
   const [venue, setVenue] = useState(match?.venue || "");
+  const [official, setOfficial] = useState(match?.official || "Parish Referee Panel");
+  const [duration, setDuration] = useState(match?.duration || "Standard Time");
+  const [playerNotes, setPlayerNotes] = useState(match?.playerNotes || "");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -48,6 +65,9 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
           teamBId: teamBId || null,
           scheduledAt: scheduledAt || match.scheduledAt,
           venue: venue || match.venue,
+          official: official || match.official,
+          duration: duration || match.duration,
+          playerNotes: playerNotes || match.playerNotes,
           scoreA: Number(scoreA),
           scoreB: Number(scoreB),
           status,
@@ -71,8 +91,8 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-      <div className="bg-slate-900 border border-slate-700/80 rounded-3xl p-6 w-full max-w-lg shadow-2xl space-y-5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 overflow-y-auto">
+      <div className="bg-slate-900 border border-slate-700/80 rounded-3xl p-6 w-full max-w-lg shadow-2xl space-y-5 my-6">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-800 pb-3">
           <div>
@@ -114,7 +134,7 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
             }`}
           >
             <Settings2 className="w-3.5 h-3.5" />
-            <span>Edit Draw / Reschedule</span>
+            <span>Edit Teams & Rules</span>
           </button>
         </div>
 
@@ -244,7 +264,7 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
               )}
             </>
           ) : (
-            /* Mode "draw": Edit Teams & Reschedule */
+            /* Mode "draw": Edit Teams, Officials & Reschedule */
             <div className="space-y-3.5 bg-slate-950/70 border border-slate-800 p-4 rounded-2xl">
               <div className="text-xs text-slate-300 font-semibold flex items-center space-x-2 border-b border-slate-800 pb-2">
                 <Users className="w-4 h-4 text-blue-400" />
@@ -304,6 +324,40 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-400"
                   />
                 </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 pt-1 border-t border-slate-800">
+                <div>
+                  <label className="text-[11px] text-slate-400 block mb-1">Match Official</label>
+                  <input
+                    type="text"
+                    value={official}
+                    onChange={(e) => setOfficial(e.target.value)}
+                    placeholder="Referee Name"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-400"
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] text-slate-400 block mb-1">Duration</label>
+                  <input
+                    type="text"
+                    value={duration}
+                    onChange={(e) => setDuration(e.target.value)}
+                    placeholder="e.g. 90 mins"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-400"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[11px] text-slate-400 block mb-1">Lineups / Notes</label>
+                <input
+                  type="text"
+                  value={playerNotes}
+                  onChange={(e) => setPlayerNotes(e.target.value)}
+                  placeholder="Player roster or notes..."
+                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-400"
+                />
               </div>
             </div>
           )}

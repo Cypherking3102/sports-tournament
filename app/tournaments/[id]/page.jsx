@@ -13,7 +13,12 @@ import {
   ArrowLeft,
   Flame,
   Layers,
-  Plus
+  Plus,
+  Settings,
+  Users,
+  Award,
+  BarChart3,
+  Target
 } from "lucide-react";
 
 import BracketTree from "@/components/BracketTree";
@@ -23,6 +28,8 @@ import MatchSchedule from "@/components/MatchSchedule";
 import RulesViewer from "@/components/RulesViewer";
 import ScoreModal from "@/components/ScoreModal";
 import AddMatchModal from "@/components/AddMatchModal";
+import TournamentEditModal from "@/components/TournamentEditModal";
+import { calculateTournamentStats } from "@/lib/tournamentEngine";
 
 export default function TournamentDetailPage({ params }) {
   const unwrappedParams = use(params);
@@ -34,6 +41,7 @@ export default function TournamentDetailPage({ params }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [showAddMatch, setShowAddMatch] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   useEffect(() => {
     fetchTournament();
@@ -73,6 +81,10 @@ export default function TournamentDetailPage({ params }) {
     setTournament(updatedTourney);
   };
 
+  const handleTournamentUpdated = (updatedTourney) => {
+    setTournament(updatedTourney);
+  };
+
   const handleAddRule = async (newRule) => {
     if (!tournament) return;
     const updatedRules = [...(tournament.rules || []), newRule];
@@ -92,7 +104,7 @@ export default function TournamentDetailPage({ params }) {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-16 text-center space-y-4">
+      <div className="max-w-7xl mx-auto px-4 py-20 text-center space-y-4">
         <div className="w-10 h-10 rounded-full border-2 border-blue-500 border-t-transparent animate-spin mx-auto"></div>
         <p className="text-slate-400 text-sm font-medium">Loading tournament fixtures...</p>
       </div>
@@ -101,7 +113,7 @@ export default function TournamentDetailPage({ params }) {
 
   if (!tournament) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-16 text-center space-y-4">
+      <div className="max-w-7xl mx-auto px-4 py-20 text-center space-y-4">
         <Trophy className="w-12 h-12 text-slate-600 mx-auto" />
         <h2 className="text-xl font-bold text-white">Tournament Not Found</h2>
         <Link
@@ -116,11 +128,12 @@ export default function TournamentDetailPage({ params }) {
   }
 
   const liveMatches = tournament.matches?.filter((m) => m.status === "LIVE").length || 0;
+  const stats = calculateTournamentStats(tournament);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-8">
-      {/* Top Breadcrumb & Admin Badge */}
-      <div className="flex items-center justify-between">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
+      {/* Top Breadcrumb & Admin Controls */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <Link
           href="/"
           className="inline-flex items-center space-x-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
@@ -130,17 +143,27 @@ export default function TournamentDetailPage({ params }) {
         </Link>
 
         {isAdmin && (
-          <div className="flex items-center space-x-2">
-            <span className="flex items-center space-x-1.5 text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1 rounded-full">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="flex items-center space-x-1.5 text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1.5 rounded-full">
               <Shield className="w-3.5 h-3.5" />
-              <span>Admin Mode Active</span>
+              <span>Admin Mode</span>
             </span>
+
+            <button
+              onClick={() => setShowEditModal(true)}
+              className="flex items-center space-x-1.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold px-3.5 py-1.5 rounded-full border border-slate-700 transition-all shadow-sm"
+              title="Edit tournament settings, points engine, rules & teams"
+            >
+              <Settings className="w-3.5 h-3.5 text-blue-400" />
+              <span>Edit Tournament & Rules</span>
+            </button>
+
             <button
               onClick={() => setShowAddMatch(true)}
-              className="flex items-center space-x-1 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full transition-all"
+              className="flex items-center space-x-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold px-4 py-1.5 rounded-full transition-all shadow-md shadow-blue-500/20"
             >
               <Plus className="w-3.5 h-3.5" />
-              <span>Add Match</span>
+              <span>+ Add Match</span>
             </button>
           </div>
         )}
@@ -157,24 +180,30 @@ export default function TournamentDetailPage({ params }) {
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/75 to-transparent"></div>
 
           {/* Badges on banner */}
-          <div className="absolute top-4 left-4 flex flex-wrap items-center gap-2">
-            <span className="px-3.5 py-1 rounded-full bg-slate-950/90 backdrop-blur-md border border-slate-700 text-xs font-bold text-white flex items-center space-x-1.5">
-              <span>{tournament.sportIcon}</span>
-              <span>{tournament.sport}</span>
-            </span>
-            <span className="px-3.5 py-1 rounded-full bg-blue-600 text-white text-xs font-mono font-bold uppercase">
-              {tournament.format === "GROUP_KNOCKOUT"
-                ? "Groups + Playoff Knockouts"
-                : tournament.format === "KNOCKOUT"
-                ? "Knockout Bracket"
-                : "Round Robin League"}
-            </span>
-            {liveMatches > 0 && (
-              <span className="flex items-center space-x-1 px-3 py-1 rounded-full bg-red-500 text-white text-xs font-bold animate-pulse">
-                <Flame className="w-3.5 h-3.5" />
-                <span>{liveMatches} Live Now</span>
+          <div className="absolute top-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="px-3.5 py-1 rounded-full bg-slate-950/90 backdrop-blur-md border border-slate-700 text-xs font-bold text-white flex items-center space-x-1.5">
+                <span>{tournament.sportIcon}</span>
+                <span>{tournament.sport}</span>
               </span>
-            )}
+              <span className="px-3.5 py-1 rounded-full bg-blue-600 text-white text-xs font-mono font-bold uppercase shadow-sm">
+                {tournament.format === "GROUP_KNOCKOUT"
+                  ? "Groups + Playoff Knockouts"
+                  : tournament.format === "KNOCKOUT"
+                  ? "Knockout Bracket"
+                  : "Round Robin League"}
+              </span>
+              {liveMatches > 0 && (
+                <span className="flex items-center space-x-1 px-3 py-1 rounded-full bg-red-500 text-white text-xs font-bold animate-pulse shadow-md shadow-red-500/30">
+                  <Flame className="w-3.5 h-3.5" />
+                  <span>{liveMatches} Live Now</span>
+                </span>
+              )}
+            </div>
+
+            <span className="text-[11px] font-mono font-semibold px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur border border-slate-800 text-slate-300">
+              {tournament.status || "LIVE"}
+            </span>
           </div>
 
           {/* Banner bottom details */}
@@ -191,6 +220,12 @@ export default function TournamentDetailPage({ params }) {
                 <Calendar className="w-3.5 h-3.5 text-blue-400" />
                 <span>{tournament.startDate}</span>
               </span>
+              {tournament.organizer && (
+                <span className="flex items-center space-x-1 text-slate-400">
+                  <Award className="w-3.5 h-3.5 text-amber-400" />
+                  <span>{tournament.organizer}</span>
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -279,6 +314,59 @@ export default function TournamentDetailPage({ params }) {
         </div>
       </div>
 
+      {/* Enterprise Stats Bar (Sofascore / UEFA style overview KPI cards) */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex items-center space-x-3 shadow-md">
+          <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+            <Users className="w-5 h-5" />
+          </div>
+          <div>
+            <span className="text-[11px] uppercase tracking-wider text-slate-400 font-mono block">
+              Teams
+            </span>
+            <span className="text-xl font-black text-white font-mono">{stats.totalTeams}</span>
+          </div>
+        </div>
+
+        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex items-center space-x-3 shadow-md">
+          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+            <CalendarDays className="w-5 h-5" />
+          </div>
+          <div>
+            <span className="text-[11px] uppercase tracking-wider text-slate-400 font-mono block">
+              Matches
+            </span>
+            <span className="text-xl font-black text-white font-mono">
+              {stats.completedMatches} / {stats.totalMatches}
+            </span>
+          </div>
+        </div>
+
+        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex items-center space-x-3 shadow-md">
+          <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+            <Target className="w-5 h-5" />
+          </div>
+          <div>
+            <span className="text-[11px] uppercase tracking-wider text-slate-400 font-mono block">
+              Total {tournament.scoreUnit || "Goals"}
+            </span>
+            <span className="text-xl font-black text-white font-mono">{stats.totalGoals}</span>
+          </div>
+        </div>
+
+        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex items-center space-x-3 shadow-md">
+          <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+            <BarChart3 className="w-5 h-5" />
+          </div>
+          <div>
+            <span className="text-[11px] uppercase tracking-wider text-slate-400 font-mono block">
+              Avg / Match
+            </span>
+            <span className="text-xl font-black text-white font-mono">{stats.avgGoals}</span>
+          </div>
+        </div>
+      </div>
+
       {/* Tab Panels */}
       <div>
         {activeTab === "groups" && tournament.format === "GROUP_KNOCKOUT" && (
@@ -298,7 +386,11 @@ export default function TournamentDetailPage({ params }) {
         )}
 
         {activeTab === "standings" && (
-          <PointsTable standings={tournament.standings} scoreUnit={tournament.scoreUnit} />
+          <PointsTable
+            standings={tournament.standings}
+            scoreUnit={tournament.scoreUnit}
+            pointsConfig={tournament.pointsConfig}
+          />
         )}
 
         {activeTab === "schedule" && (
@@ -335,6 +427,15 @@ export default function TournamentDetailPage({ params }) {
           tournament={tournament}
           onClose={() => setShowAddMatch(false)}
           onMatchAdded={handleMatchSaved}
+        />
+      )}
+
+      {/* Detailed Tournament Settings & Edit Modal */}
+      {showEditModal && (
+        <TournamentEditModal
+          tournament={tournament}
+          onClose={() => setShowEditModal(false)}
+          onUpdated={handleTournamentUpdated}
         />
       )}
     </div>

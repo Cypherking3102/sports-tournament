@@ -1,10 +1,30 @@
 "use client";
 
 import { useState } from "react";
-import { Trophy, CheckCircle, Flame, Calendar, MapPin, Edit3, Shield, ArrowRight } from "lucide-react";
+import {
+  Trophy,
+  CheckCircle,
+  Flame,
+  Calendar,
+  MapPin,
+  Edit3,
+  Shield,
+  ArrowRight,
+  Clock,
+  Award,
+  Users
+} from "lucide-react";
 
 export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
-  const { groups = [], groupStandings = {}, matches = [], teams = [], scoreUnit = "Goals" } = tournament;
+  const {
+    groups = [],
+    groupStandings = {},
+    matches = [],
+    teams = [],
+    scoreUnit = "Goals",
+    pointsConfig = { win: 3, draw: 1, loss: 0, showForm: true }
+  } = tournament;
+
   const [selectedGroupId, setSelectedGroupId] = useState(groups[0]?.id || "ALL");
 
   const teamMap = {};
@@ -23,9 +43,14 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
   const displayedGroups =
     selectedGroupId === "ALL" ? groups : groups.filter((g) => g.id === selectedGroupId);
 
+  const winPts = pointsConfig?.win ?? 3;
+  const drawPts = pointsConfig?.draw ?? 1;
+  const lossPts = pointsConfig?.loss ?? 0;
+  const showForm = pointsConfig?.showForm !== false;
+
   return (
     <div className="space-y-8">
-      {/* Group Selector Pill Tabs */}
+      {/* Group Selector Pill Tabs & Points Badge */}
       <div className="flex items-center justify-between flex-wrap gap-3 bg-slate-900/70 border border-slate-800/80 p-2.5 rounded-2xl">
         <div className="flex items-center space-x-1.5 overflow-x-auto">
           <button
@@ -53,9 +78,16 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
           ))}
         </div>
 
-        <span className="text-[11px] font-mono text-slate-400 px-3 py-1 bg-slate-950/80 rounded-lg border border-slate-800">
-          Top 2 teams in each group advance to Semi-Finals
-        </span>
+        <div className="flex items-center space-x-2">
+          <span className="text-[11px] font-mono text-slate-300 px-3 py-1 bg-slate-950/80 rounded-lg border border-slate-800">
+            <span className="text-emerald-400 font-bold">W: {winPts}</span> •{" "}
+            <span className="text-amber-400 font-bold">D: {drawPts}</span> •{" "}
+            <span className="text-rose-400 font-bold">L: {lossPts}</span>
+          </span>
+          <span className="text-[11px] font-mono text-emerald-400 px-3 py-1 bg-emerald-500/10 rounded-lg border border-emerald-500/20 hidden sm:inline-block">
+            Top 2 advance to Playoffs
+          </span>
+        </div>
       </div>
 
       {/* Render Each Group Table & Group Fixtures */}
@@ -72,7 +104,7 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
             className="bg-slate-900/80 border border-slate-800 rounded-3xl overflow-hidden shadow-xl space-y-6 p-6"
           >
             {/* Group Header */}
-            <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800/80 pb-4 gap-2">
               <div className="flex items-center space-x-3">
                 <span className="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center font-bold text-sm text-blue-400 font-mono">
                   {group.name.replace("Group ", "")}
@@ -87,7 +119,7 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                 </div>
               </div>
 
-              <span className="text-xs text-emerald-400 font-medium flex items-center space-x-1.5 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full">
+              <span className="text-xs text-emerald-400 font-medium flex items-center space-x-1.5 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full w-fit">
                 <CheckCircle className="w-3.5 h-3.5" />
                 <span>Top 2 Qualify for Playoffs</span>
               </span>
@@ -100,20 +132,39 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                   <tr>
                     <th className="py-3 px-4 w-12 text-center">Pos</th>
                     <th className="py-3 px-4">Team</th>
-                    <th className="py-3 px-3 text-center" title="Played">P</th>
-                    <th className="py-3 px-3 text-center" title="Won">W</th>
-                    <th className="py-3 px-3 text-center" title="Drawn">D</th>
-                    <th className="py-3 px-3 text-center" title="Lost">L</th>
-                    <th className="py-3 px-3 text-center" title="Goals For">GF</th>
-                    <th className="py-3 px-3 text-center" title="Goals Against">GA</th>
-                    <th className="py-3 px-3 text-center" title="Goal Difference">GD</th>
+                    <th className="py-3 px-3 text-center" title="Played">
+                      P
+                    </th>
+                    <th className="py-3 px-3 text-center" title="Won">
+                      W
+                    </th>
+                    <th className="py-3 px-3 text-center" title="Drawn">
+                      D
+                    </th>
+                    <th className="py-3 px-3 text-center" title="Lost">
+                      L
+                    </th>
+                    <th className="py-3 px-3 text-center" title="Goals For">
+                      GF
+                    </th>
+                    <th className="py-3 px-3 text-center" title="Goals Against">
+                      GA
+                    </th>
+                    <th className="py-3 px-3 text-center" title="Goal Difference">
+                      GD
+                    </th>
                     <th className="py-3 px-4 text-center font-bold text-blue-400">PTS</th>
+                    {showForm && (
+                      <th className="py-3 px-4 text-center" title="Last 5 Matches Form">
+                        Form
+                      </th>
+                    )}
                     <th className="py-3 px-4 text-right">Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800/60 font-medium">
                   {standings.map((row, index) => {
-                    const isQualified = index < 2; // top 2 spots
+                    const isQualified = index < 2;
                     return (
                       <tr
                         key={row.team?.id || index}
@@ -148,7 +199,7 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                           </div>
                         </td>
                         <td className="py-3 px-3 text-center font-mono">{row.played}</td>
-                        <td className="py-3 px-3 text-center font-mono text-emerald-400">
+                        <td className="py-3 px-3 text-center font-mono text-emerald-400 font-semibold">
                           {row.won}
                         </td>
                         <td className="py-3 px-3 text-center font-mono text-slate-400">
@@ -170,9 +221,35 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                         >
                           {row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference}
                         </td>
-                        <td className="py-3 px-4 text-center font-mono text-sm font-extrabold text-blue-400">
+                        <td className="py-3 px-4 text-center font-mono text-sm font-black text-blue-400">
                           {row.points}
                         </td>
+
+                        {showForm && (
+                          <td className="py-3 px-4 text-center">
+                            <div className="flex items-center justify-center space-x-1">
+                              {row.form && row.form.length > 0 ? (
+                                row.form.map((res, i) => (
+                                  <span
+                                    key={i}
+                                    className={`w-4 h-4 rounded text-[9px] font-bold font-mono text-white flex items-center justify-center ${
+                                      res === "W"
+                                        ? "bg-emerald-500"
+                                        : res === "D"
+                                        ? "bg-amber-500"
+                                        : "bg-rose-500"
+                                    }`}
+                                  >
+                                    {res}
+                                  </span>
+                                ))
+                              ) : (
+                                <span className="text-slate-600 font-mono text-[10px]">-</span>
+                              )}
+                            </div>
+                          </td>
+                        )}
+
                         <td className="py-3 px-4 text-right">
                           {isQualified ? (
                             <span className="text-[10px] font-semibold uppercase text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
@@ -213,7 +290,7 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                       }`}
                     >
                       <div className="flex items-center justify-between text-[11px] text-slate-400 mb-2 border-b border-slate-800/60 pb-1.5">
-                        <span className="font-mono text-slate-300">{m.roundName}</span>
+                        <span className="font-mono text-slate-300 font-semibold">{m.roundName}</span>
                         <div>
                           {isLive && (
                             <span className="flex items-center space-x-1 text-red-400 font-bold animate-pulse">
@@ -227,7 +304,10 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                             </span>
                           )}
                           {m.status === "SCHEDULED" && (
-                            <span className="text-slate-500">{m.scheduledAt || "Scheduled"}</span>
+                            <span className="text-slate-500 flex items-center space-x-1">
+                              <Clock className="w-3 h-3 text-slate-500" />
+                              <span>{m.scheduledAt || "Scheduled"}</span>
+                            </span>
                           )}
                         </div>
                       </div>
@@ -237,7 +317,7 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                         <div className="flex items-center justify-between text-xs">
                           <span className="flex items-center space-x-2 font-medium text-white truncate">
                             <span>{teamA?.logo || "🛡️"}</span>
-                            <span>{teamA?.name || "TBD"}</span>
+                            <span className="truncate">{teamA?.name || "TBD"}</span>
                           </span>
                           <span className="font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-200">
                             {isCompleted || isLive ? m.scoreA : "-"}
@@ -246,7 +326,7 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                         <div className="flex items-center justify-between text-xs">
                           <span className="flex items-center space-x-2 font-medium text-white truncate">
                             <span>{teamB?.logo || "🛡️"}</span>
-                            <span>{teamB?.name || "TBD"}</span>
+                            <span className="truncate">{teamB?.name || "TBD"}</span>
                           </span>
                           <span className="font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-200">
                             {isCompleted || isLive ? m.scoreB : "-"}
@@ -254,17 +334,33 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                         </div>
                       </div>
 
-                      {isAdmin && (
-                        <div className="pt-2 mt-2 border-t border-slate-800/60 flex justify-end">
+                      {/* Venue, Official & Lineup notes */}
+                      <div className="mt-2.5 pt-2 border-t border-slate-800/60 flex flex-wrap items-center justify-between text-[10px] text-slate-500 gap-1">
+                        <div className="flex items-center space-x-2 truncate">
+                          {m.venue && (
+                            <span className="flex items-center space-x-1">
+                              <MapPin className="w-2.5 h-2.5 text-blue-400" />
+                              <span>{m.venue}</span>
+                            </span>
+                          )}
+                          {m.official && (
+                            <span className="flex items-center space-x-1">
+                              <Award className="w-2.5 h-2.5 text-amber-400" />
+                              <span>{m.official}</span>
+                            </span>
+                          )}
+                        </div>
+
+                        {isAdmin && (
                           <button
                             onClick={() => onEditMatch && onEditMatch(m)}
-                            className="flex items-center space-x-1 text-[11px] text-blue-400 hover:text-blue-300 font-medium"
+                            className="flex items-center space-x-1 text-[11px] text-blue-400 hover:text-blue-300 font-medium ml-auto"
                           >
                             <Edit3 className="w-3 h-3" />
                             <span>Update Score</span>
                           </button>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                   );
                 })}

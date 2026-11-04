@@ -11,13 +11,7 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: "Tournament not found" }, { status: 404 });
     }
 
-    // If tournament has round robin matches, compute standings
-    let standings = null;
-    if (tournament.format === "ROUND_ROBIN" && tournament.teams && tournament.matches) {
-      standings = calculateStandings(tournament.teams, tournament.matches);
-    }
-
-    return NextResponse.json({ ...tournament, standings });
+    return NextResponse.json(tournament);
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
@@ -33,7 +27,8 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ error: "Tournament not found" }, { status: 404 });
     }
 
-    return NextResponse.json(updated);
+    const fullTournament = getTournamentById(id);
+    return NextResponse.json(fullTournament || updated);
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

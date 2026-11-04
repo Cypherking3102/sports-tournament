@@ -1,0 +1,949 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  X,
+  Settings,
+  Shield,
+  Trophy,
+  Save,
+  Trash2,
+  Plus,
+  AlertTriangle,
+  RotateCcw,
+  Sparkles,
+  BookOpen,
+  Users,
+  Check,
+  Calendar,
+  MapPin,
+  Flame,
+  Layers,
+  ChevronDown,
+  ChevronUp
+} from "lucide-react";
+
+export default function TournamentEditModal({ tournament, onClose, onUpdated }) {
+  const router = useRouter();
+
+  const [activeTab, setActiveTab] = useState("general"); // "general", "points", "teams", "rules", "danger"
+  const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  // General details
+  const [title, setTitle] = useState(tournament.title || "");
+  const [sport, setSport] = useState(tournament.sport || "Football");
+  const [sportIcon, setSportIcon] = useState(tournament.sportIcon || "⚽");
+  const [status, setStatus] = useState(tournament.status || "UPCOMING");
+  const [location, setLocation] = useState(tournament.location || "");
+  const [startDate, setStartDate] = useState(tournament.startDate || "");
+  const [scoreUnit, setScoreUnit] = useState(tournament.scoreUnit || "Goals");
+  const [bannerUrl, setBannerUrl] = useState(
+    tournament.bannerUrl ||
+      "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80"
+  );
+  const [organizer, setOrganizer] = useState(tournament.organizer || "Divine Mercy Sports Ministry");
+  const [description, setDescription] = useState(tournament.description || "");
+
+  // Points & Scoring Engine
+  const [winPoints, setWinPoints] = useState(tournament.pointsConfig?.win ?? 3);
+  const [drawPoints, setDrawPoints] = useState(tournament.pointsConfig?.draw ?? 1);
+  const [lossPoints, setLossPoints] = useState(tournament.pointsConfig?.loss ?? 0);
+  const [showForm, setShowForm] = useState(tournament.pointsConfig?.showForm ?? true);
+  const [showGoalDiff, setShowGoalDiff] = useState(tournament.pointsConfig?.showGoalDiff ?? true);
+  const [customPointRules, setCustomPointRules] = useState(
+    tournament.pointsConfig?.customRules || []
+  );
+  const [newRuleTitle, setNewRuleTitle] = useState("");
+  const [newRuleValue, setNewRuleValue] = useState("");
+
+  // Teams list
+  const [teams, setTeams] = useState(tournament.teams || []);
+  const [newTeamName, setNewTeamName] = useState("");
+  const [newTeamPlayers, setNewTeamPlayers] = useState("");
+  const [newTeamLogo, setNewTeamLogo] = useState("🛡️");
+  const [newTeamGroup, setNewTeamGroup] = useState("Group A");
+
+  // Rules list
+  const [rules, setRules] = useState(tournament.rules || []);
+  const [newHandbookTitle, setNewHandbookTitle] = useState("");
+  const [newHandbookCategory, setNewHandbookCategory] = useState("Match Rules");
+  const [newHandbookContent, setNewHandbookContent] = useState("");
+
+  // Quick banner presets
+  const bannerPresets = [
+    { label: "Football Field", url: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80" },
+    { label: "Indoor Arena", url: "https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=1200&q=80" },
+    { label: "Turf Night", url: "https://images.unsplash.com/photo-1529900245584-882ca8882835?auto=format&fit=crop&w=1200&q=80" },
+    { label: "Community Court", url: "https://images.unsplash.com/photo-1505666287802-931dc83948e9?auto=format&fit=crop&w=1200&q=80" }
+  ];
+
+  // Add custom point rule
+  const handleAddCustomPointRule = () => {
+    if (!newRuleTitle.trim()) return;
+    setCustomPointRules([
+      ...customPointRules,
+      { id: `cpr-${Date.now()}`, title: newRuleTitle.trim(), value: newRuleValue.trim() || "+1 pt" }
+    ]);
+    setNewRuleTitle("");
+    setNewRuleValue("");
+  };
+
+  const handleRemoveCustomPointRule = (id) => {
+    setCustomPointRules(customPointRules.filter((r) => r.id !== id));
+  };
+
+  // Add team
+  const handleAddTeam = () => {
+    if (!newTeamName.trim()) return;
+    const newTeamObj = {
+      id: `tm-${Date.now()}`,
+      name: newTeamName.trim(),
+      shortName: newTeamName.trim().substring(0, 3).toUpperCase(),
+      logo: newTeamLogo || "🛡️",
+      players: newTeamPlayers.trim(),
+      seed: teams.length + 1,
+      groupId: newTeamGroup === "Group A" ? "grp-a" : "grp-b"
+    };
+    setTeams([...teams, newTeamObj]);
+    setNewTeamName("");
+    setNewTeamPlayers("");
+  };
+
+  const handleUpdateTeam = (id, field, value) => {
+    setTeams(teams.map((t) => (t.id === id ? { ...t, [field]: value } : t)));
+  };
+
+  const handleRemoveTeam = (id) => {
+    if (confirm("Are you sure you want to remove this team?")) {
+      setTeams(teams.filter((t) => t.id !== id));
+    }
+  };
+
+  // Add handbook rule
+  const handleAddHandbookRule = () => {
+    if (!newHandbookTitle.trim() || !newHandbookContent.trim()) return;
+    setRules([
+      ...rules,
+      {
+        id: `r-${Date.now()}`,
+        title: newHandbookTitle.trim(),
+        category: newHandbookCategory.trim() || "General",
+        content: newHandbookContent.trim()
+      }
+    ]);
+    setNewHandbookTitle("");
+    setNewHandbookContent("");
+  };
+
+  const handleRemoveHandbookRule = (id) => {
+    setRules(rules.filter((r) => r.id !== id));
+  };
+
+  // Save all changes
+  const handleSaveAll = async () => {
+    setLoading(true);
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    const updatedPointsConfig = {
+      win: Number(winPoints),
+      draw: Number(drawPoints),
+      loss: Number(lossPoints),
+      showForm,
+      showGoalDiff,
+      customRules: customPointRules
+    };
+
+    // If Group Knockout, update groups with updated teams
+    let updatedGroups = tournament.groups;
+    if (tournament.format === "GROUP_KNOCKOUT" && updatedGroups) {
+      updatedGroups = updatedGroups.map((grp) => {
+        const grpTeams = teams.filter((t) =>
+          grp.name.includes("A") ? t.groupId === "grp-a" : t.groupId === "grp-b"
+        );
+        return { ...grp, teams: grpTeams };
+      });
+    }
+
+    const payload = {
+      title,
+      sport,
+      sportIcon,
+      status,
+      location,
+      startDate,
+      scoreUnit,
+      bannerUrl,
+      organizer,
+      description,
+      pointsConfig: updatedPointsConfig,
+      teams,
+      groups: updatedGroups,
+      rules
+    };
+
+    try {
+      const res = await fetch(`/api/tournaments/${tournament.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Failed to save tournament changes");
+      }
+
+      const updated = await res.json();
+      setSuccessMsg("Tournament updated successfully!");
+      if (onUpdated) onUpdated(updated);
+      setTimeout(() => {
+        setSuccessMsg("");
+      }, 2500);
+    } catch (err) {
+      setErrorMsg(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Reset matches to 0-0
+  const handleResetMatches = async () => {
+    if (
+      !confirm(
+        "Are you sure you want to reset all match results to 0-0? This cannot be undone."
+      )
+    ) {
+      return;
+    }
+    setLoading(true);
+    try {
+      const resetMatches = (tournament.matches || []).map((m) => ({
+        ...m,
+        scoreA: 0,
+        scoreB: 0,
+        status: "SCHEDULED",
+        winnerId: null
+      }));
+
+      const res = await fetch(`/api/tournaments/${tournament.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ matches: resetMatches })
+      });
+
+      if (!res.ok) throw new Error("Failed to reset scores");
+      const updated = await res.json();
+      if (onUpdated) onUpdated(updated);
+      setSuccessMsg("All matches reset to scheduled!");
+    } catch (err) {
+      setErrorMsg(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Delete Tournament
+  const handleDeleteTournament = async () => {
+    if (
+      !confirm(
+        `Are you completely sure you want to permanently delete "${tournament.title}"? This cannot be recovered.`
+      )
+    ) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/tournaments/${tournament.id}`, {
+        method: "DELETE"
+      });
+      if (!res.ok) throw new Error("Failed to delete tournament");
+      router.push("/");
+    } catch (err) {
+      setErrorMsg(err.message);
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 overflow-y-auto">
+      <div className="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-4xl shadow-2xl overflow-hidden my-6">
+        {/* Modal Header */}
+        <div className="px-6 py-4 border-b border-slate-800 bg-slate-950/70 flex items-center justify-between">
+          <div className="flex items-center space-x-2.5">
+            <span className="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+              <Settings className="w-4 h-4" />
+            </span>
+            <div>
+              <div className="flex items-center space-x-2">
+                <h3 className="font-extrabold text-white text-base">Tournament Settings & Edit</h3>
+                <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  Admin Active
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 truncate max-w-md">{tournament.title}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={handleSaveAll}
+              disabled={loading}
+              className="flex items-center space-x-1.5 px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-blue-500/20 disabled:opacity-50"
+            >
+              <Save className="w-3.5 h-3.5" />
+              <span>{loading ? "Saving..." : "Save Changes"}</span>
+            </button>
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Status Messages */}
+        {errorMsg && (
+          <div className="mx-6 mt-4 p-3 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-medium flex items-center space-x-2">
+            <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+            <span>{errorMsg}</span>
+          </div>
+        )}
+        {successMsg && (
+          <div className="mx-6 mt-4 p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-medium flex items-center space-x-2">
+            <Check className="w-4 h-4 flex-shrink-0" />
+            <span>{successMsg}</span>
+          </div>
+        )}
+
+        {/* Tab Bar */}
+        <div className="px-6 border-b border-slate-800 bg-slate-950/40 flex items-center space-x-2 overflow-x-auto text-xs font-bold scrollbar-none">
+          <button
+            onClick={() => setActiveTab("general")}
+            className={`py-3 px-3.5 border-b-2 flex items-center space-x-1.5 transition-all whitespace-nowrap ${
+              activeTab === "general"
+                ? "border-blue-500 text-blue-400"
+                : "border-transparent text-slate-400 hover:text-white"
+            }`}
+          >
+            <Trophy className="w-3.5 h-3.5" />
+            <span>General Info</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("points")}
+            className={`py-3 px-3.5 border-b-2 flex items-center space-x-1.5 transition-all whitespace-nowrap ${
+              activeTab === "points"
+                ? "border-blue-500 text-blue-400"
+                : "border-transparent text-slate-400 hover:text-white"
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Points & Scoring Engine</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("teams")}
+            className={`py-3 px-3.5 border-b-2 flex items-center space-x-1.5 transition-all whitespace-nowrap ${
+              activeTab === "teams"
+                ? "border-blue-500 text-blue-400"
+                : "border-transparent text-slate-400 hover:text-white"
+            }`}
+          >
+            <Users className="w-3.5 h-3.5" />
+            <span>Teams & Rosters ({teams.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("rules")}
+            className={`py-3 px-3.5 border-b-2 flex items-center space-x-1.5 transition-all whitespace-nowrap ${
+              activeTab === "rules"
+                ? "border-blue-500 text-blue-400"
+                : "border-transparent text-slate-400 hover:text-white"
+            }`}
+          >
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>Rules & Handbook</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("danger")}
+            className={`py-3 px-3.5 border-b-2 flex items-center space-x-1.5 transition-all whitespace-nowrap ${
+              activeTab === "danger"
+                ? "border-red-500 text-red-400"
+                : "border-transparent text-slate-500 hover:text-red-400"
+            }`}
+          >
+            <AlertTriangle className="w-3.5 h-3.5" />
+            <span>Danger Zone</span>
+          </button>
+        </div>
+
+        {/* Tab Body */}
+        <div className="p-6 max-h-[68vh] overflow-y-auto space-y-6">
+          {/* TAB 1: General Info */}
+          {activeTab === "general" && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="sm:col-span-2">
+                  <label className="text-[11px] text-slate-400 block mb-1 font-medium">
+                    Tournament Title
+                  </label>
+                  <input
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] text-slate-400 block mb-1 font-medium">Status</label>
+                  <select
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
+                  >
+                    <option value="UPCOMING">Upcoming</option>
+                    <option value="LIVE">Live Now</option>
+                    <option value="COMPLETED">Completed</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="text-[11px] text-slate-400 block mb-1 font-medium">Sport</label>
+                  <input
+                    type="text"
+                    value={sport}
+                    onChange={(e) => setSport(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] text-slate-400 block mb-1 font-medium">Sport Icon</label>
+                  <select
+                    value={sportIcon}
+                    onChange={(e) => setSportIcon(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
+                  >
+                    {["⚽", "🏀", "🏏", "🏐", "🏸", "🏓", "🎾", "🏆", "🎯", "⚡", "🔥"].map((em) => (
+                      <option key={em} value={em}>
+                        {em} Icon
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-[11px] text-slate-400 block mb-1 font-medium">Score Unit</label>
+                  <input
+                    type="text"
+                    value={scoreUnit}
+                    onChange={(e) => setScoreUnit(e.target.value)}
+                    placeholder="Goals, Points, Runs..."
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[11px] text-slate-400 block mb-1 font-medium">
+                    Start Date
+                  </label>
+                  <input
+                    type="text"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    placeholder="YYYY-MM-DD"
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] text-slate-400 block mb-1 font-medium">
+                    Venue / Location
+                  </label>
+                  <input
+                    type="text"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
+                  />
+                </div>
+              </div>
+
+              {/* Banner Image URL & Presets */}
+              <div>
+                <label className="text-[11px] text-slate-400 block mb-1 font-medium">
+                  Cover / Banner Image URL
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="url"
+                    value={bannerUrl}
+                    onChange={(e) => setBannerUrl(e.target.value)}
+                    className="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
+                  />
+                </div>
+                {/* Presets */}
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  <span className="text-[10px] text-slate-500 py-1">Quick Presets:</span>
+                  {bannerPresets.map((p) => (
+                    <button
+                      key={p.label}
+                      type="button"
+                      onClick={() => setBannerUrl(p.url)}
+                      className="text-[10px] px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+                    >
+                      {p.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Organizer & Description */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[11px] text-slate-400 block mb-1 font-medium">
+                    Host / Organizer
+                  </label>
+                  <input
+                    type="text"
+                    value={organizer}
+                    onChange={(e) => setOrganizer(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] text-slate-400 block mb-1 font-medium">
+                    Short Description
+                  </label>
+                  <input
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 2: Points & Scoring Engine */}
+          {activeTab === "points" && (
+            <div className="space-y-6">
+              <div className="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300">
+                <span className="font-bold">Standings Points System:</span> Changes to points will
+                instantly recalculate the leaderboard ranking for this tournament upon saving.
+              </div>
+
+              {/* Standard Win / Draw / Loss Points */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 text-center space-y-2">
+                  <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider block">
+                    Points for WIN
+                  </span>
+                  <input
+                    type="number"
+                    value={winPoints}
+                    onChange={(e) => setWinPoints(e.target.value)}
+                    className="w-20 mx-auto text-center bg-slate-900 border border-slate-700 rounded-xl py-2 text-2xl font-mono font-extrabold text-emerald-400 focus:outline-none"
+                  />
+                  <span className="text-[10px] text-slate-500 block">Standard: 3 (Football) or 2</span>
+                </div>
+
+                <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 text-center space-y-2">
+                  <span className="text-xs font-bold text-amber-400 uppercase tracking-wider block">
+                    Points for DRAW
+                  </span>
+                  <input
+                    type="number"
+                    value={drawPoints}
+                    onChange={(e) => setDrawPoints(e.target.value)}
+                    className="w-20 mx-auto text-center bg-slate-900 border border-slate-700 rounded-xl py-2 text-2xl font-mono font-extrabold text-amber-400 focus:outline-none"
+                  />
+                  <span className="text-[10px] text-slate-500 block">Standard: 1 or 0 (Knockout)</span>
+                </div>
+
+                <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 text-center space-y-2">
+                  <span className="text-xs font-bold text-rose-400 uppercase tracking-wider block">
+                    Points for LOSS
+                  </span>
+                  <input
+                    type="number"
+                    value={lossPoints}
+                    onChange={(e) => setLossPoints(e.target.value)}
+                    className="w-20 mx-auto text-center bg-slate-900 border border-slate-700 rounded-xl py-2 text-2xl font-mono font-extrabold text-rose-400 focus:outline-none"
+                  />
+                  <span className="text-[10px] text-slate-500 block">Standard: 0</span>
+                </div>
+              </div>
+
+              {/* Display Toggles */}
+              <div className="bg-slate-950/60 border border-slate-800 rounded-2xl p-4 space-y-3">
+                <span className="text-xs font-bold text-white block">Table Display Columns</span>
+                <div className="flex flex-wrap gap-4">
+                  <label className="flex items-center space-x-2 text-xs text-slate-300 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={showForm}
+                      onChange={(e) => setShowForm(e.target.checked)}
+                      className="w-4 h-4 rounded text-blue-600 bg-slate-900 border-slate-700 focus:ring-0"
+                    />
+                    <span>Show Team Form Guide (Last 5: 🟢 W, 🟡 D, 🔴 L)</span>
+                  </label>
+
+                  <label className="flex items-center space-x-2 text-xs text-slate-300 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={showGoalDiff}
+                      onChange={(e) => setShowGoalDiff(e.target.checked)}
+                      className="w-4 h-4 rounded text-blue-600 bg-slate-900 border-slate-700 focus:ring-0"
+                    />
+                    <span>Show Goal / Point Difference</span>
+                  </label>
+                </div>
+              </div>
+
+              {/* Custom Point Metrics */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-white">Custom Point Modifiers / Rules</span>
+                  <span className="text-[10px] text-slate-500 font-mono">
+                    {customPointRules.length} active custom rules
+                  </span>
+                </div>
+
+                {customPointRules.map((cr) => (
+                  <div
+                    key={cr.id}
+                    className="flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs"
+                  >
+                    <div>
+                      <span className="font-bold text-slate-200">{cr.title}</span>
+                      <span className="text-blue-400 font-mono font-bold ml-2">({cr.value})</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveCustomPointRule(cr.id)}
+                      className="text-slate-500 hover:text-red-400 transition-colors p-1"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ))}
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+                  <input
+                    type="text"
+                    placeholder="Rule title (e.g. 4+ Goals Bonus, Clean Sheet)"
+                    value={newRuleTitle}
+                    onChange={(e) => setNewRuleTitle(e.target.value)}
+                    className="sm:col-span-2 bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-400"
+                  />
+                  <div className="flex space-x-2">
+                    <input
+                      type="text"
+                      placeholder="Value (+1 pt)"
+                      value={newRuleValue}
+                      onChange={(e) => setNewRuleValue(e.target.value)}
+                      className="w-24 bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-400"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleAddCustomPointRule}
+                      className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl px-3 py-1.5 transition-colors flex items-center justify-center space-x-1"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3: Teams & Rosters */}
+          {activeTab === "teams" && (
+            <div className="space-y-4">
+              {/* Quick Add Team Box */}
+              <div className="p-4 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-3">
+                <span className="text-xs font-bold text-white flex items-center space-x-1.5">
+                  <Plus className="w-4 h-4 text-blue-400" />
+                  <span>Add New Team</span>
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
+                  <div className="flex space-x-2 sm:col-span-2">
+                    <select
+                      value={newTeamLogo}
+                      onChange={(e) => setNewTeamLogo(e.target.value)}
+                      className="w-16 bg-slate-900 border border-slate-700 rounded-xl p-2 text-sm text-center text-white focus:outline-none"
+                    >
+                      {["🛡️", "🐉", "🦅", "🐺", "⚡", "⚔️", "🔥", "🐍", "🦁", "🌟", "👑", "🚀"].map(
+                        (l) => (
+                          <option key={l} value={l}>
+                            {l}
+                          </option>
+                        )
+                      )}
+                    </select>
+                    <input
+                      type="text"
+                      placeholder="Team Name (e.g. Thunderbolts)"
+                      value={newTeamName}
+                      onChange={(e) => setNewTeamName(e.target.value)}
+                      className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-400"
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Captain & Players (optional)"
+                    value={newTeamPlayers}
+                    onChange={(e) => setNewTeamPlayers(e.target.value)}
+                    className="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-400"
+                  />
+                  <div className="flex space-x-2">
+                    {tournament.format === "GROUP_KNOCKOUT" && (
+                      <select
+                        value={newTeamGroup}
+                        onChange={(e) => setNewTeamGroup(e.target.value)}
+                        className="w-24 bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-white focus:outline-none"
+                      >
+                        <option value="Group A">Group A</option>
+                        <option value="Group B">Group B</option>
+                      </select>
+                    )}
+                    <button
+                      type="button"
+                      onClick={handleAddTeam}
+                      className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl px-3 py-2 transition-colors flex items-center justify-center space-x-1"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Existing Teams Table / Cards */}
+              <div className="space-y-2">
+                {teams.map((t, idx) => (
+                  <div
+                    key={t.id}
+                    className="p-3 rounded-2xl bg-slate-950/60 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                  >
+                    <div className="flex items-center space-x-3 min-w-0 flex-1">
+                      <span className="font-mono text-slate-500 text-[10px] w-5">#{idx + 1}</span>
+                      <span className="text-xl">{t.logo || "🛡️"}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center space-x-2">
+                          <input
+                            type="text"
+                            value={t.name}
+                            onChange={(e) => handleUpdateTeam(t.id, "name", e.target.value)}
+                            className="bg-transparent border-0 border-b border-slate-700 focus:border-blue-400 font-bold text-white text-xs px-1 py-0.5 focus:outline-none max-w-[180px]"
+                          />
+                          <input
+                            type="text"
+                            value={t.shortName || ""}
+                            onChange={(e) =>
+                              handleUpdateTeam(t.id, "shortName", e.target.value.toUpperCase())
+                            }
+                            placeholder="CODE"
+                            maxLength={4}
+                            className="w-14 bg-slate-900 border border-slate-800 rounded px-1.5 py-0.5 text-[10px] font-mono text-blue-400 text-center uppercase focus:outline-none"
+                          />
+                        </div>
+                        <input
+                          type="text"
+                          value={t.players || ""}
+                          onChange={(e) => handleUpdateTeam(t.id, "players", e.target.value)}
+                          placeholder="Players & Captain..."
+                          className="bg-transparent border-0 border-b border-slate-800 focus:border-blue-400 text-[11px] text-slate-400 placeholder-slate-600 px-1 py-0.5 w-full focus:outline-none mt-1"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex items-center space-x-2 flex-shrink-0">
+                      {tournament.format === "GROUP_KNOCKOUT" && (
+                        <select
+                          value={t.groupId === "grp-a" ? "Group A" : "Group B"}
+                          onChange={(e) =>
+                            handleUpdateTeam(
+                              t.id,
+                              "groupId",
+                              e.target.value === "Group A" ? "grp-a" : "grp-b"
+                            )
+                          }
+                          className="bg-slate-900 border border-slate-800 rounded-xl px-2.5 py-1 text-xs text-slate-300 font-mono focus:outline-none"
+                        >
+                          <option value="Group A">Group A</option>
+                          <option value="Group B">Group B</option>
+                        </select>
+                      )}
+
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveTeam(t.id)}
+                        className="p-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-slate-900 transition-colors"
+                        title="Delete Team"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: Rules & Handbook */}
+          {activeTab === "rules" && (
+            <div className="space-y-4">
+              <div className="p-4 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-3">
+                <span className="text-xs font-bold text-white flex items-center space-x-1.5">
+                  <Plus className="w-4 h-4 text-blue-400" />
+                  <span>Add Rule or Regulation</span>
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <input
+                    type="text"
+                    placeholder="Rule Title"
+                    value={newHandbookTitle}
+                    onChange={(e) => setNewHandbookTitle(e.target.value)}
+                    className="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-400"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Category (e.g. Conduct, Timing, Points)"
+                    value={newHandbookCategory}
+                    onChange={(e) => setNewHandbookCategory(e.target.value)}
+                    className="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddHandbookRule}
+                    className="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl px-3 py-2 transition-colors flex items-center justify-center space-x-1"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Add Rule</span>
+                  </button>
+                </div>
+                <textarea
+                  rows={2}
+                  placeholder="Rule details and enforcement guidelines..."
+                  value={newHandbookContent}
+                  onChange={(e) => setNewHandbookContent(e.target.value)}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-400"
+                ></textarea>
+              </div>
+
+              {/* Rules List */}
+              <div className="space-y-2">
+                {rules.map((r) => (
+                  <div
+                    key={r.id}
+                    className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex items-start justify-between gap-3 text-xs"
+                  >
+                    <div className="space-y-1">
+                      <div className="flex items-center space-x-2">
+                        <span className="font-bold text-white">{r.title}</span>
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                          {r.category}
+                        </span>
+                      </div>
+                      <p className="text-slate-400 text-[11px] leading-relaxed">{r.content}</p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveHandbookRule(r.id)}
+                      className="p-1 text-slate-500 hover:text-red-400 transition-colors"
+                      title="Delete Rule"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 5: Danger Zone */}
+          {activeTab === "danger" && (
+            <div className="space-y-4">
+              <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-2">
+                <div className="flex items-center space-x-2 text-amber-400 font-bold text-xs">
+                  <RotateCcw className="w-4 h-4" />
+                  <span>Reset All Match Fixture Scores</span>
+                </div>
+                <p className="text-slate-400 text-xs">
+                  Sets all match results back to 0-0 and reverts statuses to Scheduled.
+                </p>
+                <button
+                  type="button"
+                  onClick={handleResetMatches}
+                  disabled={loading}
+                  className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-xl transition-all"
+                >
+                  Reset Match Scores
+                </button>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-red-500/10 border border-red-500/30 space-y-2">
+                <div className="flex items-center space-x-2 text-red-400 font-bold text-xs">
+                  <Trash2 className="w-4 h-4" />
+                  <span>Permanently Delete Tournament</span>
+                </div>
+                <p className="text-slate-400 text-xs">
+                  Permanently deletes this tournament, all teams, all match records, and standings.
+                  This action cannot be undone.
+                </p>
+                <button
+                  type="button"
+                  onClick={handleDeleteTournament}
+                  disabled={loading}
+                  className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white font-bold text-xs rounded-xl transition-all"
+                >
+                  Delete Entire Tournament
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Modal Footer */}
+        <div className="px-6 py-3.5 border-t border-slate-800 bg-slate-950/80 flex items-center justify-between text-xs">
+          <span className="text-slate-500 font-mono text-[11px]">
+            Divine Mercy Parish Tournament Engine v2.0
+          </span>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-semibold transition-colors"
+            >
+              Close
+            </button>
+            <button
+              onClick={handleSaveAll}
+              disabled={loading}
+              className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-all shadow-md shadow-blue-500/20 disabled:opacity-50 flex items-center space-x-1.5"
+            >
+              <Save className="w-3.5 h-3.5" />
+              <span>{loading ? "Saving Changes..." : "Save Changes"}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
