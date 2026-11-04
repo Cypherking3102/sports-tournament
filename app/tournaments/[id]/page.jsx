@@ -12,7 +12,8 @@ import {
   Shield,
   ArrowLeft,
   Flame,
-  Layers
+  Layers,
+  Plus
 } from "lucide-react";
 
 import BracketTree from "@/components/BracketTree";
@@ -21,6 +22,7 @@ import GroupStageView from "@/components/GroupStageView";
 import MatchSchedule from "@/components/MatchSchedule";
 import RulesViewer from "@/components/RulesViewer";
 import ScoreModal from "@/components/ScoreModal";
+import AddMatchModal from "@/components/AddMatchModal";
 
 export default function TournamentDetailPage({ params }) {
   const unwrappedParams = use(params);
@@ -31,11 +33,18 @@ export default function TournamentDetailPage({ params }) {
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState(null);
+  const [showAddMatch, setShowAddMatch] = useState(false);
 
   useEffect(() => {
     fetchTournament();
     const token = localStorage.getItem("sports_admin_token");
     if (token) setIsAdmin(true);
+
+    const handleStorageChange = () => {
+      setIsAdmin(!!localStorage.getItem("sports_admin_token"));
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, [id]);
 
   const fetchTournament = async () => {
@@ -76,7 +85,7 @@ export default function TournamentDetailPage({ params }) {
       if (res.ok) {
         setTournament({ ...tournament, rules: updatedRules });
       }
-    } catch (err) {
+    } catch {
       alert("Failed to save new rule");
     }
   };
@@ -85,7 +94,7 @@ export default function TournamentDetailPage({ params }) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center space-y-4">
         <div className="w-10 h-10 rounded-full border-2 border-blue-500 border-t-transparent animate-spin mx-auto"></div>
-        <p className="text-slate-400 text-sm font-medium">Loading parish tournament fixtures...</p>
+        <p className="text-slate-400 text-sm font-medium">Loading tournament fixtures...</p>
       </div>
     );
   }
@@ -110,7 +119,7 @@ export default function TournamentDetailPage({ params }) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-8">
-      {/* Top Breadcrumb & Back */}
+      {/* Top Breadcrumb & Admin Badge */}
       <div className="flex items-center justify-between">
         <Link
           href="/"
@@ -121,16 +130,25 @@ export default function TournamentDetailPage({ params }) {
         </Link>
 
         {isAdmin && (
-          <span className="flex items-center space-x-1.5 text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1 rounded-full">
-            <Shield className="w-3.5 h-3.5" />
-            <span>Parish Admin Mode Active</span>
-          </span>
+          <div className="flex items-center space-x-2">
+            <span className="flex items-center space-x-1.5 text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1 rounded-full">
+              <Shield className="w-3.5 h-3.5" />
+              <span>Admin Mode Active</span>
+            </span>
+            <button
+              onClick={() => setShowAddMatch(true)}
+              className="flex items-center space-x-1 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full transition-all"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>Add Match</span>
+            </button>
+          </div>
         )}
       </div>
 
       {/* Tournament Banner Card */}
       <div className="relative overflow-hidden rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl">
-        <div className="relative h-60 sm:h-72 w-full bg-slate-800">
+        <div className="relative h-56 sm:h-64 w-full bg-slate-800">
           <img
             src={tournament.bannerUrl}
             alt={tournament.title}
@@ -160,8 +178,8 @@ export default function TournamentDetailPage({ params }) {
           </div>
 
           {/* Banner bottom details */}
-          <div className="absolute bottom-5 left-4 right-4 sm:left-8 sm:right-8">
-            <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+          <div className="absolute bottom-4 left-4 right-4 sm:left-8 sm:right-8">
+            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               {tournament.title}
             </h1>
             <div className="flex flex-wrap items-center gap-4 text-xs text-slate-300 mt-2">
@@ -172,9 +190,6 @@ export default function TournamentDetailPage({ params }) {
               <span className="flex items-center space-x-1">
                 <Calendar className="w-3.5 h-3.5 text-blue-400" />
                 <span>{tournament.startDate}</span>
-              </span>
-              <span className="font-mono text-slate-400">
-                Organizer: {tournament.organizer}
               </span>
             </div>
           </div>
@@ -193,7 +208,7 @@ export default function TournamentDetailPage({ params }) {
                 }`}
               >
                 <Layers className="w-4 h-4" />
-                <span>Group Stage & Tables</span>
+                <span>Group Stage</span>
               </button>
 
               <button
@@ -205,7 +220,7 @@ export default function TournamentDetailPage({ params }) {
                 }`}
               >
                 <Trophy className="w-4 h-4" />
-                <span>Championship Playoffs</span>
+                <span>Playoffs</span>
               </button>
             </>
           )}
@@ -220,7 +235,7 @@ export default function TournamentDetailPage({ params }) {
               }`}
             >
               <Trophy className="w-4 h-4" />
-              <span>Visual Brackets</span>
+              <span>Brackets</span>
             </button>
           )}
 
@@ -247,7 +262,7 @@ export default function TournamentDetailPage({ params }) {
             }`}
           >
             <CalendarDays className="w-4 h-4" />
-            <span>Complete Fixtures</span>
+            <span>Fixtures & Draws</span>
           </button>
 
           <button
@@ -259,7 +274,7 @@ export default function TournamentDetailPage({ params }) {
             }`}
           >
             <BookOpen className="w-4 h-4" />
-            <span>Parish Rules</span>
+            <span>Rules</span>
           </button>
         </div>
       </div>
@@ -291,6 +306,7 @@ export default function TournamentDetailPage({ params }) {
             tournament={tournament}
             isAdmin={isAdmin}
             onEditMatch={(m) => setSelectedMatch(m)}
+            onAddMatch={() => setShowAddMatch(true)}
           />
         )}
 
@@ -303,13 +319,22 @@ export default function TournamentDetailPage({ params }) {
         )}
       </div>
 
-      {/* Match Score Updater Modal */}
+      {/* Edit Match & Scorekeeper Modal */}
       {selectedMatch && (
         <ScoreModal
           match={selectedMatch}
           tournament={tournament}
           onClose={() => setSelectedMatch(null)}
           onSave={handleMatchSaved}
+        />
+      )}
+
+      {/* Add Match Manually Modal */}
+      {showAddMatch && (
+        <AddMatchModal
+          tournament={tournament}
+          onClose={() => setShowAddMatch(false)}
+          onMatchAdded={handleMatchSaved}
         />
       )}
     </div>

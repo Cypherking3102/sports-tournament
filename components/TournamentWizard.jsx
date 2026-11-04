@@ -10,19 +10,25 @@ import {
   Layers,
   ClipboardPaste,
   Shield,
-  Plus
+  Shuffle,
+  ChevronUp,
+  ChevronDown,
+  Clock,
+  Users,
+  Calendar,
+  Settings2
 } from "lucide-react";
-import { generateGroupKnockoutTournament } from "@/lib/tournamentEngine";
+import { generateGroupKnockoutTournament, generateKnockoutBracket, generateRoundRobinSchedule } from "@/lib/tournamentEngine";
 
 const DEFAULT_TEAMS = [
-  "Red Dragons",
-  "Blue Falcons",
-  "Iron Wolves",
-  "Apex Thunder",
-  "Silver Strikers",
-  "Golden Titans",
-  "Phoenix United",
-  "Shadow Cobras"
+  { name: "Red Dragons", players: "Mark (C), John, Alex, David" },
+  { name: "Blue Falcons", players: "Paul (C), Luke, Peter, Simon" },
+  { name: "Iron Wolves", players: "Chris (C), Kevin, Ryan, Jason" },
+  { name: "Apex Thunder", players: "Sam (C), Daniel, Brian, Tom" },
+  { name: "Silver Strikers", players: "James (C), Joseph, Matthew, Andrew" },
+  { name: "Golden Titans", players: "Michael (C), Anthony, Jude, Francis" },
+  { name: "Phoenix United", players: "Gabriel (C), Raphael, Dominic, Xavier" },
+  { name: "Shadow Cobras", players: "Leo (C), Carlos, Victor, Aaron" }
 ];
 
 const PRESET_SPORTS = [
@@ -53,12 +59,16 @@ export default function TournamentWizard() {
   const [location, setLocation] = useState("Parish Sports Turf");
   const [startDate, setStartDate] = useState(new Date().toISOString().split("T")[0]);
 
-  // Teams Input
-  const [teamInputMode, setTeamInputMode] = useState("preset");
-  const [bulkText, setBulkText] = useState(DEFAULT_TEAMS.join("\n"));
+  // Fixture Mode: "auto" or "preview_manual"
+  const [fixtureMode, setFixtureMode] = useState("auto"); // "auto" or "manual"
+
+  // Teams with Seeds & Players
+  const [teamInputMode, setTeamInputMode] = useState("cards"); // "cards" or "bulk"
+  const [bulkText, setBulkText] = useState(DEFAULT_TEAMS.map((t) => t.name).join("\n"));
   const [teams, setTeams] = useState(
-    DEFAULT_TEAMS.map((name, idx) => ({
-      name,
+    DEFAULT_TEAMS.map((t, idx) => ({
+      name: t.name,
+      players: t.players,
       seed: idx + 1,
       group: idx < 4 ? "Group A" : "Group B",
       logo: ["🐉", "🦅", "🐺", "⚡", "⚔️", "🛡️", "🔥", "🐍"][idx % 8]
@@ -85,6 +95,43 @@ export default function TournamentWizard() {
     setTitle("Divine Mercy Community Tournament 2026");
   };
 
+  // Seed Reordering: Move team up
+  const handleMoveTeamUp = (index) => {
+    if (index === 0) return;
+    const updated = [...teams];
+    const temp = updated[index];
+    updated[index] = updated[index - 1];
+    updated[index - 1] = temp;
+    reindexSeeds(updated);
+  };
+
+  // Move team down
+  const handleMoveTeamDown = (index) => {
+    if (index === teams.length - 1) return;
+    const updated = [...teams];
+    const temp = updated[index];
+    updated[index] = updated[index + 1];
+    updated[index + 1] = temp;
+    reindexSeeds(updated);
+  };
+
+  // Randomize / Shuffle Draw
+  const handleShuffleSeeds = () => {
+    const shuffled = [...teams].sort(() => Math.random() - 0.5);
+    reindexSeeds(shuffled);
+  };
+
+  const reindexSeeds = (list) => {
+    const half = Math.ceil(list.length / 2);
+    setTeams(
+      list.map((t, idx) => ({
+        ...t,
+        seed: idx + 1,
+        group: idx < half ? "Group A" : "Group B"
+      }))
+    );
+  };
+
   const handleBulkTextChange = (text) => {
     setBulkText(text);
     const lines = text
@@ -93,18 +140,33 @@ export default function TournamentWizard() {
       .filter(Boolean);
 
     const half = Math.ceil(lines.length / 2);
-    const parsedTeams = lines.map((name, idx) => ({
-      name,
-      seed: idx + 1,
-      group: idx < half ? "Group A" : "Group B",
-      logo: ["🐉", "🦅", "🐺", "⚡", "⚔️", "🛡️", "🔥", "🐍", "🦁", "🌟"][idx % 10]
-    }));
+    const parsedTeams = lines.map((line, idx) => {
+      // Support "Team Name - Player 1, Player 2" or just "Team Name"
+      const parts = line.split("-");
+      const name = parts[0].trim();
+      const players = parts[1] ? parts[1].trim() : "";
+
+      return {
+        name,
+        players,
+        seed: idx + 1,
+        group: idx < half ? "Group A" : "Group B",
+        logo: ["🐉", "🦅", "🐺", "⚡", "⚔️", "🛡️", "🔥", "🐍", "🦁", "🌟"][idx % 10]
+      };
+    });
     setTeams(parsedTeams);
   };
 
-  const handleLoadSampleTeams = () => {
-    handleBulkTextChange(DEFAULT_TEAMS.join("\n"));
-    setTeamInputMode("preset");
+  const handleUpdateTeamPlayers = (index, playersText) => {
+    const updated = [...teams];
+    updated[index].players = playersText;
+    setTeams(updated);
+  };
+
+  const handleUpdateTeamGroup = (index, newGroup) => {
+    const updated = [...teams];
+    updated[index].group = newGroup;
+    setTeams(updated);
   };
 
   const activeSportName = isCustomSport ? (customSportName || "Sports") : selectedSportPreset;
@@ -150,6 +212,28 @@ export default function TournamentWizard() {
           startDate,
           venue: location
         });
+      } else if (format === "KNOCKOUT") {
+        matches = generateKnockoutBracket(
+          teams.map((t, i) => ({
+            id: `tm-${i + 1}`,
+            name: t.name,
+            seed: t.seed,
+            players: t.players,
+            logo: t.logo
+          })),
+          { startDate, venue: location }
+        );
+      } else {
+        matches = generateRoundRobinSchedule(
+          teams.map((t, i) => ({
+            id: `tm-${i + 1}`,
+            name: t.name,
+            seed: t.seed,
+            players: t.players,
+            logo: t.logo
+          })),
+          { startDate, venue: location }
+        );
       }
 
       const res = await fetch("/api/tournaments", {
@@ -172,13 +256,14 @@ export default function TournamentWizard() {
             shortName: t.name.substring(0, 3).toUpperCase(),
             seed: t.seed,
             logo: t.logo,
+            players: t.players || "",
             groupId: t.group === "Group A" ? "grp-a" : "grp-b"
           })),
           groups,
           rules: [
             {
               id: "r-1",
-              title: "Fair Play & Respect",
+              title: "Fair Play & Fellowship",
               category: "Conduct",
               content: "Prayer before kickoff is observed. Respectful behavior towards officials and opponents is required."
             },
@@ -189,8 +274,8 @@ export default function TournamentWizard() {
               content: "Top teams qualify for championship playoffs. Shootout rounds apply if tied."
             }
           ],
-          autoGenerateFixtures: format !== "GROUP_KNOCKOUT",
-          customMatches: format === "GROUP_KNOCKOUT" ? matches : undefined
+          autoGenerateFixtures: false, // We pass our generated/custom matches directly
+          customMatches: matches
         })
       });
 
@@ -209,15 +294,17 @@ export default function TournamentWizard() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl mx-auto">
-      {/* Clean Header (No bulky descriptions) */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
-        <div className="flex items-center space-x-2 text-blue-400 text-xs font-bold uppercase tracking-wider mb-1">
-          <Sparkles className="w-4 h-4" />
-          <span>Admin Portal</span>
+      {/* Clean Header */}
+      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl flex items-center justify-between">
+        <div>
+          <div className="flex items-center space-x-2 text-blue-400 text-xs font-bold uppercase tracking-wider mb-1">
+            <Sparkles className="w-4 h-4" />
+            <span>Admin Portal</span>
+          </div>
+          <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+            Create Tournament & Draw Seeds
+          </h1>
         </div>
-        <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-          Create Tournament
-        </h1>
       </div>
 
       {error && (
@@ -281,7 +368,7 @@ export default function TournamentWizard() {
               </label>
               <input
                 type="text"
-                placeholder="e.g. Throwball, Chess, Carrom..."
+                placeholder="e.g. Throwball, Chess, Dodgeball..."
                 value={customSportName}
                 onChange={(e) => {
                   setCustomSportName(e.target.value);
@@ -329,13 +416,13 @@ export default function TournamentWizard() {
         )}
       </div>
 
-      {/* Step 2: Format & Details */}
+      {/* Step 2: Format & Schedule Details */}
       <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 space-y-4">
         <h3 className="font-extrabold text-white text-sm flex items-center space-x-2">
           <span className="w-5 h-5 rounded-full bg-blue-600 text-white text-[11px] flex items-center justify-center font-bold">
             2
           </span>
-          <span>Tournament Format</span>
+          <span>Format & Match Schedule</span>
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -397,98 +484,173 @@ export default function TournamentWizard() {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-          <div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+          <div className="sm:col-span-2">
             <label className="text-[11px] text-slate-400 block mb-1 font-medium">Tournament Title</label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-400"
+              className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
               required
             />
           </div>
 
           <div>
-            <label className="text-[11px] text-slate-400 block mb-1 font-medium">Venue / Ground</label>
+            <label className="text-[11px] text-slate-400 block mb-1 font-medium">Match Start Date</label>
             <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-400"
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
             />
           </div>
         </div>
+
+        <div>
+          <label className="text-[11px] text-slate-400 block mb-1 font-medium">Venue / Turf</label>
+          <input
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
+          />
+        </div>
       </div>
 
-      {/* Step 3: Simple Teams Input */}
+      {/* Step 3: Draw Seeds, Move Players & Configure Teams */}
       <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 space-y-4">
         <div className="flex items-center justify-between flex-wrap gap-2">
-          <h3 className="font-extrabold text-white text-sm flex items-center space-x-2">
-            <span className="w-5 h-5 rounded-full bg-blue-600 text-white text-[11px] flex items-center justify-center font-bold">
-              3
-            </span>
-            <span>Teams ({teams.length})</span>
-          </h3>
+          <div>
+            <h3 className="font-extrabold text-white text-sm flex items-center space-x-2">
+              <span className="w-5 h-5 rounded-full bg-blue-600 text-white text-[11px] flex items-center justify-center font-bold">
+                3
+              </span>
+              <span>Draw Seeds & Team Players ({teams.length})</span>
+            </h3>
+            <p className="text-[11px] text-slate-400 mt-0.5">
+              Reorder seeds, assign players/captains, or shuffle the draw.
+            </p>
+          </div>
 
           <div className="flex items-center space-x-2">
+            {/* 1-Click Shuffle Seeds / Blind Draw */}
             <button
               type="button"
-              onClick={handleLoadSampleTeams}
-              className="text-[11px] font-semibold text-blue-400 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 px-3 py-1 rounded-lg transition-colors flex items-center space-x-1"
+              onClick={handleShuffleSeeds}
+              className="text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 px-3 py-1.5 rounded-xl transition-colors flex items-center space-x-1.5"
+              title="Randomize the seed draw"
             >
-              <Shield className="w-3 h-3" />
-              <span>Load 8 Sample Teams</span>
+              <Shuffle className="w-3.5 h-3.5" />
+              <span>Randomize Draw</span>
             </button>
+
             <button
               type="button"
-              onClick={() => setTeamInputMode(teamInputMode === "bulk" ? "preset" : "bulk")}
-              className="text-[11px] font-semibold text-slate-400 hover:text-white bg-slate-800 px-3 py-1 rounded-lg transition-colors flex items-center space-x-1"
+              onClick={() => setTeamInputMode(teamInputMode === "bulk" ? "cards" : "bulk")}
+              className="text-[11px] font-semibold text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl transition-colors flex items-center space-x-1.5"
             >
-              <ClipboardPaste className="w-3 h-3" />
-              <span>{teamInputMode === "bulk" ? "View Cards" : "Paste List"}</span>
+              <ClipboardPaste className="w-3.5 h-3.5" />
+              <span>{teamInputMode === "bulk" ? "Seed Cards" : "Paste List"}</span>
             </button>
           </div>
         </div>
 
         {teamInputMode === "bulk" ? (
           <div>
+            <label className="text-[11px] text-slate-400 block mb-1">
+              Paste team names (one per line). Format: <code>Team Name - Player 1, Player 2</code>:
+            </label>
             <textarea
               rows={8}
               value={bulkText}
               onChange={(e) => handleBulkTextChange(e.target.value)}
-              placeholder="Team 1&#10;Team 2&#10;Team 3..."
+              placeholder="Red Dragons - Mark (C), John, Alex&#10;Blue Falcons - Luke, Peter&#10;Iron Wolves..."
               className="w-full bg-slate-950 border border-slate-700 rounded-2xl p-3 text-xs font-mono text-white placeholder-slate-500 focus:outline-none focus:border-blue-400"
             ></textarea>
             <p className="text-[10px] text-slate-500 mt-1">
-              {teams.length} teams entered. {format === "GROUP_KNOCKOUT" ? "Automatically divided into Group A and Group B." : ""}
+              {teams.length} teams detected. Seeds #1 to #{teams.length} assigned in order.
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-60 overflow-y-auto pr-1">
+          /* Interactive Seed Cards: Move Up/Down, Edit Players */
+          <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
             {teams.map((t, idx) => (
               <div
                 key={idx}
-                className="flex items-center justify-between p-2.5 rounded-xl bg-slate-950/70 border border-slate-800/80 text-xs"
+                className="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-2xl bg-slate-950/80 border border-slate-800 gap-2.5 text-xs"
               >
-                <div className="flex items-center space-x-2.5 truncate">
-                  <span className="text-base">{t.logo}</span>
-                  <span className="font-semibold text-slate-200 truncate">{t.name}</span>
+                {/* Team Logo, Name, Seed */}
+                <div className="flex items-center space-x-3 min-w-0">
+                  <div className="flex flex-col space-y-0.5">
+                    <button
+                      type="button"
+                      onClick={() => handleMoveTeamUp(idx)}
+                      disabled={idx === 0}
+                      className="p-0.5 text-slate-500 hover:text-white disabled:opacity-20"
+                      title="Move Seed Up"
+                    >
+                      <ChevronUp className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleMoveTeamDown(idx)}
+                      disabled={idx === teams.length - 1}
+                      className="p-0.5 text-slate-500 hover:text-white disabled:opacity-20"
+                      title="Move Seed Down"
+                    >
+                      <ChevronDown className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                  <span className="text-xl flex-shrink-0">{t.logo}</span>
+
+                  <div className="min-w-0">
+                    <div className="flex items-center space-x-2">
+                      <span className="font-bold text-white truncate">{t.name}</span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                        Seed #{t.seed}
+                      </span>
+                    </div>
+
+                    {/* Players / Captain Input */}
+                    <input
+                      type="text"
+                      placeholder="Add captain or players (e.g. Mark, Alex, John)..."
+                      value={t.players || ""}
+                      onChange={(e) => handleUpdateTeamPlayers(idx, e.target.value)}
+                      className="bg-transparent border-0 border-b border-slate-800 focus:border-blue-400 text-[11px] text-slate-300 placeholder-slate-600 px-0 py-0.5 w-full focus:outline-none mt-1"
+                    />
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2 flex-shrink-0">
-                  {format === "GROUP_KNOCKOUT" && (
-                    <span
-                      className={`text-[10px] font-mono px-2 py-0.5 rounded ${
+
+                {/* Group Selector (if Group Stage) */}
+                {format === "GROUP_KNOCKOUT" && (
+                  <div className="flex items-center space-x-1.5 flex-shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => handleUpdateTeamGroup(idx, "Group A")}
+                      className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold transition-all ${
                         t.group === "Group A"
-                          ? "bg-blue-500/10 text-blue-400 border border-blue-500/20"
-                          : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                          ? "bg-blue-600 text-white"
+                          : "bg-slate-900 text-slate-500 hover:text-white"
                       }`}
                     >
-                      {t.group}
-                    </span>
-                  )}
-                  <span className="text-[10px] font-mono text-slate-500">#{t.seed}</span>
-                </div>
+                      Group A
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleUpdateTeamGroup(idx, "Group B")}
+                      className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold transition-all ${
+                        t.group === "Group B"
+                          ? "bg-emerald-600 text-white"
+                          : "bg-slate-900 text-slate-500 hover:text-white"
+                      }`}
+                    >
+                      Group B
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -502,7 +664,7 @@ export default function TournamentWizard() {
           disabled={loading}
           className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-sm rounded-2xl flex items-center justify-center space-x-2 transition-all shadow-xl shadow-blue-600/25 disabled:opacity-50"
         >
-          <span>{loading ? "Creating Tournament..." : `Launch ${activeSportName} Tournament`}</span>
+          <span>{loading ? "Creating & Drawing Fixtures..." : `Launch ${activeSportName} Tournament`}</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>

@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Calendar, MapPin, Clock, Flame, CheckCircle2, Edit3, Filter } from "lucide-react";
+import { Calendar, MapPin, Clock, Flame, CheckCircle2, Edit3, Filter, Plus, Users } from "lucide-react";
 
-export default function MatchSchedule({ tournament, onEditMatch, isAdmin }) {
+export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isAdmin }) {
   const { matches = [], teams = [], scoreUnit = "Score" } = tournament;
   const [filterStatus, setFilterStatus] = useState("ALL");
   const [filterStage, setFilterStage] = useState("ALL");
@@ -34,7 +34,7 @@ export default function MatchSchedule({ tournament, onEditMatch, isAdmin }) {
 
   return (
     <div className="space-y-6">
-      {/* Filters row */}
+      {/* Top Filter & Admin Add Match bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900/70 border border-slate-800 p-3 rounded-2xl">
         <div className="flex items-center space-x-1.5 overflow-x-auto text-xs scrollbar-none">
           {["ALL", "LIVE", "SCHEDULED", "COMPLETED"].map((st) => (
@@ -52,23 +52,35 @@ export default function MatchSchedule({ tournament, onEditMatch, isAdmin }) {
           ))}
         </div>
 
-        {uniqueStages.length > 1 && (
-          <div className="flex items-center space-x-2 text-xs">
-            <Filter className="w-3.5 h-3.5 text-slate-400" />
-            <select
-              value={filterStage}
-              onChange={(e) => setFilterStage(e.target.value)}
-              className="bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-slate-200 text-xs focus:outline-none"
+        <div className="flex items-center space-x-2">
+          {uniqueStages.length > 1 && (
+            <div className="flex items-center space-x-1.5 text-xs">
+              <Filter className="w-3.5 h-3.5 text-slate-400" />
+              <select
+                value={filterStage}
+                onChange={(e) => setFilterStage(e.target.value)}
+                className="bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-slate-200 text-xs focus:outline-none"
+              >
+                <option value="ALL">All Stages</option>
+                {uniqueStages.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {isAdmin && onAddMatch && (
+            <button
+              onClick={onAddMatch}
+              className="flex items-center space-x-1.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-3.5 py-1.5 rounded-xl transition-all shadow-sm"
             >
-              <option value="ALL">All Stages / Groups</option>
-              {uniqueStages.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
+              <Plus className="w-3.5 h-3.5" />
+              <span>Add Match</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Match Cards List */}
@@ -148,9 +160,9 @@ export default function MatchSchedule({ tournament, onEditMatch, isAdmin }) {
                         >
                           {teamA ? teamA.name : m.placeholderA || "TBD"}
                         </span>
-                        {teamA?.shortName && (
-                          <span className="text-[10px] text-slate-500 ml-2 font-mono">
-                            [{teamA.shortName}]
+                        {teamA?.players && (
+                          <span className="text-[10px] text-slate-500 block truncate max-w-[200px]">
+                            {teamA.players}
                           </span>
                         )}
                       </div>
@@ -184,9 +196,9 @@ export default function MatchSchedule({ tournament, onEditMatch, isAdmin }) {
                         >
                           {teamB ? teamB.name : m.placeholderB || "TBD"}
                         </span>
-                        {teamB?.shortName && (
-                          <span className="text-[10px] text-slate-500 ml-2 font-mono">
-                            [{teamB.shortName}]
+                        {teamB?.players && (
+                          <span className="text-[10px] text-slate-500 block truncate max-w-[200px]">
+                            {teamB.players}
                           </span>
                         )}
                       </div>
@@ -205,6 +217,14 @@ export default function MatchSchedule({ tournament, onEditMatch, isAdmin }) {
                   </div>
                 </div>
 
+                {/* Player Notes / Lineups if present */}
+                {m.playerNotes && (
+                  <div className="mb-2 p-2 rounded-xl bg-slate-950/40 border border-slate-800/40 text-[10px] text-slate-400 flex items-center space-x-1.5">
+                    <Users className="w-3 h-3 text-blue-400 flex-shrink-0" />
+                    <span className="truncate">{m.playerNotes}</span>
+                  </div>
+                )}
+
                 {/* Footer & Admin Actions */}
                 <div className="flex items-center justify-between pt-2 border-t border-slate-800/60 text-xs">
                   <span className="text-slate-500 font-mono text-[11px]">
@@ -216,7 +236,7 @@ export default function MatchSchedule({ tournament, onEditMatch, isAdmin }) {
                       className="flex items-center space-x-1.5 px-3 py-1 bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-lg font-semibold transition-colors text-xs"
                     >
                       <Edit3 className="w-3.5 h-3.5" />
-                      <span>Update Score</span>
+                      <span>Edit Match & Score</span>
                     </button>
                   )}
                 </div>
