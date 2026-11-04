@@ -10,21 +10,19 @@ import {
   Layers,
   ClipboardPaste,
   Shield,
-  Edit3,
-  Trash2,
   Plus
 } from "lucide-react";
-import { generateGroupKnockoutTournament, generateKnockoutBracket, generateRoundRobinSchedule } from "@/lib/tournamentEngine";
+import { generateGroupKnockoutTournament } from "@/lib/tournamentEngine";
 
-const DEFAULT_PARISH_WARDS = [
-  "St. Joseph Ward",
-  "St. Jude Ward",
-  "St. Anthony Ward",
-  "St. Michael Ward",
-  "St. Peter Ward",
-  "Mother Teresa Community",
-  "St. Francis Ward",
-  "Holy Family Youth"
+const DEFAULT_TEAMS = [
+  "Red Dragons",
+  "Blue Falcons",
+  "Iron Wolves",
+  "Apex Thunder",
+  "Silver Strikers",
+  "Golden Titans",
+  "Phoenix United",
+  "Shadow Cobras"
 ];
 
 const PRESET_SPORTS = [
@@ -50,20 +48,20 @@ export default function TournamentWizard() {
   const [scoreUnit, setScoreUnit] = useState("Goals");
 
   // Basic Info
-  const [title, setTitle] = useState("Divine Mercy Parish Football Cup 2026");
+  const [title, setTitle] = useState("Divine Mercy Annual Football Cup 2026");
   const [format, setFormat] = useState("GROUP_KNOCKOUT");
-  const [location, setLocation] = useState("Divine Mercy Parish Grounds");
+  const [location, setLocation] = useState("Parish Sports Turf");
   const [startDate, setStartDate] = useState(new Date().toISOString().split("T")[0]);
 
-  // Teams Input Mode: "preset" or "bulk"
+  // Teams Input
   const [teamInputMode, setTeamInputMode] = useState("preset");
-  const [bulkText, setBulkText] = useState(DEFAULT_PARISH_WARDS.join("\n"));
+  const [bulkText, setBulkText] = useState(DEFAULT_TEAMS.join("\n"));
   const [teams, setTeams] = useState(
-    DEFAULT_PARISH_WARDS.map((name, idx) => ({
+    DEFAULT_TEAMS.map((name, idx) => ({
       name,
       seed: idx + 1,
       group: idx < 4 ? "Group A" : "Group B",
-      logo: ["🦁", "🛡️", "⚔️", "🦅", "🗝️", "🕊️", "🐺", "🌟"][idx % 8]
+      logo: ["🐉", "🦅", "🐺", "⚡", "⚔️", "🛡️", "🔥", "🐍"][idx % 8]
     }))
   );
 
@@ -76,7 +74,7 @@ export default function TournamentWizard() {
     setSportIcon(preset.icon);
     setScoreUnit(preset.unit);
     setFormat(preset.format);
-    setTitle(`Divine Mercy Parish ${preset.name} Tournament 2026`);
+    setTitle(`Divine Mercy ${preset.name} Tournament 2026`);
   };
 
   const handleSelectCustomSport = () => {
@@ -84,7 +82,7 @@ export default function TournamentWizard() {
     setSelectedSportPreset("CUSTOM");
     setSportIcon("🏆");
     setScoreUnit("Points");
-    setTitle("Divine Mercy Parish Community Tournament 2026");
+    setTitle("Divine Mercy Community Tournament 2026");
   };
 
   const handleBulkTextChange = (text) => {
@@ -99,13 +97,13 @@ export default function TournamentWizard() {
       name,
       seed: idx + 1,
       group: idx < half ? "Group A" : "Group B",
-      logo: ["🦁", "🛡️", "⚔️", "🦅", "🗝️", "🕊️", "🐺", "🌟", "🔥", "⚡"][idx % 10]
+      logo: ["🐉", "🦅", "🐺", "⚡", "⚔️", "🛡️", "🔥", "🐍", "🦁", "🌟"][idx % 10]
     }));
     setTeams(parsedTeams);
   };
 
-  const handleLoadParishWards = () => {
-    handleBulkTextChange(DEFAULT_PARISH_WARDS.join("\n"));
+  const handleLoadSampleTeams = () => {
+    handleBulkTextChange(DEFAULT_TEAMS.join("\n"));
     setTeamInputMode("preset");
   };
 
@@ -118,7 +116,7 @@ export default function TournamentWizard() {
       return;
     }
     if (teams.length < 2) {
-      setError("Please include at least 2 teams or wards.");
+      setError("Please include at least 2 teams.");
       return;
     }
 
@@ -165,8 +163,8 @@ export default function TournamentWizard() {
           format,
           startDate,
           location,
-          organizer: "Divine Mercy Parish Sports Ministry",
-          description: `Official ${activeSportName} parish tournament for Divine Mercy Church community.`,
+          organizer: "Divine Mercy Sports Ministry",
+          description: `Official ${activeSportName} tournament.`,
           bannerUrl: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80",
           teams: teams.map((t, idx) => ({
             id: `tm-${idx + 1}`,
@@ -180,15 +178,15 @@ export default function TournamentWizard() {
           rules: [
             {
               id: "r-1",
-              title: "Parish Fellowship & Respect",
+              title: "Fair Play & Respect",
               category: "Conduct",
-              content: "Prayer before kickoff is mandatory. Exemplary Christian sportsmanship is expected from all participants and supporters."
+              content: "Prayer before kickoff is observed. Respectful behavior towards officials and opponents is required."
             },
             {
               id: "r-2",
-              title: "Advancement & Tie-Breakers",
-              category: "Tournament Rules",
-              content: "Top teams qualify for championship playoffs. Shootout or sudden death rounds decide ties."
+              title: "Tournament Rules",
+              category: "Format",
+              content: "Top teams qualify for championship playoffs. Shootout rounds apply if tied."
             }
           ],
           autoGenerateFixtures: format !== "GROUP_KNOCKOUT",
@@ -211,18 +209,15 @@ export default function TournamentWizard() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl mx-auto">
-      {/* Header */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-7 shadow-xl">
-        <div className="flex items-center space-x-2 text-blue-400 text-xs font-bold uppercase tracking-wider mb-1.5">
+      {/* Clean Header (No bulky descriptions) */}
+      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+        <div className="flex items-center space-x-2 text-blue-400 text-xs font-bold uppercase tracking-wider mb-1">
           <Sparkles className="w-4 h-4" />
-          <span>Parish Admin Tournament Creator</span>
+          <span>Admin Portal</span>
         </div>
-        <h1 className="text-2xl font-black text-white tracking-tight">
-          Create Tournament in 60 Seconds
+        <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+          Create Tournament
         </h1>
-        <p className="text-xs text-slate-400 mt-1">
-          Select any sport (or add custom sport), choose format, paste or load parish wards, and launch automatically.
-        </p>
       </div>
 
       {error && (
@@ -231,7 +226,7 @@ export default function TournamentWizard() {
         </div>
       )}
 
-      {/* Step 1: Sport Selection (Presets + Custom Sport) */}
+      {/* Step 1: Sport Selection */}
       <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="font-extrabold text-white text-sm flex items-center space-x-2">
@@ -241,11 +236,11 @@ export default function TournamentWizard() {
             <span>Choose Sport</span>
           </h3>
           <span className="text-[11px] text-slate-400 font-mono">
-            {isCustomSport ? "Custom Sport Mode" : selectedSportPreset}
+            {isCustomSport ? "Custom Sport" : selectedSportPreset}
           </span>
         </div>
 
-        {/* Sport Chips */}
+        {/* Chips */}
         <div className="flex flex-wrap gap-2">
           {PRESET_SPORTS.map((s) => (
             <button
@@ -263,7 +258,6 @@ export default function TournamentWizard() {
             </button>
           ))}
 
-          {/* Any Sport / Custom Option */}
           <button
             type="button"
             onClick={handleSelectCustomSport}
@@ -278,21 +272,21 @@ export default function TournamentWizard() {
           </button>
         </div>
 
-        {/* Custom Sport Input Fields */}
+        {/* Custom Sport Inputs */}
         {isCustomSport && (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-slate-950/80 border border-emerald-500/30 rounded-2xl animate-in fade-in duration-200">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-slate-950/80 border border-emerald-500/30 rounded-2xl">
             <div>
               <label className="text-[11px] text-slate-400 block mb-1 font-medium">
-                Sport Name (Any Sport)
+                Sport Name
               </label>
               <input
                 type="text"
-                placeholder="e.g. Throwball, Dodgeball, Chess..."
+                placeholder="e.g. Throwball, Chess, Carrom..."
                 value={customSportName}
                 onChange={(e) => {
                   setCustomSportName(e.target.value);
                   if (e.target.value) {
-                    setTitle(`Divine Mercy Parish ${e.target.value} Tournament 2026`);
+                    setTitle(`Divine Mercy ${e.target.value} Tournament 2026`);
                   }
                 }}
                 className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400"
@@ -302,7 +296,7 @@ export default function TournamentWizard() {
 
             <div>
               <label className="text-[11px] text-slate-400 block mb-1 font-medium">
-                Sport Emoji / Icon
+                Icon
               </label>
               <select
                 value={sportIcon}
@@ -321,11 +315,11 @@ export default function TournamentWizard() {
 
             <div>
               <label className="text-[11px] text-slate-400 block mb-1 font-medium">
-                Score Metric (Unit)
+                Score Unit
               </label>
               <input
                 type="text"
-                placeholder="e.g. Points, Sets, Goals, Rounds"
+                placeholder="Points, Goals, Sets..."
                 value={scoreUnit}
                 onChange={(e) => setScoreUnit(e.target.value)}
                 className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400"
@@ -335,16 +329,15 @@ export default function TournamentWizard() {
         )}
       </div>
 
-      {/* Step 2: Format & Title */}
+      {/* Step 2: Format & Details */}
       <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 space-y-4">
         <h3 className="font-extrabold text-white text-sm flex items-center space-x-2">
           <span className="w-5 h-5 rounded-full bg-blue-600 text-white text-[11px] flex items-center justify-center font-bold">
             2
           </span>
-          <span>Tournament Format & Title</span>
+          <span>Tournament Format</span>
         </h3>
 
-        {/* 3 Formats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           <button
             type="button"
@@ -363,7 +356,7 @@ export default function TournamentWizard() {
               {format === "GROUP_KNOCKOUT" && <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />}
             </div>
             <p className="text-[10px] text-slate-400">
-              Group A & B round-robin. Top 2 advance to Semi-Finals & Final.
+              Group A & B round-robin. Top 2 advance to Playoffs.
             </p>
           </button>
 
@@ -381,7 +374,7 @@ export default function TournamentWizard() {
               {format === "ROUND_ROBIN" && <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />}
             </div>
             <p className="text-[10px] text-slate-400">
-              All teams play each other in one points table.
+              All teams play in one points table.
             </p>
           </button>
 
@@ -404,7 +397,6 @@ export default function TournamentWizard() {
           </button>
         </div>
 
-        {/* Inputs */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
           <div>
             <label className="text-[11px] text-slate-400 block mb-1 font-medium">Tournament Title</label>
@@ -418,7 +410,7 @@ export default function TournamentWizard() {
           </div>
 
           <div>
-            <label className="text-[11px] text-slate-400 block mb-1 font-medium">Parish Venue / Ground</label>
+            <label className="text-[11px] text-slate-400 block mb-1 font-medium">Venue / Ground</label>
             <input
               type="text"
               value={location}
@@ -429,25 +421,24 @@ export default function TournamentWizard() {
         </div>
       </div>
 
-      {/* Step 3: Quick Teams / Wards Input */}
+      {/* Step 3: Simple Teams Input */}
       <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 space-y-4">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <h3 className="font-extrabold text-white text-sm flex items-center space-x-2">
             <span className="w-5 h-5 rounded-full bg-blue-600 text-white text-[11px] flex items-center justify-center font-bold">
               3
             </span>
-            <span>Parish Wards & Teams ({teams.length})</span>
+            <span>Teams ({teams.length})</span>
           </h3>
 
-          {/* Quick 1-tap Actions */}
           <div className="flex items-center space-x-2">
             <button
               type="button"
-              onClick={handleLoadParishWards}
+              onClick={handleLoadSampleTeams}
               className="text-[11px] font-semibold text-blue-400 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 px-3 py-1 rounded-lg transition-colors flex items-center space-x-1"
             >
               <Shield className="w-3 h-3" />
-              <span>Load 8 Parish Wards</span>
+              <span>Load 8 Sample Teams</span>
             </button>
             <button
               type="button"
@@ -455,34 +446,26 @@ export default function TournamentWizard() {
               className="text-[11px] font-semibold text-slate-400 hover:text-white bg-slate-800 px-3 py-1 rounded-lg transition-colors flex items-center space-x-1"
             >
               <ClipboardPaste className="w-3 h-3" />
-              <span>{teamInputMode === "bulk" ? "View Ward Cards" : "Paste List"}</span>
+              <span>{teamInputMode === "bulk" ? "View Cards" : "Paste List"}</span>
             </button>
           </div>
         </div>
 
-        {/* Bulk Textarea Input Mode */}
         {teamInputMode === "bulk" ? (
           <div>
-            <label className="text-[11px] text-slate-400 block mb-1">
-              Paste team names (one per line). They will be automatically split between Group A & Group B:
-            </label>
             <textarea
               rows={8}
               value={bulkText}
               onChange={(e) => handleBulkTextChange(e.target.value)}
-              placeholder="St. Joseph Ward&#10;St. Jude Ward&#10;St. Anthony Ward..."
+              placeholder="Team 1&#10;Team 2&#10;Team 3..."
               className="w-full bg-slate-950 border border-slate-700 rounded-2xl p-3 text-xs font-mono text-white placeholder-slate-500 focus:outline-none focus:border-blue-400"
             ></textarea>
             <p className="text-[10px] text-slate-500 mt-1">
-              Detected {teams.length} teams.
-              {format === "GROUP_KNOCKOUT"
-                ? ` (First ${Math.ceil(teams.length / 2)} -> Group A, remaining -> Group B)`
-                : ""}
+              {teams.length} teams entered. {format === "GROUP_KNOCKOUT" ? "Automatically divided into Group A and Group B." : ""}
             </p>
           </div>
         ) : (
-          /* Cards preview */
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-64 overflow-y-auto pr-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-60 overflow-y-auto pr-1">
             {teams.map((t, idx) => (
               <div
                 key={idx}
@@ -519,7 +502,7 @@ export default function TournamentWizard() {
           disabled={loading}
           className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-sm rounded-2xl flex items-center justify-center space-x-2 transition-all shadow-xl shadow-blue-600/25 disabled:opacity-50"
         >
-          <span>{loading ? "Creating & Building Fixtures..." : `Launch ${activeSportName} Tournament`}</span>
+          <span>{loading ? "Creating Tournament..." : `Launch ${activeSportName} Tournament`}</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>

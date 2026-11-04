@@ -82,7 +82,7 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                     {group.name} Standings
                   </h3>
                   <p className="text-xs text-slate-400">
-                    Round-Robin Stage • {group.teams?.length || 0} Parish Teams
+                    Round-Robin Stage • {group.teams?.length || 0} Teams
                   </p>
                 </div>
               </div>

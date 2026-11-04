@@ -11,9 +11,7 @@ import {
   ArrowRight,
   PlusCircle,
   RotateCcw,
-  Award,
-  Lock,
-  ShieldCheck
+  Award
 } from "lucide-react";
 
 export default function HomePage() {
@@ -52,7 +50,7 @@ export default function HomePage() {
   };
 
   const handleResetData = async () => {
-    if (!confirm("Reset tournaments to Divine Mercy Church default data?")) return;
+    if (!confirm("Reset tournaments to default data?")) return;
     try {
       await fetch("/api/tournaments/reset", { method: "POST" });
       fetchTournaments();
@@ -64,51 +62,45 @@ export default function HomePage() {
   const sportsList = ["ALL", "Football", "Basketball", "Cricket"];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-10">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900 to-blue-950/40 border border-slate-800 p-8 sm:p-12 shadow-2xl">
-        <div className="relative z-10 max-w-2xl space-y-4">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-8">
+      {/* Clean, Minimal Hero Banner (No bulky top descriptions) */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900 to-blue-950/40 border border-slate-800 p-6 sm:p-8 shadow-xl">
+        <div className="relative z-10 max-w-2xl space-y-3">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider">
             <Award className="w-3.5 h-3.5" />
-            <span>Divine Mercy Parish Sports Ministry</span>
+            <span>Divine Mercy Sports</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
-            Faith, Fellowship & <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-emerald-400 bg-clip-text text-transparent">Excellence in Sports</span>
+          <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white leading-tight">
+            Parish Tournaments & <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-emerald-400 bg-clip-text text-transparent">Live Brackets</span>
           </h1>
 
-          <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-            Welcome to the official sports and tournament portal for <strong>Divine Mercy Church</strong>.
-            Follow inter-ward football group stages, round-robin youth leagues, knockout playoffs, live scorekeeping, and parish rulebooks.
-          </p>
-
-          <div className="flex flex-wrap items-center gap-3 pt-2">
-            {/* If Admin, show Create Tournament; otherwise show Schedule / Explore */}
+          <div className="flex flex-wrap items-center gap-3 pt-1">
             {isAdmin ? (
               <>
                 <Link
                   href="/admin/new"
-                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-sm px-6 py-3 rounded-2xl transition-all shadow-lg shadow-blue-500/20"
+                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-xs sm:text-sm px-5 py-2.5 rounded-2xl transition-all shadow-md shadow-blue-500/20"
                 >
                   <PlusCircle className="w-4 h-4" />
-                  <span>Create Parish Tournament</span>
+                  <span>Create Tournament</span>
                 </Link>
 
                 <button
                   onClick={handleResetData}
-                  className="inline-flex items-center space-x-1.5 bg-slate-950/80 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-slate-200 text-xs px-4 py-3 rounded-2xl transition-all"
-                  title="Reset default parish tournaments"
+                  className="inline-flex items-center space-x-1.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-slate-200 text-xs px-3.5 py-2.5 rounded-2xl transition-all"
+                  title="Reset sample data"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  <span>Reset Parish Demos</span>
+                  <span>Reset Demos</span>
                 </button>
               </>
             ) : (
               <a
                 href="#active-tournaments"
-                className="inline-flex items-center space-x-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm px-6 py-3 rounded-2xl transition-all shadow-md shadow-blue-500/20"
+                className="inline-flex items-center space-x-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-2xl transition-all shadow-md shadow-blue-500/20"
               >
-                <span>View Tournament Brackets</span>
+                <span>View Live Brackets</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
             )}
@@ -124,9 +116,9 @@ export default function HomePage() {
       {/* Sport Category Filter Chips */}
       <div id="active-tournaments" className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-extrabold text-white tracking-tight flex items-center space-x-2">
+          <h2 className="text-lg sm:text-xl font-extrabold text-white tracking-tight flex items-center space-x-2">
             <Trophy className="w-5 h-5 text-blue-400" />
-            <span>Active Parish Tournaments</span>
+            <span>Tournaments</span>
           </h2>
           <span className="text-xs text-slate-400 font-mono">
             {tournaments.length} {tournaments.length === 1 ? "Tournament" : "Tournaments"}
@@ -144,7 +136,7 @@ export default function HomePage() {
                   : "bg-slate-900 border border-slate-800 text-slate-400 hover:text-white"
               }`}
             >
-              {sp === "ALL" ? "All Parish Sports" : sp}
+              {sp === "ALL" ? "All Sports" : sp}
             </button>
           ))}
         </div>
@@ -163,9 +155,9 @@ export default function HomePage() {
       ) : tournaments.length === 0 ? (
         <div className="bg-slate-900/40 border border-slate-800 rounded-3xl p-12 text-center space-y-3">
           <Trophy className="w-12 h-12 text-slate-600 mx-auto" />
-          <p className="text-slate-300 font-bold text-base">No parish tournaments found</p>
+          <p className="text-slate-300 font-bold text-base">No tournaments found</p>
           <p className="text-slate-500 text-xs">
-            {isAdmin ? "Create your first tournament using the admin wizard." : "Please check back later for upcoming parish fixtures."}
+            {isAdmin ? "Create your first tournament using the admin wizard." : "Please check back later for upcoming fixtures."}
           </p>
         </div>
       ) : (
@@ -239,7 +231,7 @@ export default function HomePage() {
                     <div className="flex items-center justify-between">
                       <span className="flex items-center space-x-1.5">
                         <Users className="w-3.5 h-3.5 text-slate-500" />
-                        <span>{t.teams?.length || 0} Participating Wards</span>
+                        <span>{t.teams?.length || 0} Teams</span>
                       </span>
                       <span className="font-mono text-slate-500">
                         {t.matches?.length || 0} Matches
