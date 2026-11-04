@@ -15,22 +15,29 @@ import {
   Sparkles,
   BookOpen,
   Users,
+  User,
   Check,
   Calendar,
   MapPin,
   Flame,
   Layers,
-  ChevronDown,
-  ChevronUp
+  Star,
+  UserPlus
 } from "lucide-react";
+import { normalizePlayers, formatRosterString } from "@/lib/tournamentEngine";
 
 export default function TournamentEditModal({ tournament, onClose, onUpdated }) {
   const router = useRouter();
 
-  const [activeTab, setActiveTab] = useState("general"); // "general", "points", "teams", "rules", "danger"
+  const [activeTab, setActiveTab] = useState("teams"); // Start on teams/rosters for fast access
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+
+  // Participant Type: "TEAM" or "INDIVIDUAL"
+  const [participantType, setParticipantType] = useState(
+    tournament.participantType || "TEAM"
+  );
 
   // General details
   const [title, setTitle] = useState(tournament.title || "");
@@ -44,7 +51,9 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
     tournament.bannerUrl ||
       "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80"
   );
-  const [organizer, setOrganizer] = useState(tournament.organizer || "Divine Mercy Sports Ministry");
+  const [organizer, setOrganizer] = useState(
+    tournament.organizer || "Divine Mercy Sports Ministry"
+  );
   const [description, setDescription] = useState(tournament.description || "");
 
   // Points & Scoring Engine
@@ -59,12 +68,27 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
   const [newRuleTitle, setNewRuleTitle] = useState("");
   const [newRuleValue, setNewRuleValue] = useState("");
 
-  // Teams list
-  const [teams, setTeams] = useState(tournament.teams || []);
+  // Participants & Teams with structured rosters
+  const [teams, setTeams] = useState(
+    (tournament.teams || []).map((t) => ({
+      ...t,
+      players: normalizePlayers(t.players)
+    }))
+  );
+
+  // Inputs for adding a new team
   const [newTeamName, setNewTeamName] = useState("");
-  const [newTeamPlayers, setNewTeamPlayers] = useState("");
   const [newTeamLogo, setNewTeamLogo] = useState("🛡️");
   const [newTeamGroup, setNewTeamGroup] = useState("Group A");
+
+  // Inputs for adding an individual player to a specific team
+  const [activeAddTeamId, setActiveAddTeamId] = useState(null);
+  const [teamPlayerName, setTeamPlayerName] = useState("");
+  const [teamPlayerRole, setTeamPlayerRole] = useState("PLAYER");
+
+  // Inputs for adding an individual participant (solo sport)
+  const [newSoloName, setNewSoloName] = useState("");
+  const [newSoloAvatar, setNewSoloAvatar] = useState("👤");
 
   // Rules list
   const [rules, setRules] = useState(tournament.rules || []);
@@ -72,7 +96,6 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
   const [newHandbookCategory, setNewHandbookCategory] = useState("Match Rules");
   const [newHandbookContent, setNewHandbookContent] = useState("");
 
-  // Quick banner presets
   const bannerPresets = [
     { label: "Football Field", url: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80" },
     { label: "Indoor Arena", url: "https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=1200&q=80" },
@@ -80,7 +103,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
     { label: "Community Court", url: "https://images.unsplash.com/photo-1505666287802-931dc83948e9?auto=format&fit=crop&w=1200&q=80" }
   ];
 
-  // Add custom point rule
+  // Custom point rules
   const handleAddCustomPointRule = () => {
     if (!newRuleTitle.trim()) return;
     setCustomPointRules([
@@ -95,7 +118,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
     setCustomPointRules(customPointRules.filter((r) => r.id !== id));
   };
 
-  // Add team
+  // Add new team
   const handleAddTeam = () => {
     if (!newTeamName.trim()) return;
     const newTeamObj = {
@@ -103,13 +126,105 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
       name: newTeamName.trim(),
       shortName: newTeamName.trim().substring(0, 3).toUpperCase(),
       logo: newTeamLogo || "🛡️",
-      players: newTeamPlayers.trim(),
+      players: [],
       seed: teams.length + 1,
       groupId: newTeamGroup === "Group A" ? "grp-a" : "grp-b"
     };
     setTeams([...teams, newTeamObj]);
     setNewTeamName("");
-    setNewTeamPlayers("");
+  };
+
+  // Add individual participant (solo mode)
+  const handleAddSoloParticipant = () => {
+    if (!newSoloName.trim()) return;
+    const newSoloObj = {
+      id: `tm-${Date.now()}`,
+      name: newSoloName.trim(),
+      shortName: newSoloName.trim().substring(0, 3).toUpperCase(),
+      logo: newSoloAvatar || "👤",
+      players: [],
+      seed: teams.length + 1,
+      groupId: "grp-a"
+    };
+    setTeams([...teams, newSoloObj]);
+    setNewSoloName("");
+  };
+
+  // Add individual player to a specific team
+  const handleAddPlayerToTeam = (teamId) => {
+    if (!teamPlayerName.trim()) return;
+    setTeams(
+      teams.map((t) => {
+        if (t.id !== teamId) return t;
+
+        const currentPlayers = t.players || [];
+        let role = teamPlayerRole;
+
+        // Auto make captain if first player
+        if (currentPlayers.length === 0) {
+          role = "CAPTAIN";
+        } else if (role === "CAPTAIN") {
+          // Demote any existing captain
+          currentPlayers.forEach((p) => {
+            if (p.role === "CAPTAIN") p.role = "PLAYER";
+          });
+        }
+
+        const newP = {
+          id: `p-${Date.now()}-${Math.random().toString(36).substr(2, 3)}`,
+          name: teamPlayerName.trim(),
+          role
+        };
+
+        return {
+          ...t,
+          players: [...currentPlayers, newP]
+        };
+      })
+    );
+    setTeamPlayerName("");
+    setTeamPlayerRole("PLAYER");
+  };
+
+  // Designate Captain on a team
+  const handleSetTeamCaptain = (teamId, playerId) => {
+    setTeams(
+      teams.map((t) => {
+        if (t.id !== teamId) return t;
+        const updatedPlayers = (t.players || []).map((p) => ({
+          ...p,
+          role: p.id === playerId ? "CAPTAIN" : p.role === "CAPTAIN" ? "PLAYER" : p.role
+        }));
+        return { ...t, players: updatedPlayers };
+      })
+    );
+  };
+
+  // Designate Vice-Captain on a team
+  const handleSetTeamViceCaptain = (teamId, playerId) => {
+    setTeams(
+      teams.map((t) => {
+        if (t.id !== teamId) return t;
+        const updatedPlayers = (t.players || []).map((p) => ({
+          ...p,
+          role: p.id === playerId ? "VICE_CAPTAIN" : p.role === "VICE_CAPTAIN" ? "PLAYER" : p.role
+        }));
+        return { ...t, players: updatedPlayers };
+      })
+    );
+  };
+
+  // Remove player from team
+  const handleRemovePlayerFromTeam = (teamId, playerId) => {
+    setTeams(
+      teams.map((t) => {
+        if (t.id !== teamId) return t;
+        return {
+          ...t,
+          players: (t.players || []).filter((p) => p.id !== playerId)
+        };
+      })
+    );
   };
 
   const handleUpdateTeam = (id, field, value) => {
@@ -117,12 +232,12 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
   };
 
   const handleRemoveTeam = (id) => {
-    if (confirm("Are you sure you want to remove this team?")) {
+    if (confirm("Are you sure you want to remove this participant?")) {
       setTeams(teams.filter((t) => t.id !== id));
     }
   };
 
-  // Add handbook rule
+  // Handbook rules
   const handleAddHandbookRule = () => {
     if (!newHandbookTitle.trim() || !newHandbookContent.trim()) return;
     setRules([
@@ -157,11 +272,22 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
       customRules: customPointRules
     };
 
-    // If Group Knockout, update groups with updated teams
+    // Format teams with captain & player string
+    const formattedTeams = teams.map((t) => {
+      const playersList = Array.isArray(t.players) ? t.players : [];
+      const captainObj = playersList.find((p) => p.role === "CAPTAIN");
+      return {
+        ...t,
+        captain: captainObj ? captainObj.name : null,
+        players: playersList,
+        playersString: formatRosterString(playersList)
+      };
+    });
+
     let updatedGroups = tournament.groups;
     if (tournament.format === "GROUP_KNOCKOUT" && updatedGroups) {
       updatedGroups = updatedGroups.map((grp) => {
-        const grpTeams = teams.filter((t) =>
+        const grpTeams = formattedTeams.filter((t) =>
           grp.name.includes("A") ? t.groupId === "grp-a" : t.groupId === "grp-b"
         );
         return { ...grp, teams: grpTeams };
@@ -176,11 +302,12 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
       location,
       startDate,
       scoreUnit,
+      participantType,
       bannerUrl,
       organizer,
       description,
       pointsConfig: updatedPointsConfig,
-      teams,
+      teams: formattedTeams,
       groups: updatedGroups,
       rules
     };
@@ -198,7 +325,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
       }
 
       const updated = await res.json();
-      setSuccessMsg("Tournament updated successfully!");
+      setSuccessMsg("Tournament settings & rosters updated successfully!");
       if (onUpdated) onUpdated(updated);
       setTimeout(() => {
         setSuccessMsg("");
@@ -270,7 +397,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 overflow-y-auto">
       <div className="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-4xl shadow-2xl overflow-hidden my-6">
         {/* Modal Header */}
         <div className="px-6 py-4 border-b border-slate-800 bg-slate-950/70 flex items-center justify-between">
@@ -324,15 +451,19 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
         {/* Tab Bar */}
         <div className="px-6 border-b border-slate-800 bg-slate-950/40 flex items-center space-x-2 overflow-x-auto text-xs font-bold scrollbar-none">
           <button
-            onClick={() => setActiveTab("general")}
+            onClick={() => setActiveTab("teams")}
             className={`py-3 px-3.5 border-b-2 flex items-center space-x-1.5 transition-all whitespace-nowrap ${
-              activeTab === "general"
+              activeTab === "teams"
                 ? "border-blue-500 text-blue-400"
                 : "border-transparent text-slate-400 hover:text-white"
             }`}
           >
-            <Trophy className="w-3.5 h-3.5" />
-            <span>General Info</span>
+            <Users className="w-3.5 h-3.5" />
+            <span>
+              {participantType === "TEAM"
+                ? `Teams & Rosters (${teams.length})`
+                : `Players (${teams.length})`}
+            </span>
           </button>
 
           <button
@@ -348,15 +479,15 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
           </button>
 
           <button
-            onClick={() => setActiveTab("teams")}
+            onClick={() => setActiveTab("general")}
             className={`py-3 px-3.5 border-b-2 flex items-center space-x-1.5 transition-all whitespace-nowrap ${
-              activeTab === "teams"
+              activeTab === "general"
                 ? "border-blue-500 text-blue-400"
                 : "border-transparent text-slate-400 hover:text-white"
             }`}
           >
-            <Users className="w-3.5 h-3.5" />
-            <span>Teams & Rosters ({teams.length})</span>
+            <Trophy className="w-3.5 h-3.5" />
+            <span>General Info</span>
           </button>
 
           <button
@@ -386,7 +517,357 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
 
         {/* Tab Body */}
         <div className="p-6 max-h-[68vh] overflow-y-auto space-y-6">
-          {/* TAB 1: General Info */}
+          {/* TAB: Teams & Individual Rosters */}
+          {activeTab === "teams" && (
+            <div className="space-y-5">
+              {/* Participant Type Switcher */}
+              <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-2xl flex items-center justify-between flex-wrap gap-2">
+                <span className="text-xs text-slate-300 font-semibold">Competition Mode:</span>
+                <div className="flex space-x-2">
+                  <button
+                    type="button"
+                    onClick={() => setParticipantType("TEAM")}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 ${
+                      participantType === "TEAM"
+                        ? "bg-blue-600 text-white shadow"
+                        : "bg-slate-900 text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    <Users className="w-3.5 h-3.5" />
+                    <span>Teams (with Squad Rosters & Captains)</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setParticipantType("INDIVIDUAL")}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 ${
+                      participantType === "INDIVIDUAL"
+                        ? "bg-emerald-600 text-white shadow"
+                        : "bg-slate-900 text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    <User className="w-3.5 h-3.5" />
+                    <span>Individual Players (Singles / 1v1)</span>
+                  </button>
+                </div>
+              </div>
+
+              {participantType === "INDIVIDUAL" ? (
+                /* Individual Players Management */
+                <div className="space-y-4">
+                  <div className="p-4 rounded-2xl bg-slate-950/90 border border-slate-800 flex flex-col sm:flex-row gap-2">
+                    <select
+                      value={newSoloAvatar}
+                      onChange={(e) => setNewSoloAvatar(e.target.value)}
+                      className="w-14 bg-slate-900 border border-slate-700 rounded-xl p-2 text-base text-center text-white focus:outline-none"
+                    >
+                      {["👤", "🏃", "🥇", "⚡", "🛡️", "🔥", "🌟", "👑", "🎯"].map((a) => (
+                        <option key={a} value={a}>
+                          {a}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      type="text"
+                      placeholder="Player Full Name..."
+                      value={newSoloName}
+                      onChange={(e) => setNewSoloName(e.target.value)}
+                      className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleAddSoloParticipant}
+                      className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition-colors flex items-center justify-center space-x-1"
+                    >
+                      <UserPlus className="w-4 h-4" />
+                      <span>Add Player</span>
+                    </button>
+                  </div>
+
+                  <div className="space-y-2">
+                    {teams.map((t, idx) => (
+                      <div
+                        key={t.id}
+                        className="p-3 rounded-2xl bg-slate-950/60 border border-slate-800 flex items-center justify-between text-xs"
+                      >
+                        <div className="flex items-center space-x-3">
+                          <span className="font-mono text-slate-500 text-[10px]">#{idx + 1}</span>
+                          <span className="text-xl">{t.logo || "👤"}</span>
+                          <input
+                            type="text"
+                            value={t.name}
+                            onChange={(e) => handleUpdateTeam(t.id, "name", e.target.value)}
+                            className="bg-transparent border-0 border-b border-slate-700 focus:border-blue-400 font-bold text-white text-xs px-1 py-0.5 focus:outline-none"
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveTeam(t.id)}
+                          className="p-1.5 text-slate-500 hover:text-red-400"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                /* Team & Squad Rosters Management */
+                <div className="space-y-5">
+                  {/* Create New Team */}
+                  <div className="p-4 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-2">
+                    <span className="text-xs font-bold text-white flex items-center space-x-1.5">
+                      <Plus className="w-4 h-4 text-blue-400" />
+                      <span>Add New Team</span>
+                    </span>
+                    <div className="flex gap-2">
+                      <select
+                        value={newTeamLogo}
+                        onChange={(e) => setNewTeamLogo(e.target.value)}
+                        className="w-14 bg-slate-900 border border-slate-700 rounded-xl p-2 text-base text-center text-white focus:outline-none"
+                      >
+                        {["🛡️", "🐉", "🦅", "🐺", "⚡", "⚔️", "🔥", "🐍", "🦁", "🌟", "👑", "🚀"].map(
+                          (l) => (
+                            <option key={l} value={l}>
+                              {l}
+                            </option>
+                          )
+                        )}
+                      </select>
+                      <input
+                        type="text"
+                        placeholder="Team Name (e.g. Thunderbolts FC)"
+                        value={newTeamName}
+                        onChange={(e) => setNewTeamName(e.target.value)}
+                        className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-400"
+                      />
+                      {tournament.format === "GROUP_KNOCKOUT" && (
+                        <select
+                          value={newTeamGroup}
+                          onChange={(e) => setNewTeamGroup(e.target.value)}
+                          className="w-24 bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-white focus:outline-none"
+                        >
+                          <option value="Group A">Group A</option>
+                          <option value="Group B">Group B</option>
+                        </select>
+                      )}
+                      <button
+                        type="button"
+                        onClick={handleAddTeam}
+                        className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl transition-colors flex items-center justify-center space-x-1"
+                      >
+                        <Plus className="w-4 h-4" />
+                        <span>Add Team</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Team Cards with Individual Squad Roster Manager */}
+                  <div className="space-y-4">
+                    {teams.map((t, idx) => {
+                      const players = t.players || [];
+                      const captain = players.find((p) => p.role === "CAPTAIN");
+
+                      return (
+                        <div
+                          key={t.id}
+                          className="rounded-2xl bg-slate-950/80 border border-slate-800 overflow-hidden shadow-lg"
+                        >
+                          {/* Team Details Bar */}
+                          <div className="p-3.5 bg-slate-900/90 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs">
+                            <div className="flex items-center space-x-3 min-w-0 flex-1">
+                              <span className="font-mono text-slate-500 text-[10px]">
+                                #{idx + 1}
+                              </span>
+                              <span className="text-2xl">{t.logo || "🛡️"}</span>
+                              <div className="flex items-center space-x-2 flex-1 min-w-0">
+                                <input
+                                  type="text"
+                                  value={t.name}
+                                  onChange={(e) => handleUpdateTeam(t.id, "name", e.target.value)}
+                                  className="bg-transparent border-0 border-b border-slate-700 focus:border-blue-400 font-extrabold text-white text-sm px-1 py-0.5 focus:outline-none max-w-[200px]"
+                                />
+                                <input
+                                  type="text"
+                                  value={t.shortName || ""}
+                                  onChange={(e) =>
+                                    handleUpdateTeam(t.id, "shortName", e.target.value.toUpperCase())
+                                  }
+                                  placeholder="CODE"
+                                  maxLength={4}
+                                  className="w-14 bg-slate-900 border border-slate-800 rounded px-1.5 py-0.5 text-[10px] font-mono text-blue-400 text-center uppercase focus:outline-none"
+                                />
+                                {captain && (
+                                  <span className="text-amber-400 text-[11px] font-semibold flex items-center space-x-1 ml-2">
+                                    <Star className="w-3 h-3 fill-amber-400" />
+                                    <span>Capt: {captain.name}</span>
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="flex items-center space-x-2">
+                              {tournament.format === "GROUP_KNOCKOUT" && (
+                                <select
+                                  value={t.groupId === "grp-a" ? "Group A" : "Group B"}
+                                  onChange={(e) =>
+                                    handleUpdateTeam(
+                                      t.id,
+                                      "groupId",
+                                      e.target.value === "Group A" ? "grp-a" : "grp-b"
+                                    )
+                                  }
+                                  className="bg-slate-900 border border-slate-800 rounded-xl px-2.5 py-1 text-xs text-slate-300 font-mono focus:outline-none"
+                                >
+                                  <option value="Group A">Group A</option>
+                                  <option value="Group B">Group B</option>
+                                </select>
+                              )}
+
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveTeam(t.id)}
+                                className="p-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-slate-900 transition-colors"
+                                title="Delete Team"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Squad Roster & Individual Player Editor */}
+                          <div className="p-4 space-y-3">
+                            <div className="flex items-center justify-between text-[11px]">
+                              <span className="font-bold text-slate-300 uppercase tracking-wider">
+                                Squad Roster ({players.length} Players)
+                              </span>
+                              <span className="text-slate-500">
+                                Click ⭐ to assign Captain (C) or Vice-Captain (VC)
+                              </span>
+                            </div>
+
+                            {/* Player Badges */}
+                            {players.length === 0 ? (
+                              <p className="text-slate-500 text-xs italic py-1">
+                                No individual players added to {t.name} yet.
+                              </p>
+                            ) : (
+                              <div className="flex flex-wrap gap-2">
+                                {players.map((p) => {
+                                  const isCapt = p.role === "CAPTAIN";
+                                  const isVC = p.role === "VICE_CAPTAIN";
+
+                                  return (
+                                    <div
+                                      key={p.id}
+                                      className={`px-3 py-1.5 rounded-xl border flex items-center space-x-2 text-xs transition-all ${
+                                        isCapt
+                                          ? "bg-amber-500/10 border-amber-500/40 text-amber-300 font-bold"
+                                          : isVC
+                                          ? "bg-cyan-500/10 border-cyan-500/40 text-cyan-300 font-semibold"
+                                          : "bg-slate-900 border-slate-800 text-slate-200"
+                                      }`}
+                                    >
+                                      {isCapt && (
+                                        <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                                      )}
+                                      {isVC && (
+                                        <span className="text-cyan-400 font-mono text-[10px] font-bold">
+                                          VC
+                                        </span>
+                                      )}
+                                      <span>{p.name}</span>
+
+                                      <div className="flex items-center space-x-1 ml-1 border-l border-slate-700/60 pl-1.5">
+                                        {!isCapt && (
+                                          <button
+                                            type="button"
+                                            onClick={() => handleSetTeamCaptain(t.id, p.id)}
+                                            className="text-slate-500 hover:text-amber-400 p-0.5"
+                                            title="Promote to Captain"
+                                          >
+                                            <Star className="w-3 h-3" />
+                                          </button>
+                                        )}
+                                        {!isVC && !isCapt && (
+                                          <button
+                                            type="button"
+                                            onClick={() => handleSetTeamViceCaptain(t.id, p.id)}
+                                            className="text-slate-500 hover:text-cyan-400 text-[10px] font-mono font-bold px-1"
+                                            title="Make Vice-Captain"
+                                          >
+                                            VC
+                                          </button>
+                                        )}
+                                        <button
+                                          type="button"
+                                          onClick={() => handleRemovePlayerFromTeam(t.id, p.id)}
+                                          className="text-slate-500 hover:text-red-400 p-0.5"
+                                          title="Remove Player"
+                                        >
+                                          <Trash2 className="w-3 h-3" />
+                                        </button>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
+
+                            {/* Add Player Input Row for this team */}
+                            <div className="pt-2 border-t border-slate-800/80 flex flex-col sm:flex-row gap-2">
+                              <input
+                                type="text"
+                                placeholder={`Add player to ${t.name}...`}
+                                value={activeAddTeamId === t.id ? teamPlayerName : ""}
+                                onFocus={() => setActiveAddTeamId(t.id)}
+                                onChange={(e) => {
+                                  setActiveAddTeamId(t.id);
+                                  setTeamPlayerName(e.target.value);
+                                }}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter") {
+                                    e.preventDefault();
+                                    handleAddPlayerToTeam(t.id);
+                                  }
+                                }}
+                                className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-400"
+                              />
+
+                              <div className="flex space-x-1.5">
+                                <select
+                                  value={activeAddTeamId === t.id ? teamPlayerRole : "PLAYER"}
+                                  onChange={(e) => {
+                                    setActiveAddTeamId(t.id);
+                                    setTeamPlayerRole(e.target.value);
+                                  }}
+                                  className="bg-slate-900 border border-slate-800 rounded-xl px-2.5 py-1.5 text-xs text-slate-300 focus:outline-none"
+                                >
+                                  <option value="PLAYER">Player</option>
+                                  <option value="CAPTAIN">⭐ Captain (C)</option>
+                                  <option value="VICE_CAPTAIN">Vice-Captain (VC)</option>
+                                </select>
+
+                                <button
+                                  type="button"
+                                  onClick={() => handleAddPlayerToTeam(t.id)}
+                                  className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl transition-colors flex items-center space-x-1"
+                                >
+                                  <Plus className="w-3.5 h-3.5" />
+                                  <span>Add</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* TAB: General Info */}
           {activeTab === "general" && (
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -494,7 +975,6 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                     className="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
                   />
                 </div>
-                {/* Presets */}
                 <div className="flex flex-wrap gap-1.5 mt-2">
                   <span className="text-[10px] text-slate-500 py-1">Quick Presets:</span>
                   {bannerPresets.map((p) => (
@@ -510,7 +990,6 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                 </div>
               </div>
 
-              {/* Organizer & Description */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="text-[11px] text-slate-400 block mb-1 font-medium">
@@ -538,7 +1017,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
             </div>
           )}
 
-          {/* TAB 2: Points & Scoring Engine */}
+          {/* TAB: Points & Scoring Engine */}
           {activeTab === "points" && (
             <div className="space-y-6">
               <div className="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300">
@@ -546,7 +1025,6 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                 instantly recalculate the leaderboard ranking for this tournament upon saving.
               </div>
 
-              {/* Standard Win / Draw / Loss Points */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 text-center space-y-2">
                   <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider block">
@@ -558,7 +1036,6 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                     onChange={(e) => setWinPoints(e.target.value)}
                     className="w-20 mx-auto text-center bg-slate-900 border border-slate-700 rounded-xl py-2 text-2xl font-mono font-extrabold text-emerald-400 focus:outline-none"
                   />
-                  <span className="text-[10px] text-slate-500 block">Standard: 3 (Football) or 2</span>
                 </div>
 
                 <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 text-center space-y-2">
@@ -571,7 +1048,6 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                     onChange={(e) => setDrawPoints(e.target.value)}
                     className="w-20 mx-auto text-center bg-slate-900 border border-slate-700 rounded-xl py-2 text-2xl font-mono font-extrabold text-amber-400 focus:outline-none"
                   />
-                  <span className="text-[10px] text-slate-500 block">Standard: 1 or 0 (Knockout)</span>
                 </div>
 
                 <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 text-center space-y-2">
@@ -584,11 +1060,9 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                     onChange={(e) => setLossPoints(e.target.value)}
                     className="w-20 mx-auto text-center bg-slate-900 border border-slate-700 rounded-xl py-2 text-2xl font-mono font-extrabold text-rose-400 focus:outline-none"
                   />
-                  <span className="text-[10px] text-slate-500 block">Standard: 0</span>
                 </div>
               </div>
 
-              {/* Display Toggles */}
               <div className="bg-slate-950/60 border border-slate-800 rounded-2xl p-4 space-y-3">
                 <span className="text-xs font-bold text-white block">Table Display Columns</span>
                 <div className="flex flex-wrap gap-4">
@@ -614,7 +1088,6 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                 </div>
               </div>
 
-              {/* Custom Point Metrics */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-white">Custom Point Modifiers / Rules</span>
@@ -672,141 +1145,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
             </div>
           )}
 
-          {/* TAB 3: Teams & Rosters */}
-          {activeTab === "teams" && (
-            <div className="space-y-4">
-              {/* Quick Add Team Box */}
-              <div className="p-4 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-3">
-                <span className="text-xs font-bold text-white flex items-center space-x-1.5">
-                  <Plus className="w-4 h-4 text-blue-400" />
-                  <span>Add New Team</span>
-                </span>
-                <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
-                  <div className="flex space-x-2 sm:col-span-2">
-                    <select
-                      value={newTeamLogo}
-                      onChange={(e) => setNewTeamLogo(e.target.value)}
-                      className="w-16 bg-slate-900 border border-slate-700 rounded-xl p-2 text-sm text-center text-white focus:outline-none"
-                    >
-                      {["🛡️", "🐉", "🦅", "🐺", "⚡", "⚔️", "🔥", "🐍", "🦁", "🌟", "👑", "🚀"].map(
-                        (l) => (
-                          <option key={l} value={l}>
-                            {l}
-                          </option>
-                        )
-                      )}
-                    </select>
-                    <input
-                      type="text"
-                      placeholder="Team Name (e.g. Thunderbolts)"
-                      value={newTeamName}
-                      onChange={(e) => setNewTeamName(e.target.value)}
-                      className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-400"
-                    />
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Captain & Players (optional)"
-                    value={newTeamPlayers}
-                    onChange={(e) => setNewTeamPlayers(e.target.value)}
-                    className="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-400"
-                  />
-                  <div className="flex space-x-2">
-                    {tournament.format === "GROUP_KNOCKOUT" && (
-                      <select
-                        value={newTeamGroup}
-                        onChange={(e) => setNewTeamGroup(e.target.value)}
-                        className="w-24 bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-white focus:outline-none"
-                      >
-                        <option value="Group A">Group A</option>
-                        <option value="Group B">Group B</option>
-                      </select>
-                    )}
-                    <button
-                      type="button"
-                      onClick={handleAddTeam}
-                      className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl px-3 py-2 transition-colors flex items-center justify-center space-x-1"
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                      <span>Add</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Existing Teams Table / Cards */}
-              <div className="space-y-2">
-                {teams.map((t, idx) => (
-                  <div
-                    key={t.id}
-                    className="p-3 rounded-2xl bg-slate-950/60 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
-                  >
-                    <div className="flex items-center space-x-3 min-w-0 flex-1">
-                      <span className="font-mono text-slate-500 text-[10px] w-5">#{idx + 1}</span>
-                      <span className="text-xl">{t.logo || "🛡️"}</span>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center space-x-2">
-                          <input
-                            type="text"
-                            value={t.name}
-                            onChange={(e) => handleUpdateTeam(t.id, "name", e.target.value)}
-                            className="bg-transparent border-0 border-b border-slate-700 focus:border-blue-400 font-bold text-white text-xs px-1 py-0.5 focus:outline-none max-w-[180px]"
-                          />
-                          <input
-                            type="text"
-                            value={t.shortName || ""}
-                            onChange={(e) =>
-                              handleUpdateTeam(t.id, "shortName", e.target.value.toUpperCase())
-                            }
-                            placeholder="CODE"
-                            maxLength={4}
-                            className="w-14 bg-slate-900 border border-slate-800 rounded px-1.5 py-0.5 text-[10px] font-mono text-blue-400 text-center uppercase focus:outline-none"
-                          />
-                        </div>
-                        <input
-                          type="text"
-                          value={t.players || ""}
-                          onChange={(e) => handleUpdateTeam(t.id, "players", e.target.value)}
-                          placeholder="Players & Captain..."
-                          className="bg-transparent border-0 border-b border-slate-800 focus:border-blue-400 text-[11px] text-slate-400 placeholder-slate-600 px-1 py-0.5 w-full focus:outline-none mt-1"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex items-center space-x-2 flex-shrink-0">
-                      {tournament.format === "GROUP_KNOCKOUT" && (
-                        <select
-                          value={t.groupId === "grp-a" ? "Group A" : "Group B"}
-                          onChange={(e) =>
-                            handleUpdateTeam(
-                              t.id,
-                              "groupId",
-                              e.target.value === "Group A" ? "grp-a" : "grp-b"
-                            )
-                          }
-                          className="bg-slate-900 border border-slate-800 rounded-xl px-2.5 py-1 text-xs text-slate-300 font-mono focus:outline-none"
-                        >
-                          <option value="Group A">Group A</option>
-                          <option value="Group B">Group B</option>
-                        </select>
-                      )}
-
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveTeam(t.id)}
-                        className="p-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-slate-900 transition-colors"
-                        title="Delete Team"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* TAB 4: Rules & Handbook */}
+          {/* TAB: Rules & Handbook */}
           {activeTab === "rules" && (
             <div className="space-y-4">
               <div className="p-4 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-3">
@@ -847,7 +1186,6 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                 ></textarea>
               </div>
 
-              {/* Rules List */}
               <div className="space-y-2">
                 {rules.map((r) => (
                   <div
@@ -878,7 +1216,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
             </div>
           )}
 
-          {/* TAB 5: Danger Zone */}
+          {/* TAB: Danger Zone */}
           {activeTab === "danger" && (
             <div className="space-y-4">
               <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-2">

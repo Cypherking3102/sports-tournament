@@ -390,6 +390,7 @@ export default function TournamentDetailPage({ params }) {
             standings={tournament.standings}
             scoreUnit={tournament.scoreUnit}
             pointsConfig={tournament.pointsConfig}
+            participantType={tournament.participantType}
           />
         )}
 

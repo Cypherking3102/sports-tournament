@@ -12,8 +12,10 @@ import {
   Plus,
   Users,
   Award,
-  Timer
+  Timer,
+  Star
 } from "lucide-react";
+import { getCaptain, formatRosterString } from "@/lib/tournamentEngine";
 
 export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isAdmin }) {
   const { matches = [], teams = [], scoreUnit = "Score" } = tournament;
@@ -105,6 +107,10 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
           {filteredMatches.map((m) => {
             const teamA = teamMap[m.teamAId];
             const teamB = teamMap[m.teamBId];
+            const captA = getCaptain(teamA);
+            const captB = getCaptain(teamB);
+            const rosterA = teamA?.players ? (typeof teamA.players === "string" ? teamA.players : formatRosterString(teamA.players)) : "";
+            const rosterB = teamB?.players ? (typeof teamB.players === "string" ? teamB.players : formatRosterString(teamB.players)) : "";
             const isCompleted = m.status === "COMPLETED";
             const isLive = m.status === "LIVE";
             const winnerIsA = isCompleted && m.winnerId === m.teamAId;
@@ -165,16 +171,23 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
                     <div className="flex items-center space-x-3">
                       <span className="text-xl">{teamA?.logo || "🛡️"}</span>
                       <div>
-                        <span
-                          className={`text-xs sm:text-sm ${
-                            winnerIsA ? "text-blue-300 font-bold" : "text-slate-100"
-                          }`}
-                        >
-                          {teamA ? teamA.name : m.placeholderA || "TBD"}
-                        </span>
-                        {teamA?.players && (
+                        <div className="flex items-center space-x-1.5">
+                          <span
+                            className={`text-xs sm:text-sm ${
+                              winnerIsA ? "text-blue-300 font-bold" : "text-slate-100"
+                            }`}
+                          >
+                            {teamA ? teamA.name : m.placeholderA || "TBD"}
+                          </span>
+                          {captA && (
+                            <span className="text-[10px] text-amber-400 font-mono font-medium">
+                              (C: {captA})
+                            </span>
+                          )}
+                        </div>
+                        {rosterA && (
                           <span className="text-[10px] text-slate-500 block truncate max-w-[200px]">
-                            {teamA.players}
+                            {rosterA}
                           </span>
                         )}
                       </div>
@@ -201,16 +214,23 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
                     <div className="flex items-center space-x-3">
                       <span className="text-xl">{teamB?.logo || "🛡️"}</span>
                       <div>
-                        <span
-                          className={`text-xs sm:text-sm ${
-                            winnerIsB ? "text-blue-300 font-bold" : "text-slate-100"
-                          }`}
-                        >
-                          {teamB ? teamB.name : m.placeholderB || "TBD"}
-                        </span>
-                        {teamB?.players && (
+                        <div className="flex items-center space-x-1.5">
+                          <span
+                            className={`text-xs sm:text-sm ${
+                              winnerIsB ? "text-blue-300 font-bold" : "text-slate-100"
+                            }`}
+                          >
+                            {teamB ? teamB.name : m.placeholderB || "TBD"}
+                          </span>
+                          {captB && (
+                            <span className="text-[10px] text-amber-400 font-mono font-medium">
+                              (C: {captB})
+                            </span>
+                          )}
+                        </div>
+                        {rosterB && (
                           <span className="text-[10px] text-slate-500 block truncate max-w-[200px]">
-                            {teamB.players}
+                            {rosterB}
                           </span>
                         )}
                       </div>

@@ -12,8 +12,11 @@ import {
   ArrowRight,
   Clock,
   Award,
-  Users
+  Users,
+  Star,
+  X
 } from "lucide-react";
+import { normalizePlayers, getCaptain } from "@/lib/tournamentEngine";
 
 export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
   const {
@@ -22,10 +25,12 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
     matches = [],
     teams = [],
     scoreUnit = "Goals",
+    participantType = "TEAM",
     pointsConfig = { win: 3, draw: 1, loss: 0, showForm: true }
   } = tournament;
 
   const [selectedGroupId, setSelectedGroupId] = useState(groups[0]?.id || "ALL");
+  const [selectedTeamRoster, setSelectedTeamRoster] = useState(null);
 
   const teamMap = {};
   teams.forEach((t) => {
@@ -47,6 +52,7 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
   const drawPts = pointsConfig?.draw ?? 1;
   const lossPts = pointsConfig?.loss ?? 0;
   const showForm = pointsConfig?.showForm !== false;
+  const isIndividual = participantType === "INDIVIDUAL";
 
   return (
     <div className="space-y-8">
@@ -114,7 +120,7 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                     {group.name} Standings
                   </h3>
                   <p className="text-xs text-slate-400">
-                    Round-Robin Stage • {group.teams?.length || 0} Teams
+                    Round-Robin Stage • {group.teams?.length || 0} {isIndividual ? "Players" : "Teams"}
                   </p>
                 </div>
               </div>
@@ -131,7 +137,7 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                 <thead className="text-[11px] uppercase tracking-wider text-slate-400 bg-slate-950/80 border-b border-slate-800 font-semibold font-mono">
                   <tr>
                     <th className="py-3 px-4 w-12 text-center">Pos</th>
-                    <th className="py-3 px-4">Team</th>
+                    <th className="py-3 px-4">{isIndividual ? "Player" : "Team & Captain"}</th>
                     <th className="py-3 px-3 text-center" title="Played">
                       P
                     </th>
@@ -165,9 +171,13 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                 <tbody className="divide-y divide-slate-800/60 font-medium">
                   {standings.map((row, index) => {
                     const isQualified = index < 2;
+                    const teamObj = row.team || {};
+                    const playersList = normalizePlayers(teamObj.players);
+                    const captain = getCaptain(teamObj);
+
                     return (
                       <tr
-                        key={row.team?.id || index}
+                        key={teamObj.id || index}
                         className={`hover:bg-slate-800/30 transition-colors ${
                           isQualified ? "bg-emerald-500/5" : ""
                         }`}
@@ -187,13 +197,45 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                         </td>
                         <td className="py-3 px-4 font-semibold text-white">
                           <div className="flex items-center space-x-2.5">
-                            <span className="text-lg">{row.team?.logo || "🛡️"}</span>
+                            <span className="text-lg">
+                              {teamObj.logo || (isIndividual ? "👤" : "🛡️")}
+                            </span>
                             <div>
-                              <span>{row.team?.name || "Team"}</span>
-                              {row.team?.shortName && (
-                                <span className="text-[10px] text-slate-500 ml-1.5 font-mono">
-                                  [{row.team.shortName}]
-                                </span>
+                              <div className="flex items-center space-x-1.5">
+                                <span>{teamObj.name || "Team"}</span>
+                                {teamObj.shortName && (
+                                  <span className="text-[10px] text-slate-500 font-mono">
+                                    [{teamObj.shortName}]
+                                  </span>
+                                )}
+                              </div>
+                              {!isIndividual && (
+                                <div className="flex items-center space-x-2 mt-0.5">
+                                  {captain ? (
+                                    <span className="text-[10px] text-amber-400 font-medium flex items-center space-x-1">
+                                      <Star className="w-2.5 h-2.5 fill-amber-400" />
+                                      <span>Capt: {captain}</span>
+                                    </span>
+                                  ) : null}
+
+                                  {playersList.length > 0 && (
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        setSelectedTeamRoster({
+                                          name: teamObj.name,
+                                          logo: teamObj.logo,
+                                          captain,
+                                          players: playersList
+                                        })
+                                      }
+                                      className="text-[10px] text-blue-400 hover:text-blue-300 font-mono hover:underline flex items-center space-x-0.5"
+                                    >
+                                      <Users className="w-2.5 h-2.5" />
+                                      <span>({playersList.length} squad)</span>
+                                    </button>
+                                  )}
+                                </div>
                               )}
                             </div>
                           </div>
@@ -277,6 +319,8 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                 {groupMatches.map((m) => {
                   const teamA = teamMap[m.teamAId];
                   const teamB = teamMap[m.teamBId];
+                  const captA = getCaptain(teamA);
+                  const captB = getCaptain(teamB);
                   const isCompleted = m.status === "COMPLETED";
                   const isLive = m.status === "LIVE";
 
@@ -316,8 +360,13 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                       <div className="space-y-1.5">
                         <div className="flex items-center justify-between text-xs">
                           <span className="flex items-center space-x-2 font-medium text-white truncate">
-                            <span>{teamA?.logo || "🛡️"}</span>
+                            <span>{teamA?.logo || (isIndividual ? "👤" : "🛡️")}</span>
                             <span className="truncate">{teamA?.name || "TBD"}</span>
+                            {captA && !isIndividual && (
+                              <span className="text-[10px] text-amber-400 font-mono">
+                                (C: {captA})
+                              </span>
+                            )}
                           </span>
                           <span className="font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-200">
                             {isCompleted || isLive ? m.scoreA : "-"}
@@ -325,8 +374,13 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                         </div>
                         <div className="flex items-center justify-between text-xs">
                           <span className="flex items-center space-x-2 font-medium text-white truncate">
-                            <span>{teamB?.logo || "🛡️"}</span>
+                            <span>{teamB?.logo || (isIndividual ? "👤" : "🛡️")}</span>
                             <span className="truncate">{teamB?.name || "TBD"}</span>
+                            {captB && !isIndividual && (
+                              <span className="text-[10px] text-amber-400 font-mono">
+                                (C: {captB})
+                              </span>
+                            )}
                           </span>
                           <span className="font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-200">
                             {isCompleted || isLive ? m.scoreB : "-"}
@@ -369,6 +423,65 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
           </div>
         );
       })}
+
+      {/* Squad Roster Modal Popup */}
+      {selectedTeamRoster && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="bg-slate-900 border border-slate-700 rounded-3xl p-6 w-full max-w-md shadow-2xl space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div className="flex items-center space-x-2.5">
+                <span className="text-2xl">{selectedTeamRoster.logo}</span>
+                <div>
+                  <h4 className="font-black text-white text-base">{selectedTeamRoster.name}</h4>
+                  <p className="text-xs text-slate-400">
+                    Official Squad Roster ({selectedTeamRoster.players.length} Players)
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setSelectedTeamRoster(null)}
+                className="p-1.5 text-slate-400 hover:text-white rounded-full hover:bg-slate-800"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+              {selectedTeamRoster.players.map((p, pIdx) => (
+                <div
+                  key={p.id || pIdx}
+                  className="flex items-center justify-between p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs"
+                >
+                  <div className="flex items-center space-x-2">
+                    <span className="font-mono text-slate-500 text-[10px]">#{pIdx + 1}</span>
+                    <span className="text-white font-medium">{p.name}</span>
+                  </div>
+
+                  {p.role === "CAPTAIN" ? (
+                    <span className="flex items-center space-x-1 px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold text-[10px] border border-amber-500/30">
+                      <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                      <span>Captain</span>
+                    </span>
+                  ) : p.role === "VICE_CAPTAIN" ? (
+                    <span className="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold text-[10px] border border-cyan-500/30">
+                      Vice-Captain
+                    </span>
+                  ) : (
+                    <span className="text-[10px] text-slate-500">Player</span>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => setSelectedTeamRoster(null)}
+              className="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl transition-colors"
+            >
+              Close Roster
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

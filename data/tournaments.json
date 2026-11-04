@@ -7,6 +7,7 @@
     "scoreUnit": "Goals",
     "bannerUrl": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80",
     "format": "GROUP_KNOCKOUT",
+    "participantType": "TEAM",
     "status": "LIVE",
     "startDate": "2026-11-08",
     "endDate": "2026-11-22",
@@ -31,28 +32,100 @@
             "name": "Red Dragons",
             "shortName": "RDG",
             "seed": 1,
-            "logo": "🐉"
+            "logo": "🐉",
+            "captain": "Mark Fernandes",
+            "players": [
+              {
+                "id": "p-a1-1",
+                "name": "Mark Fernandes",
+                "role": "CAPTAIN"
+              },
+              {
+                "id": "p-a1-2",
+                "name": "John Alex",
+                "role": "VICE_CAPTAIN"
+              },
+              {
+                "id": "p-a1-3",
+                "name": "Luke D'Souza",
+                "role": "PLAYER"
+              },
+              {
+                "id": "p-a1-4",
+                "name": "Peter Paul",
+                "role": "PLAYER"
+              }
+            ]
           },
           {
             "id": "tm-a2",
             "name": "Apex Thunder",
             "shortName": "ATD",
             "seed": 2,
-            "logo": "⚡"
+            "logo": "⚡",
+            "captain": "Daniel Cruz",
+            "players": [
+              {
+                "id": "p-a2-1",
+                "name": "Daniel Cruz",
+                "role": "CAPTAIN"
+              },
+              {
+                "id": "p-a2-2",
+                "name": "Sam Wilson",
+                "role": "VICE_CAPTAIN"
+              },
+              {
+                "id": "p-a2-3",
+                "name": "Brian D'Silva",
+                "role": "PLAYER"
+              }
+            ]
           },
           {
             "id": "tm-a3",
             "name": "Iron Wolves",
             "shortName": "IWL",
             "seed": 3,
-            "logo": "🐺"
+            "logo": "🐺",
+            "captain": "Chris Ryan",
+            "players": [
+              {
+                "id": "p-a3-1",
+                "name": "Chris Ryan",
+                "role": "CAPTAIN"
+              },
+              {
+                "id": "p-a3-2",
+                "name": "Kevin Jason",
+                "role": "VICE_CAPTAIN"
+              },
+              {
+                "id": "p-a3-3",
+                "name": "Leo Matthew",
+                "role": "PLAYER"
+              }
+            ]
           },
           {
             "id": "tm-a4",
             "name": "Blue Falcons",
             "shortName": "BFC",
             "seed": 4,
-            "logo": "🦅"
+            "logo": "🦅",
+            "captain": "Simon Peter",
+            "players": [
+              {
+                "id": "p-a4-1",
+                "name": "Simon Peter",
+                "role": "CAPTAIN"
+              },
+              {
+                "id": "p-a4-2",
+                "name": "Andrew James",
+                "role": "PLAYER"
+              }
+            ]
           }
         ]
       },
@@ -65,28 +138,85 @@
             "name": "Silver Strikers",
             "shortName": "SST",
             "seed": 1,
-            "logo": "⚔️"
+            "logo": "⚔️",
+            "captain": "James Matthew",
+            "players": [
+              {
+                "id": "p-b1-1",
+                "name": "James Matthew",
+                "role": "CAPTAIN"
+              },
+              {
+                "id": "p-b1-2",
+                "name": "Joseph Jude",
+                "role": "VICE_CAPTAIN"
+              },
+              {
+                "id": "p-b1-3",
+                "name": "Francis Xavier",
+                "role": "PLAYER"
+              }
+            ]
           },
           {
             "id": "tm-b2",
             "name": "Golden Titans",
             "shortName": "GTT",
             "seed": 2,
-            "logo": "🛡️"
+            "logo": "🛡️",
+            "captain": "Michael Anthony",
+            "players": [
+              {
+                "id": "p-b2-1",
+                "name": "Michael Anthony",
+                "role": "CAPTAIN"
+              },
+              {
+                "id": "p-b2-2",
+                "name": "Dominic Savio",
+                "role": "PLAYER"
+              }
+            ]
           },
           {
             "id": "tm-b3",
             "name": "Phoenix United",
             "shortName": "PHX",
             "seed": 3,
-            "logo": "🔥"
+            "logo": "🔥",
+            "captain": "Gabriel Rapha",
+            "players": [
+              {
+                "id": "p-b3-1",
+                "name": "Gabriel Rapha",
+                "role": "CAPTAIN"
+              },
+              {
+                "id": "p-b3-2",
+                "name": "Aaron Carlos",
+                "role": "PLAYER"
+              }
+            ]
           },
           {
             "id": "tm-b4",
             "name": "Shadow Cobras",
             "shortName": "SCB",
             "seed": 4,
-            "logo": "🐍"
+            "logo": "🐍",
+            "captain": "Victor Roy",
+            "players": [
+              {
+                "id": "p-b4-1",
+                "name": "Victor Roy",
+                "role": "CAPTAIN"
+              },
+              {
+                "id": "p-b4-2",
+                "name": "Jason Cole",
+                "role": "PLAYER"
+              }
+            ]
           }
         ]
       }
@@ -98,7 +228,30 @@
         "shortName": "RDG",
         "seed": 1,
         "logo": "🐉",
-        "groupId": "grp-a"
+        "groupId": "grp-a",
+        "captain": "Mark Fernandes",
+        "players": [
+          {
+            "id": "p-a1-1",
+            "name": "Mark Fernandes",
+            "role": "CAPTAIN"
+          },
+          {
+            "id": "p-a1-2",
+            "name": "John Alex",
+            "role": "VICE_CAPTAIN"
+          },
+          {
+            "id": "p-a1-3",
+            "name": "Luke D'Souza",
+            "role": "PLAYER"
+          },
+          {
+            "id": "p-a1-4",
+            "name": "Peter Paul",
+            "role": "PLAYER"
+          }
+        ]
       },
       {
         "id": "tm-a2",
@@ -106,7 +259,25 @@
         "shortName": "ATD",
         "seed": 2,
         "logo": "⚡",
-        "groupId": "grp-a"
+        "groupId": "grp-a",
+        "captain": "Daniel Cruz",
+        "players": [
+          {
+            "id": "p-a2-1",
+            "name": "Daniel Cruz",
+            "role": "CAPTAIN"
+          },
+          {
+            "id": "p-a2-2",
+            "name": "Sam Wilson",
+            "role": "VICE_CAPTAIN"
+          },
+          {
+            "id": "p-a2-3",
+            "name": "Brian D'Silva",
+            "role": "PLAYER"
+          }
+        ]
       },
       {
         "id": "tm-a3",
@@ -114,7 +285,25 @@
         "shortName": "IWL",
         "seed": 3,
         "logo": "🐺",
-        "groupId": "grp-a"
+        "groupId": "grp-a",
+        "captain": "Chris Ryan",
+        "players": [
+          {
+            "id": "p-a3-1",
+            "name": "Chris Ryan",
+            "role": "CAPTAIN"
+          },
+          {
+            "id": "p-a3-2",
+            "name": "Kevin Jason",
+            "role": "VICE_CAPTAIN"
+          },
+          {
+            "id": "p-a3-3",
+            "name": "Leo Matthew",
+            "role": "PLAYER"
+          }
+        ]
       },
       {
         "id": "tm-a4",
@@ -122,7 +311,20 @@
         "shortName": "BFC",
         "seed": 4,
         "logo": "🦅",
-        "groupId": "grp-a"
+        "groupId": "grp-a",
+        "captain": "Simon Peter",
+        "players": [
+          {
+            "id": "p-a4-1",
+            "name": "Simon Peter",
+            "role": "CAPTAIN"
+          },
+          {
+            "id": "p-a4-2",
+            "name": "Andrew James",
+            "role": "PLAYER"
+          }
+        ]
       },
       {
         "id": "tm-b1",
@@ -130,7 +332,25 @@
         "shortName": "SST",
         "seed": 1,
         "logo": "⚔️",
-        "groupId": "grp-b"
+        "groupId": "grp-b",
+        "captain": "James Matthew",
+        "players": [
+          {
+            "id": "p-b1-1",
+            "name": "James Matthew",
+            "role": "CAPTAIN"
+          },
+          {
+            "id": "p-b1-2",
+            "name": "Joseph Jude",
+            "role": "VICE_CAPTAIN"
+          },
+          {
+            "id": "p-b1-3",
+            "name": "Francis Xavier",
+            "role": "PLAYER"
+          }
+        ]
       },
       {
         "id": "tm-b2",
@@ -138,7 +358,20 @@
         "shortName": "GTT",
         "seed": 2,
         "logo": "🛡️",
-        "groupId": "grp-b"
+        "groupId": "grp-b",
+        "captain": "Michael Anthony",
+        "players": [
+          {
+            "id": "p-b2-1",
+            "name": "Michael Anthony",
+            "role": "CAPTAIN"
+          },
+          {
+            "id": "p-b2-2",
+            "name": "Dominic Savio",
+            "role": "PLAYER"
+          }
+        ]
       },
       {
         "id": "tm-b3",
@@ -146,7 +379,20 @@
         "shortName": "PHX",
         "seed": 3,
         "logo": "🔥",
-        "groupId": "grp-b"
+        "groupId": "grp-b",
+        "captain": "Gabriel Rapha",
+        "players": [
+          {
+            "id": "p-b3-1",
+            "name": "Gabriel Rapha",
+            "role": "CAPTAIN"
+          },
+          {
+            "id": "p-b3-2",
+            "name": "Aaron Carlos",
+            "role": "PLAYER"
+          }
+        ]
       },
       {
         "id": "tm-b4",
@@ -154,7 +400,20 @@
         "shortName": "SCB",
         "seed": 4,
         "logo": "🐍",
-        "groupId": "grp-b"
+        "groupId": "grp-b",
+        "captain": "Victor Roy",
+        "players": [
+          {
+            "id": "p-b4-1",
+            "name": "Victor Roy",
+            "role": "CAPTAIN"
+          },
+          {
+            "id": "p-b4-2",
+            "name": "Jason Cole",
+            "role": "PLAYER"
+          }
+        ]
       }
     ],
     "rules": [
@@ -423,6 +682,7 @@
     "sport": "Basketball",
     "sportIcon": "🏀",
     "scoreUnit": "Points",
+    "participantType": "TEAM",
     "bannerUrl": "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80",
     "format": "ROUND_ROBIN",
     "status": "LIVE",
@@ -561,6 +821,7 @@
     "sport": "Cricket",
     "sportIcon": "🏏",
     "scoreUnit": "Runs",
+    "participantType": "TEAM",
     "bannerUrl": "https://images.unsplash.com/photo-1531415074868-036b107e775a?auto=format&fit=crop&w=1200&q=80",
     "format": "KNOCKOUT",
     "status": "UPCOMING",
@@ -675,6 +936,122 @@
         "nextMatchSlot": null,
         "scheduledAt": "2026-11-29 15:00",
         "venue": "Main Ground"
+      }
+    ]
+  },
+  {
+    "id": "dm-badminton-singles-2026",
+    "title": "Divine Mercy Badminton Singles Championship",
+    "sport": "Badminton",
+    "sportIcon": "🏸",
+    "scoreUnit": "Points",
+    "participantType": "INDIVIDUAL",
+    "bannerUrl": "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1200&q=80",
+    "format": "KNOCKOUT",
+    "status": "UPCOMING",
+    "startDate": "2026-12-05",
+    "endDate": "2026-12-06",
+    "location": "Parish Badminton Indoor Arena",
+    "organizer": "Divine Mercy Sports Ministry",
+    "description": "Individual parish singles knockout championship. Best of 3 sets to 21 points.",
+    "pointsConfig": {
+      "win": 2,
+      "draw": 0,
+      "loss": 0,
+      "showForm": true,
+      "showGoalDiff": true,
+      "customRules": []
+    },
+    "teams": [
+      {
+        "id": "pl-1",
+        "name": "David Fernandes",
+        "shortName": "DAV",
+        "seed": 1,
+        "logo": "👤",
+        "players": []
+      },
+      {
+        "id": "pl-2",
+        "name": "Kevin D'Souza",
+        "shortName": "KEV",
+        "seed": 2,
+        "logo": "👤",
+        "players": []
+      },
+      {
+        "id": "pl-3",
+        "name": "Luke D'Silva",
+        "shortName": "LUK",
+        "seed": 3,
+        "logo": "👤",
+        "players": []
+      },
+      {
+        "id": "pl-4",
+        "name": "Brian Sequeira",
+        "shortName": "BRI",
+        "seed": 4,
+        "logo": "👤",
+        "players": []
+      }
+    ],
+    "rules": [
+      {
+        "id": "bm-rule-1",
+        "title": "Match Scoring",
+        "category": "Gameplay",
+        "content": "Best of 3 games of 21 points each. Rally point scoring system applies."
+      }
+    ],
+    "matches": [
+      {
+        "id": "dm-bm-sf1",
+        "round": 1,
+        "roundName": "Semi-Final 1",
+        "stageName": "Semi-Finals",
+        "teamAId": "pl-1",
+        "teamBId": "pl-4",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "nextMatchId": "dm-bm-fn",
+        "nextMatchSlot": "A",
+        "scheduledAt": "2026-12-05 16:00",
+        "venue": "Court 1"
+      },
+      {
+        "id": "dm-bm-sf2",
+        "round": 1,
+        "roundName": "Semi-Final 2",
+        "stageName": "Semi-Finals",
+        "teamAId": "pl-2",
+        "teamBId": "pl-3",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "nextMatchId": "dm-bm-fn",
+        "nextMatchSlot": "B",
+        "scheduledAt": "2026-12-05 17:00",
+        "venue": "Court 1"
+      },
+      {
+        "id": "dm-bm-fn",
+        "round": 2,
+        "roundName": "Championship Final",
+        "stageName": "Final",
+        "teamAId": null,
+        "teamBId": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "nextMatchId": null,
+        "nextMatchSlot": null,
+        "scheduledAt": "2026-12-06 18:00",
+        "venue": "Court 1"
       }
     ]
   }

@@ -5,7 +5,8 @@ node_modules/
 
 # Testing & Tools
 /.git_tools/
-/.vercel_data/
+.vercel_data*
+/.vercel_data*
 
 # Next.js build output
 /.next/
