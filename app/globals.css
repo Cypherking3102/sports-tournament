@@ -7,8 +7,8 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: #09090b;
-  color: #f4f4f5;
+  background-color: #0b0f19;
+  color: #f1f5f9;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
@@ -21,14 +21,14 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #09090b;
+  background: #0b0f19;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: #1e293b;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: #334155;
 }

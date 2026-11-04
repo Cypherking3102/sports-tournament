@@ -15,12 +15,11 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
   const teamA = teams.find((t) => t.id === match?.teamAId);
   const teamB = teams.find((t) => t.id === match?.teamBId);
 
-  // Auto-set winner when status is set to COMPLETED
   useEffect(() => {
     if (status === "COMPLETED") {
-      if (scoreA > scoreB && teamA) {
+      if (Number(scoreA) > Number(scoreB) && teamA) {
         setWinnerId(teamA.id);
-      } else if (scoreB > scoreA && teamB) {
+      } else if (Number(scoreB) > Number(scoreA) && teamB) {
         setWinnerId(teamB.id);
       }
     }
@@ -61,12 +60,12 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-      <div className="bg-zinc-900 border border-zinc-700/80 rounded-3xl p-6 w-full max-w-lg shadow-2xl space-y-6">
+      <div className="bg-slate-900 border border-slate-700/80 rounded-3xl p-6 w-full max-w-lg shadow-2xl space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
           <div>
-            <span className="text-[10px] font-mono uppercase text-amber-400 font-bold tracking-wider">
-              Scorekeeper & Advancement
+            <span className="text-[10px] font-mono uppercase text-blue-400 font-bold tracking-wider">
+              Parish Match Scorekeeper
             </span>
             <h3 className="font-extrabold text-white text-base">
               {match.stageName || match.roundName || "Match"}
@@ -74,7 +73,7 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full hover:bg-zinc-800 text-zinc-400 hover:text-white"
+            className="p-1.5 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white"
           >
             <X className="w-5 h-5" />
           </button>
@@ -89,7 +88,7 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Status Selector */}
           <div>
-            <label className="text-xs text-zinc-400 block mb-2 font-medium">Match Status</label>
+            <label className="text-xs text-slate-400 block mb-2 font-medium">Match Status</label>
             <div className="grid grid-cols-3 gap-2">
               {[
                 { id: "SCHEDULED", label: "Scheduled", icon: null },
@@ -105,9 +104,9 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
                       ? id === "LIVE"
                         ? "bg-red-500 text-white shadow-lg shadow-red-500/20"
                         : id === "COMPLETED"
-                        ? "bg-emerald-500 text-zinc-950 shadow-lg shadow-emerald-500/20"
-                        : "bg-amber-400 text-zinc-950 shadow-lg shadow-amber-400/20"
-                      : "bg-zinc-950 border border-zinc-800 text-zinc-400 hover:text-zinc-200"
+                        ? "bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/20"
+                        : "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
+                      : "bg-slate-950 border border-slate-800 text-slate-400 hover:text-slate-200"
                   }`}
                 >
                   {Icon && <Icon className="w-3.5 h-3.5" />}
@@ -120,18 +119,17 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
           {/* Teams & Scorekeeper Buttons */}
           <div className="grid grid-cols-2 gap-4">
             {/* Team A */}
-            <div className="bg-zinc-950/80 border border-zinc-800 rounded-2xl p-4 text-center space-y-3">
+            <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 text-center space-y-3">
               <span className="text-3xl block">{teamA?.logo || "🛡️"}</span>
               <span className="font-bold text-white text-xs block truncate">
-                {teamA ? teamA.name : "TBD"}
+                {teamA ? teamA.name : match.placeholderA || "TBD"}
               </span>
 
-              {/* Large Score Counter */}
               <div className="flex items-center justify-center space-x-3">
                 <button
                   type="button"
                   onClick={() => setScoreA(Math.max(0, Number(scoreA) - 1))}
-                  className="w-9 h-9 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white flex items-center justify-center transition-colors shadow-sm"
+                  className="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-white flex items-center justify-center transition-colors shadow-sm"
                 >
                   <Minus className="w-4 h-4" />
                 </button>
@@ -140,12 +138,12 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
                   min="0"
                   value={scoreA}
                   onChange={(e) => setScoreA(e.target.value)}
-                  className="w-14 text-center bg-zinc-900 border border-zinc-700 rounded-xl py-1 text-2xl font-mono font-extrabold text-amber-400 focus:outline-none"
+                  className="w-14 text-center bg-slate-900 border border-slate-700 rounded-xl py-1 text-2xl font-mono font-extrabold text-blue-400 focus:outline-none"
                 />
                 <button
                   type="button"
                   onClick={() => setScoreA(Number(scoreA) + 1)}
-                  className="w-9 h-9 rounded-xl bg-amber-400 hover:bg-amber-300 text-zinc-950 flex items-center justify-center font-bold transition-colors shadow-sm shadow-amber-400/20"
+                  className="w-9 h-9 rounded-xl bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center font-bold transition-colors shadow-sm shadow-blue-500/20"
                 >
                   <Plus className="w-4 h-4" />
                 </button>
@@ -153,18 +151,17 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
             </div>
 
             {/* Team B */}
-            <div className="bg-zinc-950/80 border border-zinc-800 rounded-2xl p-4 text-center space-y-3">
+            <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 text-center space-y-3">
               <span className="text-3xl block">{teamB?.logo || "🛡️"}</span>
               <span className="font-bold text-white text-xs block truncate">
-                {teamB ? teamB.name : "TBD"}
+                {teamB ? teamB.name : match.placeholderB || "TBD"}
               </span>
 
-              {/* Large Score Counter */}
               <div className="flex items-center justify-center space-x-3">
                 <button
                   type="button"
                   onClick={() => setScoreB(Math.max(0, Number(scoreB) - 1))}
-                  className="w-9 h-9 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white flex items-center justify-center transition-colors shadow-sm"
+                  className="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-white flex items-center justify-center transition-colors shadow-sm"
                 >
                   <Minus className="w-4 h-4" />
                 </button>
@@ -173,12 +170,12 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
                   min="0"
                   value={scoreB}
                   onChange={(e) => setScoreB(e.target.value)}
-                  className="w-14 text-center bg-zinc-900 border border-zinc-700 rounded-xl py-1 text-2xl font-mono font-extrabold text-amber-400 focus:outline-none"
+                  className="w-14 text-center bg-slate-900 border border-slate-700 rounded-xl py-1 text-2xl font-mono font-extrabold text-blue-400 focus:outline-none"
                 />
                 <button
                   type="button"
                   onClick={() => setScoreB(Number(scoreB) + 1)}
-                  className="w-9 h-9 rounded-xl bg-amber-400 hover:bg-amber-300 text-zinc-950 flex items-center justify-center font-bold transition-colors shadow-sm shadow-amber-400/20"
+                  className="w-9 h-9 rounded-xl bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center font-bold transition-colors shadow-sm shadow-blue-500/20"
                 >
                   <Plus className="w-4 h-4" />
                 </button>
@@ -186,25 +183,25 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
             </div>
           </div>
 
-          {/* Winner Picker (if completed) */}
+          {/* Winner Picker */}
           {status === "COMPLETED" && (
-            <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-3.5 space-y-2">
-              <label className="text-xs text-amber-400 font-bold flex items-center space-x-1.5">
-                <Trophy className="w-3.5 h-3.5" />
+            <div className="bg-slate-950 border border-slate-800 rounded-2xl p-3.5 space-y-2">
+              <label className="text-xs text-blue-400 font-bold flex items-center space-x-1.5">
+                <Trophy className="w-3.5 h-3.5 text-amber-400" />
                 <span>Winner to Advance</span>
               </label>
               <select
                 value={winnerId}
                 onChange={(e) => setWinnerId(e.target.value)}
-                className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-amber-400"
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-blue-400"
               >
                 <option value="">Select Winner...</option>
                 {teamA && <option value={teamA.id}>{teamA.name}</option>}
                 {teamB && <option value={teamB.id}>{teamB.name}</option>}
               </select>
               {match.nextMatchId && (
-                <p className="text-[11px] text-zinc-500 italic">
-                  Selecting a winner will automatically route them to the next round bracket match!
+                <p className="text-[11px] text-slate-500 italic">
+                  Advancing winner will automatically populate the championship playoff slot!
                 </p>
               )}
             </div>
@@ -215,14 +212,14 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl text-xs font-semibold transition-colors"
+              className="flex-1 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-4 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-zinc-950 font-bold rounded-xl text-xs flex items-center justify-center space-x-1.5 transition-all shadow-lg shadow-orange-500/20 disabled:opacity-50"
+              className="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl text-xs flex items-center justify-center space-x-1.5 transition-all shadow-md shadow-blue-500/20 disabled:opacity-50"
             >
               <Save className="w-4 h-4" />
               <span>{loading ? "Saving..." : "Save Match"}</span>

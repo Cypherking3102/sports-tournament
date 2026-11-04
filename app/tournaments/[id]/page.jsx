@@ -12,12 +12,12 @@ import {
   Shield,
   ArrowLeft,
   Flame,
-  CheckCircle,
-  Share2
+  Layers
 } from "lucide-react";
 
 import BracketTree from "@/components/BracketTree";
 import PointsTable from "@/components/PointsTable";
+import GroupStageView from "@/components/GroupStageView";
 import MatchSchedule from "@/components/MatchSchedule";
 import RulesViewer from "@/components/RulesViewer";
 import ScoreModal from "@/components/ScoreModal";
@@ -27,7 +27,7 @@ export default function TournamentDetailPage({ params }) {
   const id = unwrappedParams.id;
 
   const [tournament, setTournament] = useState(null);
-  const [activeTab, setActiveTab] = useState("brackets");
+  const [activeTab, setActiveTab] = useState("groups");
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState(null);
@@ -46,9 +46,12 @@ export default function TournamentDetailPage({ params }) {
       const data = await res.json();
       setTournament(data);
 
-      // If format is ROUND_ROBIN, default tab to standings or schedule
-      if (data.format === "ROUND_ROBIN") {
+      if (data.format === "GROUP_KNOCKOUT") {
+        setActiveTab("groups");
+      } else if (data.format === "ROUND_ROBIN") {
         setActiveTab("standings");
+      } else {
+        setActiveTab("brackets");
       }
     } catch (err) {
       console.error(err);
@@ -81,8 +84,8 @@ export default function TournamentDetailPage({ params }) {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center space-y-4">
-        <div className="w-12 h-12 rounded-full border-2 border-amber-400 border-t-transparent animate-spin mx-auto"></div>
-        <p className="text-zinc-400 text-sm font-medium">Loading tournament fixtures...</p>
+        <div className="w-10 h-10 rounded-full border-2 border-blue-500 border-t-transparent animate-spin mx-auto"></div>
+        <p className="text-slate-400 text-sm font-medium">Loading parish tournament fixtures...</p>
       </div>
     );
   }
@@ -90,11 +93,11 @@ export default function TournamentDetailPage({ params }) {
   if (!tournament) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center space-y-4">
-        <Trophy className="w-12 h-12 text-zinc-600 mx-auto" />
+        <Trophy className="w-12 h-12 text-slate-600 mx-auto" />
         <h2 className="text-xl font-bold text-white">Tournament Not Found</h2>
         <Link
           href="/"
-          className="inline-flex items-center space-x-1.5 text-xs text-amber-400 hover:underline"
+          className="inline-flex items-center space-x-1.5 text-xs text-blue-400 hover:underline"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Tournaments</span>
@@ -111,38 +114,42 @@ export default function TournamentDetailPage({ params }) {
       <div className="flex items-center justify-between">
         <Link
           href="/"
-          className="inline-flex items-center space-x-1.5 text-xs font-semibold text-zinc-400 hover:text-white transition-colors"
+          className="inline-flex items-center space-x-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>All Tournaments</span>
         </Link>
 
         {isAdmin && (
-          <span className="flex items-center space-x-1.5 text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full">
+          <span className="flex items-center space-x-1.5 text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1 rounded-full">
             <Shield className="w-3.5 h-3.5" />
-            <span>Admin Mode (Scorekeeper Enabled)</span>
+            <span>Parish Admin Mode Active</span>
           </span>
         )}
       </div>
 
       {/* Tournament Banner Card */}
-      <div className="relative overflow-hidden rounded-3xl bg-zinc-900 border border-zinc-800 shadow-2xl">
-        <div className="relative h-56 sm:h-64 w-full bg-zinc-800">
+      <div className="relative overflow-hidden rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl">
+        <div className="relative h-60 sm:h-72 w-full bg-slate-800">
           <img
             src={tournament.bannerUrl}
             alt={tournament.title}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/70 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/75 to-transparent"></div>
 
           {/* Badges on banner */}
-          <div className="absolute top-4 left-4 flex items-center space-x-2">
-            <span className="px-3 py-1 rounded-full bg-zinc-950/80 backdrop-blur-md border border-zinc-700 text-xs font-bold text-white flex items-center space-x-1.5">
+          <div className="absolute top-4 left-4 flex flex-wrap items-center gap-2">
+            <span className="px-3.5 py-1 rounded-full bg-slate-950/90 backdrop-blur-md border border-slate-700 text-xs font-bold text-white flex items-center space-x-1.5">
               <span>{tournament.sportIcon}</span>
               <span>{tournament.sport}</span>
             </span>
-            <span className="px-3 py-1 rounded-full bg-amber-400 text-zinc-950 text-xs font-mono font-bold uppercase">
-              {tournament.format === "KNOCKOUT" ? "Knockout Bracket" : "Round Robin Table"}
+            <span className="px-3.5 py-1 rounded-full bg-blue-600 text-white text-xs font-mono font-bold uppercase">
+              {tournament.format === "GROUP_KNOCKOUT"
+                ? "Groups + Playoff Knockouts"
+                : tournament.format === "KNOCKOUT"
+                ? "Knockout Bracket"
+                : "Round Robin League"}
             </span>
             {liveMatches > 0 && (
               <span className="flex items-center space-x-1 px-3 py-1 rounded-full bg-red-500 text-white text-xs font-bold animate-pulse">
@@ -153,20 +160,20 @@ export default function TournamentDetailPage({ params }) {
           </div>
 
           {/* Banner bottom details */}
-          <div className="absolute bottom-4 left-4 right-4 sm:left-8 sm:right-8">
+          <div className="absolute bottom-5 left-4 right-4 sm:left-8 sm:right-8">
             <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
               {tournament.title}
             </h1>
-            <div className="flex flex-wrap items-center gap-4 text-xs text-zinc-300 mt-2">
+            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-300 mt-2">
               <span className="flex items-center space-x-1">
-                <MapPin className="w-3.5 h-3.5 text-amber-400" />
+                <MapPin className="w-3.5 h-3.5 text-blue-400" />
                 <span>{tournament.location}</span>
               </span>
               <span className="flex items-center space-x-1">
-                <Calendar className="w-3.5 h-3.5 text-amber-400" />
+                <Calendar className="w-3.5 h-3.5 text-blue-400" />
                 <span>{tournament.startDate}</span>
               </span>
-              <span className="font-mono text-zinc-400">
+              <span className="font-mono text-slate-400">
                 Organizer: {tournament.organizer}
               </span>
             </div>
@@ -174,14 +181,42 @@ export default function TournamentDetailPage({ params }) {
         </div>
 
         {/* Tab Navigation */}
-        <div className="px-4 sm:px-8 border-t border-zinc-800 bg-zinc-950/90 flex items-center space-x-2 sm:space-x-4 overflow-x-auto scrollbar-none">
+        <div className="px-4 sm:px-8 border-t border-slate-800 bg-slate-950/95 flex items-center space-x-2 sm:space-x-4 overflow-x-auto scrollbar-none">
+          {tournament.format === "GROUP_KNOCKOUT" && (
+            <>
+              <button
+                onClick={() => setActiveTab("groups")}
+                className={`py-3.5 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center space-x-2 whitespace-nowrap ${
+                  activeTab === "groups"
+                    ? "border-blue-500 text-blue-400"
+                    : "border-transparent text-slate-400 hover:text-white"
+                }`}
+              >
+                <Layers className="w-4 h-4" />
+                <span>Group Stage & Tables</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab("brackets")}
+                className={`py-3.5 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center space-x-2 whitespace-nowrap ${
+                  activeTab === "brackets"
+                    ? "border-blue-500 text-blue-400"
+                    : "border-transparent text-slate-400 hover:text-white"
+                }`}
+              >
+                <Trophy className="w-4 h-4" />
+                <span>Championship Playoffs</span>
+              </button>
+            </>
+          )}
+
           {tournament.format === "KNOCKOUT" && (
             <button
               onClick={() => setActiveTab("brackets")}
               className={`py-3.5 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center space-x-2 whitespace-nowrap ${
                 activeTab === "brackets"
-                  ? "border-amber-400 text-amber-400"
-                  : "border-transparent text-zinc-400 hover:text-white"
+                  ? "border-blue-500 text-blue-400"
+                  : "border-transparent text-slate-400 hover:text-white"
               }`}
             >
               <Trophy className="w-4 h-4" />
@@ -194,8 +229,8 @@ export default function TournamentDetailPage({ params }) {
               onClick={() => setActiveTab("standings")}
               className={`py-3.5 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center space-x-2 whitespace-nowrap ${
                 activeTab === "standings"
-                  ? "border-amber-400 text-amber-400"
-                  : "border-transparent text-zinc-400 hover:text-white"
+                  ? "border-blue-500 text-blue-400"
+                  : "border-transparent text-slate-400 hover:text-white"
               }`}
             >
               <TrendingUp className="w-4 h-4" />
@@ -207,31 +242,39 @@ export default function TournamentDetailPage({ params }) {
             onClick={() => setActiveTab("schedule")}
             className={`py-3.5 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center space-x-2 whitespace-nowrap ${
               activeTab === "schedule"
-                ? "border-amber-400 text-amber-400"
-                : "border-transparent text-zinc-400 hover:text-white"
+                ? "border-blue-500 text-blue-400"
+                : "border-transparent text-slate-400 hover:text-white"
             }`}
           >
             <CalendarDays className="w-4 h-4" />
-            <span>Schedule & Scores</span>
+            <span>Complete Fixtures</span>
           </button>
 
           <button
             onClick={() => setActiveTab("rules")}
             className={`py-3.5 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center space-x-2 whitespace-nowrap ${
               activeTab === "rules"
-                ? "border-amber-400 text-amber-400"
-                : "border-transparent text-zinc-400 hover:text-white"
+                ? "border-blue-500 text-blue-400"
+                : "border-transparent text-slate-400 hover:text-white"
             }`}
           >
             <BookOpen className="w-4 h-4" />
-            <span>Rules & Regulations</span>
+            <span>Parish Rules</span>
           </button>
         </div>
       </div>
 
       {/* Tab Panels */}
       <div>
-        {activeTab === "brackets" && tournament.format === "KNOCKOUT" && (
+        {activeTab === "groups" && tournament.format === "GROUP_KNOCKOUT" && (
+          <GroupStageView
+            tournament={tournament}
+            isAdmin={isAdmin}
+            onEditMatch={(m) => setSelectedMatch(m)}
+          />
+        )}
+
+        {activeTab === "brackets" && (
           <BracketTree
             tournament={tournament}
             isAdmin={isAdmin}

@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { BookOpen, Search, ShieldCheck, Plus, Sparkles, ChevronDown } from "lucide-react";
+import { BookOpen, Search, Plus, Sparkles } from "lucide-react";
 
 export default function RulesViewer({ tournament, isAdmin, onAddRule }) {
   const { rules = [], title, sport, sportIcon } = tournament;
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("ALL");
   const [newTitle, setNewTitle] = useState("");
-  const [newCategory, setNewCategory] = useState("Gameplay");
+  const [newCategory, setNewCategory] = useState("Code of Conduct");
   const [newContent, setNewContent] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
 
@@ -42,24 +42,24 @@ export default function RulesViewer({ tournament, isAdmin, onAddRule }) {
   return (
     <div className="space-y-6">
       {/* Rules Header Card */}
-      <div className="bg-gradient-to-r from-zinc-900 via-zinc-900 to-amber-950/20 border border-zinc-800 rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-blue-950/30 border border-slate-800 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center space-x-2 text-amber-400 text-xs font-bold uppercase tracking-wider mb-1">
+          <div className="flex items-center space-x-2 text-blue-400 text-xs font-bold uppercase tracking-wider mb-1">
             <BookOpen className="w-4 h-4" />
-            <span>Official Tournament Rulebook</span>
+            <span>Official Parish Rulebook & Guidelines</span>
           </div>
           <h2 className="text-xl font-extrabold text-white">
-            {sportIcon} {sport} Regulations & Guidelines
+            {sportIcon} {sport} Regulations for {title}
           </h2>
-          <p className="text-xs text-zinc-400 mt-1 max-w-xl">
-            Governing rules, tie-breaker regulations, and participant conduct for {title}.
+          <p className="text-xs text-slate-400 mt-1 max-w-xl">
+            Governing rules, group qualification criteria, tie-breakers, and Christian conduct.
           </p>
         </div>
 
         {isAdmin && (
           <button
             onClick={() => setShowAddForm(!showAddForm)}
-            className="flex items-center space-x-2 bg-amber-400 hover:bg-amber-300 text-zinc-950 px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-md shadow-amber-400/20 self-start md:self-auto"
+            className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-md shadow-blue-500/20 self-start md:self-auto"
           >
             <Plus className="w-4 h-4" />
             <span>Add Rule Section</span>
@@ -71,17 +71,17 @@ export default function RulesViewer({ tournament, isAdmin, onAddRule }) {
       {showAddForm && isAdmin && (
         <form
           onSubmit={handleCreateRule}
-          className="bg-zinc-900 border border-amber-400/40 rounded-2xl p-5 space-y-4 shadow-xl"
+          className="bg-slate-900 border border-blue-500/40 rounded-3xl p-5 space-y-4 shadow-xl"
         >
-          <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <span className="font-bold text-sm text-white flex items-center space-x-2">
-              <Sparkles className="w-4 h-4 text-amber-400" />
+              <Sparkles className="w-4 h-4 text-blue-400" />
               <span>Create New Rule Section</span>
             </span>
             <button
               type="button"
               onClick={() => setShowAddForm(false)}
-              className="text-xs text-zinc-400 hover:text-white"
+              className="text-xs text-slate-400 hover:text-white"
             >
               Cancel
             </button>
@@ -89,37 +89,37 @@ export default function RulesViewer({ tournament, isAdmin, onAddRule }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs text-zinc-400 block mb-1 font-medium">Rule Title</label>
+              <label className="text-xs text-slate-400 block mb-1 font-medium">Rule Title</label>
               <input
                 type="text"
                 placeholder="e.g. Tie-Breaker Procedure"
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-amber-400"
+                className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-400"
                 required
               />
             </div>
             <div>
-              <label className="text-xs text-zinc-400 block mb-1 font-medium">Category</label>
+              <label className="text-xs text-slate-400 block mb-1 font-medium">Category</label>
               <input
                 type="text"
-                placeholder="e.g. Gameplay, Knockout, Rosters, Conduct"
+                placeholder="e.g. Code of Conduct, Gameplay, Rosters"
                 value={newCategory}
                 onChange={(e) => setNewCategory(e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-amber-400"
+                className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-400"
                 required
               />
             </div>
           </div>
 
           <div>
-            <label className="text-xs text-zinc-400 block mb-1 font-medium">Rule Details</label>
+            <label className="text-xs text-slate-400 block mb-1 font-medium">Rule Details</label>
             <textarea
               rows={3}
-              placeholder="Describe the rule regulations, overtime conditions, card counts, penalties..."
+              placeholder="Describe parish regulations, player eligibility, card rules..."
               value={newContent}
               onChange={(e) => setNewContent(e.target.value)}
-              className="w-full bg-zinc-950 border border-zinc-700 rounded-xl p-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-amber-400"
+              className="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-400"
               required
             ></textarea>
           </div>
@@ -127,7 +127,7 @@ export default function RulesViewer({ tournament, isAdmin, onAddRule }) {
           <div className="flex justify-end">
             <button
               type="submit"
-              className="px-4 py-2 bg-amber-400 hover:bg-amber-300 text-zinc-950 font-bold text-xs rounded-xl transition-all"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl transition-all"
             >
               Publish Rule
             </button>
@@ -138,13 +138,13 @@ export default function RulesViewer({ tournament, isAdmin, onAddRule }) {
       {/* Search & Category Pills */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         <div className="relative flex-1 max-w-sm">
-          <Search className="w-4 h-4 text-zinc-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search rules (e.g. overtime, penalties, subs)..."
+            placeholder="Search rules (e.g. prayer, penalties, rosters)..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-amber-400"
+            className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-400"
           />
         </div>
 
@@ -155,8 +155,8 @@ export default function RulesViewer({ tournament, isAdmin, onAddRule }) {
               onClick={() => setSelectedCategory(cat)}
               className={`px-3 py-1.5 rounded-xl font-semibold transition-all whitespace-nowrap ${
                 selectedCategory === cat
-                  ? "bg-amber-400 text-zinc-950"
-                  : "bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white"
+                  ? "bg-blue-600 text-white"
+                  : "bg-slate-900 border border-slate-800 text-slate-400 hover:text-white"
               }`}
             >
               {cat}
@@ -167,7 +167,7 @@ export default function RulesViewer({ tournament, isAdmin, onAddRule }) {
 
       {/* Rules Cards */}
       {filteredRules.length === 0 ? (
-        <div className="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl p-8 text-center text-zinc-500 text-sm">
+        <div className="bg-slate-900/40 border border-slate-800 rounded-3xl p-8 text-center text-slate-500 text-sm">
           No rules found matching your search.
         </div>
       ) : (
@@ -175,20 +175,20 @@ export default function RulesViewer({ tournament, isAdmin, onAddRule }) {
           {filteredRules.map((rule, idx) => (
             <div
               key={rule.id || idx}
-              className="bg-zinc-900/70 border border-zinc-800 rounded-2xl p-5 hover:border-zinc-700 transition-colors"
+              className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition-colors"
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center space-x-2.5">
-                  <span className="w-6 h-6 rounded-lg bg-amber-400/10 text-amber-400 border border-amber-400/20 flex items-center justify-center text-xs font-mono font-bold">
+                  <span className="w-6 h-6 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 flex items-center justify-center text-xs font-mono font-bold">
                     {idx + 1}
                   </span>
                   <h4 className="font-bold text-white text-sm">{rule.title}</h4>
                 </div>
-                <span className="text-[10px] text-zinc-400 bg-zinc-800/80 px-2.5 py-0.5 rounded-full font-mono">
+                <span className="text-[10px] text-slate-400 bg-slate-950 px-2.5 py-0.5 rounded-full font-mono border border-slate-800">
                   {rule.category || "General"}
                 </span>
               </div>
-              <p className="text-zinc-300 text-xs leading-relaxed pl-8">
+              <p className="text-slate-300 text-xs leading-relaxed pl-8">
                 {rule.content}
               </p>
             </div>

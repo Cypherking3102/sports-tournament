@@ -1,286 +1,483 @@
 [
   {
-    "id": "tourney-football-2026",
-    "title": "Metro Champions Cup 2026",
+    "id": "dm-football-cup-2026",
+    "title": "Divine Mercy Parish Annual Football Cup 2026",
     "sport": "Football",
     "sportIcon": "⚽",
     "scoreUnit": "Goals",
-    "bannerUrl": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80",
-    "format": "KNOCKOUT",
+    "bannerUrl": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80",
+    "format": "GROUP_KNOCKOUT",
     "status": "LIVE",
-    "startDate": "2026-11-10",
-    "endDate": "2026-11-20",
-    "location": "National Sports Arena, Pitch A",
-    "organizer": "City Football Association",
-    "description": "The premier 8-team knockout football tournament featuring the region's elite clubs competing for the prestigious Champions Trophy.",
+    "startDate": "2026-11-08",
+    "endDate": "2026-11-22",
+    "location": "Divine Mercy Parish Grounds & Turf",
+    "organizer": "Divine Mercy Parish Youth & Sports Ministry",
+    "description": "The marquee annual inter-ward football tournament of Divine Mercy Church. 8 parish communities compete across Group A and Group B, with the top 2 teams advancing to the Knockout Semi-Finals and Championship Final.",
+    "groups": [
+      {
+        "id": "grp-a",
+        "name": "Group A",
+        "teams": [
+          {
+            "id": "tm-a1",
+            "name": "St. Joseph Ward",
+            "shortName": "SJW",
+            "seed": 1,
+            "logo": "🦁"
+          },
+          {
+            "id": "tm-a2",
+            "name": "St. Jude Ward",
+            "shortName": "SJD",
+            "seed": 2,
+            "logo": "🛡️"
+          },
+          {
+            "id": "tm-a3",
+            "name": "St. Anthony Ward",
+            "shortName": "SAW",
+            "seed": 3,
+            "logo": "⚔️"
+          },
+          {
+            "id": "tm-a4",
+            "name": "St. Michael Ward",
+            "shortName": "SMW",
+            "seed": 4,
+            "logo": "🦅"
+          }
+        ]
+      },
+      {
+        "id": "grp-b",
+        "name": "Group B",
+        "teams": [
+          {
+            "id": "tm-b1",
+            "name": "St. Peter Ward",
+            "shortName": "SPW",
+            "seed": 1,
+            "logo": "🗝️"
+          },
+          {
+            "id": "tm-b2",
+            "name": "Mother Teresa Community",
+            "shortName": "MTC",
+            "seed": 2,
+            "logo": "🕊️"
+          },
+          {
+            "id": "tm-b3",
+            "name": "St. Francis Ward",
+            "shortName": "SFW",
+            "seed": 3,
+            "logo": "🐺"
+          },
+          {
+            "id": "tm-b4",
+            "name": "Holy Family Youth",
+            "shortName": "HFY",
+            "seed": 4,
+            "logo": "🌟"
+          }
+        ]
+      }
+    ],
     "teams": [
       {
-        "id": "tm-1",
-        "name": "Red Dragons FC",
-        "shortName": "RDF",
+        "id": "tm-a1",
+        "name": "St. Joseph Ward",
+        "shortName": "SJW",
         "seed": 1,
-        "logo": "🐉"
+        "logo": "🦁",
+        "groupId": "grp-a"
       },
       {
-        "id": "tm-2",
-        "name": "Apex Thunder",
-        "shortName": "APT",
+        "id": "tm-a2",
+        "name": "St. Jude Ward",
+        "shortName": "SJD",
         "seed": 2,
-        "logo": "⚡"
+        "logo": "🛡️",
+        "groupId": "grp-a"
       },
       {
-        "id": "tm-3",
-        "name": "Silver Strikers",
-        "shortName": "SST",
+        "id": "tm-a3",
+        "name": "St. Anthony Ward",
+        "shortName": "SAW",
         "seed": 3,
-        "logo": "⚔️"
+        "logo": "⚔️",
+        "groupId": "grp-a"
       },
       {
-        "id": "tm-4",
-        "name": "Phoenix United",
-        "shortName": "PHX",
+        "id": "tm-a4",
+        "name": "St. Michael Ward",
+        "shortName": "SMW",
         "seed": 4,
-        "logo": "🔥"
+        "logo": "🦅",
+        "groupId": "grp-a"
       },
       {
-        "id": "tm-5",
-        "name": "Blue Falcons",
-        "shortName": "BLF",
-        "seed": 5,
-        "logo": "🦅"
+        "id": "tm-b1",
+        "name": "St. Peter Ward",
+        "shortName": "SPW",
+        "seed": 1,
+        "logo": "🗝️",
+        "groupId": "grp-b"
       },
       {
-        "id": "tm-6",
-        "name": "Iron Wolves",
-        "shortName": "IRW",
-        "seed": 6,
-        "logo": "🐺"
+        "id": "tm-b2",
+        "name": "Mother Teresa Community",
+        "shortName": "MTC",
+        "seed": 2,
+        "logo": "🕊️",
+        "groupId": "grp-b"
       },
       {
-        "id": "tm-7",
-        "name": "Golden Titans",
-        "shortName": "GTI",
-        "seed": 7,
-        "logo": "🛡️"
+        "id": "tm-b3",
+        "name": "St. Francis Ward",
+        "shortName": "SFW",
+        "seed": 3,
+        "logo": "🐺",
+        "groupId": "grp-b"
       },
       {
-        "id": "tm-8",
-        "name": "Shadow Cobras",
-        "shortName": "SCB",
-        "seed": 8,
-        "logo": "🐍"
+        "id": "tm-b4",
+        "name": "Holy Family Youth",
+        "shortName": "HFY",
+        "seed": 4,
+        "logo": "🌟",
+        "groupId": "grp-b"
       }
     ],
     "rules": [
       {
-        "id": "rule-1",
-        "title": "Match Duration & Intervals",
-        "category": "Gameplay",
-        "content": "Matches consist of two 45-minute halves with a 15-minute halftime interval. Stoppage time is added at the referee's discretion based on injury delays and substitutions."
+        "id": "dm-rule-1",
+        "title": "Christian Fellowship & Fair Play",
+        "category": "Code of Conduct",
+        "content": "All matches begin with a joint team prayer in the center circle. Mutual respect, exemplary sportsmanship, and polite language towards opponents and referees are mandatory at all times."
       },
       {
-        "id": "rule-2",
-        "title": "Overtime & Tie-Breakers",
-        "category": "Knockout Rules",
-        "content": "In the event of a tie at the end of normal time, two 15-minute extra time periods will be played. If scores remain tied, a standard FIFA-sanctioned penalty shootout (5 kicks each, then sudden death) will determine the advancing team."
-      },
-      {
-        "id": "rule-3",
-        "title": "Substitutions & Rosters",
+        "id": "dm-rule-2",
+        "title": "Parishioner Eligibility & Verification",
         "category": "Rosters",
-        "content": "Each team may register up to 18 players per matchday squad (11 starting, 7 substitutes). A maximum of 5 substitutions are permitted over 3 substitution windows (excluding halftime)."
+        "content": "All players must be registered parish members of Divine Mercy Church residing within their respective ward boundaries. Squad lists (14 players maximum) must be certified by the parish priest."
       },
       {
-        "id": "rule-4",
-        "title": "Disciplinary Code & Cards",
-        "category": "Conduct",
-        "content": "Two yellow cards in consecutive matches result in a one-match suspension. A direct red card results in an automatic minimum one-match suspension, subject to review by the tournament disciplinary committee."
+        "id": "dm-rule-3",
+        "title": "Group Stage Qualification & Tie-Breakers",
+        "category": "Tournament Format",
+        "content": "Teams play a round-robin within their group. Win = 3 points, Draw = 1 point, Loss = 0 points. Top 2 teams from Group A and Group B advance to the Semi-Finals. Tie-breakers: 1) Head-to-Head result, 2) Goal Difference, 3) Higher Goals Scored."
+      },
+      {
+        "id": "dm-rule-4",
+        "title": "Playoff Semi-Finals & Final Structure",
+        "category": "Knockout Rules",
+        "content": "Semi-Final 1: Winner Group A vs Runner-up Group B. Semi-Final 2: Winner Group B vs Runner-up Group A. If tied at full time, direct penalty shootout (5 kicks each) decides the advancing team."
       }
     ],
     "matches": [
       {
-        "id": "m-qf-1",
+        "id": "ga-m-1",
         "round": 1,
-        "roundName": "Quarter-Final 1",
-        "stageName": "Quarter-Finals",
-        "teamAId": "tm-1",
-        "teamBId": "tm-8",
+        "roundName": "Group A - Matchday 1",
+        "stageName": "Group A",
+        "groupId": "grp-a",
+        "teamAId": "tm-a1",
+        "teamBId": "tm-a2",
         "scoreA": 3,
         "scoreB": 1,
         "status": "COMPLETED",
-        "winnerId": "tm-1",
-        "nextMatchId": "m-sf-1",
-        "nextMatchSlot": "A",
-        "scheduledAt": "2026-11-10 14:00",
-        "venue": "Pitch 1"
+        "winnerId": "tm-a1",
+        "scheduledAt": "2026-11-08 15:30",
+        "venue": "Parish Main Turf"
       },
       {
-        "id": "m-qf-2",
+        "id": "ga-m-2",
         "round": 1,
-        "roundName": "Quarter-Final 2",
-        "stageName": "Quarter-Finals",
-        "teamAId": "tm-4",
-        "teamBId": "tm-5",
+        "roundName": "Group A - Matchday 1",
+        "stageName": "Group A",
+        "groupId": "grp-a",
+        "teamAId": "tm-a3",
+        "teamBId": "tm-a4",
+        "scoreA": 1,
+        "scoreB": 1,
+        "status": "COMPLETED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-08 17:00",
+        "venue": "Parish Main Turf"
+      },
+      {
+        "id": "ga-m-3",
+        "round": 2,
+        "roundName": "Group A - Matchday 2",
+        "stageName": "Group A",
+        "groupId": "grp-a",
+        "teamAId": "tm-a1",
+        "teamBId": "tm-a3",
         "scoreA": 2,
         "scoreB": 0,
         "status": "COMPLETED",
-        "winnerId": "tm-4",
-        "nextMatchId": "m-sf-1",
-        "nextMatchSlot": "B",
-        "scheduledAt": "2026-11-10 16:30",
-        "venue": "Pitch 1"
+        "winnerId": "tm-a1",
+        "scheduledAt": "2026-11-12 15:30",
+        "venue": "Parish Main Turf"
       },
       {
-        "id": "m-qf-3",
-        "round": 1,
-        "roundName": "Quarter-Final 3",
-        "stageName": "Quarter-Finals",
-        "teamAId": "tm-2",
-        "teamBId": "tm-7",
+        "id": "ga-m-4",
+        "round": 2,
+        "roundName": "Group A - Matchday 2",
+        "stageName": "Group A",
+        "groupId": "grp-a",
+        "teamAId": "tm-a4",
+        "teamBId": "tm-a2",
         "scoreA": 2,
         "scoreB": 2,
         "status": "LIVE",
         "winnerId": null,
-        "nextMatchId": "m-sf-2",
-        "nextMatchSlot": "A",
-        "scheduledAt": "2026-11-11 14:00",
-        "venue": "Pitch 2"
+        "scheduledAt": "2026-11-12 17:00",
+        "venue": "Parish Main Turf"
       },
       {
-        "id": "m-qf-4",
-        "round": 1,
-        "roundName": "Quarter-Final 4",
-        "stageName": "Quarter-Finals",
-        "teamAId": "tm-3",
-        "teamBId": "tm-6",
-        "scoreA": 0,
-        "scoreB": 0,
-        "status": "SCHEDULED",
-        "winnerId": null,
-        "nextMatchId": "m-sf-2",
-        "nextMatchSlot": "B",
-        "scheduledAt": "2026-11-11 16:30",
-        "venue": "Pitch 2"
-      },
-      {
-        "id": "m-sf-1",
-        "round": 2,
-        "roundName": "Semi-Final 1",
-        "stageName": "Semi-Finals",
-        "teamAId": "tm-1",
-        "teamBId": "tm-4",
-        "scoreA": 0,
-        "scoreB": 0,
-        "status": "SCHEDULED",
-        "winnerId": null,
-        "nextMatchId": "m-fn-1",
-        "nextMatchSlot": "A",
-        "scheduledAt": "2026-11-15 17:00",
-        "venue": "Main Stadium"
-      },
-      {
-        "id": "m-sf-2",
-        "round": 2,
-        "roundName": "Semi-Final 2",
-        "stageName": "Semi-Finals",
-        "teamAId": null,
-        "teamBId": null,
-        "scoreA": 0,
-        "scoreB": 0,
-        "status": "SCHEDULED",
-        "winnerId": null,
-        "nextMatchId": "m-fn-1",
-        "nextMatchSlot": "B",
-        "scheduledAt": "2026-11-15 19:30",
-        "venue": "Main Stadium"
-      },
-      {
-        "id": "m-fn-1",
+        "id": "ga-m-5",
         "round": 3,
+        "roundName": "Group A - Matchday 3",
+        "stageName": "Group A",
+        "groupId": "grp-a",
+        "teamAId": "tm-a1",
+        "teamBId": "tm-a4",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-15 15:30",
+        "venue": "Parish Main Turf"
+      },
+      {
+        "id": "ga-m-6",
+        "round": 3,
+        "roundName": "Group A - Matchday 3",
+        "stageName": "Group A",
+        "groupId": "grp-a",
+        "teamAId": "tm-a2",
+        "teamBId": "tm-a3",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-15 17:00",
+        "venue": "Parish Main Turf"
+      },
+      {
+        "id": "gb-m-1",
+        "round": 1,
+        "roundName": "Group B - Matchday 1",
+        "stageName": "Group B",
+        "groupId": "grp-b",
+        "teamAId": "tm-b1",
+        "teamBId": "tm-b2",
+        "scoreA": 2,
+        "scoreB": 1,
+        "status": "COMPLETED",
+        "winnerId": "tm-b1",
+        "scheduledAt": "2026-11-09 15:30",
+        "venue": "Parish Main Turf"
+      },
+      {
+        "id": "gb-m-2",
+        "round": 1,
+        "roundName": "Group B - Matchday 1",
+        "stageName": "Group B",
+        "groupId": "grp-b",
+        "teamAId": "tm-b3",
+        "teamBId": "tm-b4",
+        "scoreA": 1,
+        "scoreB": 3,
+        "status": "COMPLETED",
+        "winnerId": "tm-b4",
+        "scheduledAt": "2026-11-09 17:00",
+        "venue": "Parish Main Turf"
+      },
+      {
+        "id": "gb-m-3",
+        "round": 2,
+        "roundName": "Group B - Matchday 2",
+        "stageName": "Group B",
+        "groupId": "grp-b",
+        "teamAId": "tm-b1",
+        "teamBId": "tm-b3",
+        "scoreA": 4,
+        "scoreB": 1,
+        "status": "COMPLETED",
+        "winnerId": "tm-b1",
+        "scheduledAt": "2026-11-13 15:30",
+        "venue": "Parish Main Turf"
+      },
+      {
+        "id": "gb-m-4",
+        "round": 2,
+        "roundName": "Group B - Matchday 2",
+        "stageName": "Group B",
+        "groupId": "grp-b",
+        "teamAId": "tm-b4",
+        "teamBId": "tm-b2",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-13 17:00",
+        "venue": "Parish Main Turf"
+      },
+      {
+        "id": "gb-m-5",
+        "round": 3,
+        "roundName": "Group B - Matchday 3",
+        "stageName": "Group B",
+        "groupId": "grp-b",
+        "teamAId": "tm-b1",
+        "teamBId": "tm-b4",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-16 15:30",
+        "venue": "Parish Main Turf"
+      },
+      {
+        "id": "gb-m-6",
+        "round": 3,
+        "roundName": "Group B - Matchday 3",
+        "stageName": "Group B",
+        "groupId": "grp-b",
+        "teamAId": "tm-b2",
+        "teamBId": "tm-b3",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-16 17:00",
+        "venue": "Parish Main Turf"
+      },
+      {
+        "id": "dm-po-sf1",
+        "round": 1,
+        "roundName": "Semi-Final 1",
+        "stageName": "Playoff Semi-Finals",
+        "groupId": "PLAYOFFS",
+        "teamAId": "tm-a1",
+        "teamBId": "tm-b4",
+        "placeholderA": "Winner Group A",
+        "placeholderB": "Runner-up Group B",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "nextMatchId": "dm-po-final",
+        "nextMatchSlot": "A",
+        "scheduledAt": "2026-11-20 16:00",
+        "venue": "Parish Main Turf Stadium"
+      },
+      {
+        "id": "dm-po-sf2",
+        "round": 1,
+        "roundName": "Semi-Final 2",
+        "stageName": "Playoff Semi-Finals",
+        "groupId": "PLAYOFFS",
+        "teamAId": "tm-b1",
+        "teamBId": "tm-a4",
+        "placeholderA": "Winner Group B",
+        "placeholderB": "Runner-up Group A",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "nextMatchId": "dm-po-final",
+        "nextMatchSlot": "B",
+        "scheduledAt": "2026-11-20 17:30",
+        "venue": "Parish Main Turf Stadium"
+      },
+      {
+        "id": "dm-po-final",
+        "round": 2,
         "roundName": "Championship Final",
-        "stageName": "Final",
+        "stageName": "Championship Final",
+        "groupId": "PLAYOFFS",
         "teamAId": null,
         "teamBId": null,
+        "placeholderA": "Winner Semi-Final 1",
+        "placeholderB": "Winner Semi-Final 2",
         "scoreA": 0,
         "scoreB": 0,
         "status": "SCHEDULED",
         "winnerId": null,
         "nextMatchId": null,
         "nextMatchSlot": null,
-        "scheduledAt": "2026-11-20 18:00",
-        "venue": "Grand Arena Stadium"
+        "scheduledAt": "2026-11-22 18:00",
+        "venue": "Divine Mercy Parish Main Ground"
       }
     ]
   },
   {
-    "id": "tourney-basketball-2026",
-    "title": "City Hoops League (Round Robin)",
+    "id": "dm-youth-basketball-2026",
+    "title": "Divine Mercy Youth Basketball Trophy",
     "sport": "Basketball",
     "sportIcon": "🏀",
     "scoreUnit": "Points",
     "bannerUrl": "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80",
     "format": "ROUND_ROBIN",
     "status": "LIVE",
-    "startDate": "2026-11-05",
-    "endDate": "2026-11-28",
-    "location": "Downtown Sports Complex, Court 1",
-    "organizer": "Metropolitan Basketball Federation",
-    "description": "A 5-team round robin tournament where every team battles for league supremacy. Top 2 teams advance to the Super Cup.",
+    "startDate": "2026-11-10",
+    "endDate": "2026-11-25",
+    "location": "Parish Indoor Court",
+    "organizer": "Divine Mercy Parish Youth Group",
+    "description": "An exciting 5-team round-robin basketball league fostering community, discipline, and healthy competition among parish youths.",
     "teams": [
       {
         "id": "bb-1",
-        "name": "Metro Vipers",
-        "shortName": "VIP",
+        "name": "Mercy Sparks",
+        "shortName": "MSP",
         "seed": 1,
-        "logo": "🐍"
+        "logo": "⚡"
       },
       {
         "id": "bb-2",
-        "name": "Skyline Dunkers",
-        "shortName": "SKD",
+        "name": "Divine Dunkers",
+        "shortName": "DDK",
         "seed": 2,
-        "logo": "🌆"
+        "logo": "🔥"
       },
       {
         "id": "bb-3",
-        "name": "Harbor Sharks",
-        "shortName": "SHK",
+        "name": "St. Paul Hoopers",
+        "shortName": "SPH",
         "seed": 3,
-        "logo": "🦈"
+        "logo": "🛡️"
       },
       {
         "id": "bb-4",
-        "name": "Glacier Grizzlies",
-        "shortName": "GRZ",
+        "name": "Youth Crusaders",
+        "shortName": "YCR",
         "seed": 4,
-        "logo": "🐻"
+        "logo": "⚔️"
       },
       {
         "id": "bb-5",
-        "name": "Blaze Hoopers",
-        "shortName": "BLZ",
+        "name": "Faith Warriors",
+        "shortName": "FWR",
         "seed": 5,
-        "logo": "🔥"
+        "logo": "🦅"
       }
     ],
     "rules": [
       {
         "id": "brule-1",
-        "title": "Quarter Duration & Shot Clock",
+        "title": "Match Timing & Quarters",
         "category": "Gameplay",
-        "content": "4 quarters of 10 minutes stop-clock time. Standard 24-second shot clock (reset to 14 seconds on offensive rebound)."
+        "content": "4 quarters of 10 minutes running clock. The clock stops for timeouts, free throws, and in the last 2 minutes of the final quarter."
       },
       {
         "id": "brule-2",
-        "title": "Points System for Standings",
+        "title": "League Points & Standings",
         "category": "Scoring",
-        "content": "Win = 2 Points, Loss = 1 Point, Forfeit = 0 Points. Standings tie-breakers: 1) Head-to-head result, 2) Point differential, 3) Total points scored."
-      },
-      {
-        "id": "brule-3",
-        "title": "Foul Limits & Overtime",
-        "category": "Regulation",
-        "content": "5 personal fouls per player disqualifies the player. 5-minute overtime periods played until a winner is decided (no ties allowed)."
+        "content": "Win = 2 Points, Loss = 1 Point, Forfeit = 0 Points. Head-to-head record breaks ties in the final points table."
       }
     ],
     "matches": [
@@ -291,12 +488,12 @@
         "stageName": "League Stage",
         "teamAId": "bb-1",
         "teamBId": "bb-2",
-        "scoreA": 88,
-        "scoreB": 82,
+        "scoreA": 64,
+        "scoreB": 58,
         "status": "COMPLETED",
         "winnerId": "bb-1",
-        "scheduledAt": "2026-11-05 18:00",
-        "venue": "Court 1"
+        "scheduledAt": "2026-11-10 17:00",
+        "venue": "Parish Indoor Court"
       },
       {
         "id": "bb-m-2",
@@ -305,12 +502,12 @@
         "stageName": "League Stage",
         "teamAId": "bb-3",
         "teamBId": "bb-4",
-        "scoreA": 76,
-        "scoreB": 80,
+        "scoreA": 52,
+        "scoreB": 50,
         "status": "COMPLETED",
-        "winnerId": "bb-4",
-        "scheduledAt": "2026-11-05 20:00",
-        "venue": "Court 1"
+        "winnerId": "bb-3",
+        "scheduledAt": "2026-11-10 18:30",
+        "venue": "Parish Indoor Court"
       },
       {
         "id": "bb-m-3",
@@ -319,12 +516,12 @@
         "stageName": "League Stage",
         "teamAId": "bb-5",
         "teamBId": "bb-1",
-        "scoreA": 91,
-        "scoreB": 94,
+        "scoreA": 48,
+        "scoreB": 55,
         "status": "COMPLETED",
         "winnerId": "bb-1",
-        "scheduledAt": "2026-11-12 18:00",
-        "venue": "Court 1"
+        "scheduledAt": "2026-11-14 17:00",
+        "venue": "Parish Indoor Court"
       },
       {
         "id": "bb-m-4",
@@ -333,90 +530,76 @@
         "stageName": "League Stage",
         "teamAId": "bb-2",
         "teamBId": "bb-3",
-        "scoreA": 71,
-        "scoreB": 69,
+        "scoreA": 41,
+        "scoreB": 39,
         "status": "LIVE",
         "winnerId": null,
-        "scheduledAt": "2026-11-12 20:00",
-        "venue": "Court 1"
-      },
-      {
-        "id": "bb-m-5",
-        "round": 3,
-        "roundName": "Week 3",
-        "stageName": "League Stage",
-        "teamAId": "bb-4",
-        "teamBId": "bb-5",
-        "scoreA": 0,
-        "scoreB": 0,
-        "status": "SCHEDULED",
-        "winnerId": null,
-        "scheduledAt": "2026-11-19 18:00",
-        "venue": "Court 1"
+        "scheduledAt": "2026-11-14 18:30",
+        "venue": "Parish Indoor Court"
       }
     ]
   },
   {
-    "id": "tourney-cricket-2026",
-    "title": "Super 6s Cricket Clash",
+    "id": "dm-interward-cricket-2026",
+    "title": "Divine Mercy Inter-Ward Cricket Clash",
     "sport": "Cricket",
     "sportIcon": "🏏",
     "scoreUnit": "Runs",
     "bannerUrl": "https://images.unsplash.com/photo-1531415074868-036b107e775a?auto=format&fit=crop&w=1200&q=80",
     "format": "KNOCKOUT",
     "status": "UPCOMING",
-    "startDate": "2026-12-01",
-    "endDate": "2026-12-04",
-    "location": "Oval Cricket Ground",
-    "organizer": "Premier Cricket League",
-    "description": "High-voltage T10 knockout cricket tournament with lightning-fast innings and explosive hitting.",
+    "startDate": "2026-11-28",
+    "endDate": "2026-11-29",
+    "location": "Parish Open Grounds",
+    "organizer": "Divine Mercy Sports Committee",
+    "description": "Weekend T8 cricket tournament with rapid-fire overs and community cheering for parish wards.",
     "teams": [
       {
         "id": "cr-1",
-        "name": "Royal Challengers",
-        "shortName": "RC",
+        "name": "St. Xavier Ward",
+        "shortName": "SXW",
         "seed": 1,
         "logo": "👑"
       },
       {
         "id": "cr-2",
-        "name": "Super Kings",
-        "shortName": "SK",
+        "name": "Don Bosco Ward",
+        "shortName": "DBW",
         "seed": 2,
         "logo": "🦁"
       },
       {
         "id": "cr-3",
-        "name": "Knight Riders",
-        "shortName": "KR",
+        "name": "St. Vincent Ward",
+        "shortName": "SVW",
         "seed": 3,
         "logo": "🛡️"
       },
       {
         "id": "cr-4",
-        "name": "Sunrisers",
-        "shortName": "SR",
+        "name": "St. Sebastian Ward",
+        "shortName": "SSW",
         "seed": 4,
-        "logo": "☀️"
+        "logo": "🏹"
       }
     ],
     "rules": [
       {
         "id": "crule-1",
-        "title": "Match Format & Overs",
+        "title": "Match Duration & Overs",
         "category": "Gameplay",
-        "content": "10 overs per side. Powerplay covers overs 1 to 3. Maximum of 2 overs per bowler."
+        "content": "8 overs per innings. Max 2 overs per bowler. 2 overs of powerplay."
       },
       {
         "id": "crule-2",
-        "title": "Super Over Tie Breaker",
+        "title": "Super Over for Ties",
         "category": "Tie-Breaker",
-        "content": "In case of a tie, a Super Over (6 balls per side) will be conducted. If the Super Over is tied, subsequent super overs are played until a winner emerges."
+        "content": "A 1-over shootout (Super Over) will be played immediately if match scores are level."
       }
     ],
     "matches": [
       {
-        "id": "cr-sf-1",
+        "id": "dm-cr-sf1",
         "round": 1,
         "roundName": "Semi-Final 1",
         "stageName": "Semi-Finals",
@@ -426,13 +609,13 @@
         "scoreB": 0,
         "status": "SCHEDULED",
         "winnerId": null,
-        "nextMatchId": "cr-fn",
+        "nextMatchId": "dm-cr-fn",
         "nextMatchSlot": "A",
-        "scheduledAt": "2026-12-01 10:00",
-        "venue": "Oval Pitch 1"
+        "scheduledAt": "2026-11-28 09:30",
+        "venue": "Pitch 1"
       },
       {
-        "id": "cr-sf-2",
+        "id": "dm-cr-sf2",
         "round": 1,
         "roundName": "Semi-Final 2",
         "stageName": "Semi-Finals",
@@ -442,13 +625,13 @@
         "scoreB": 0,
         "status": "SCHEDULED",
         "winnerId": null,
-        "nextMatchId": "cr-fn",
+        "nextMatchId": "dm-cr-fn",
         "nextMatchSlot": "B",
-        "scheduledAt": "2026-12-01 14:00",
-        "venue": "Oval Pitch 1"
+        "scheduledAt": "2026-11-28 11:30",
+        "venue": "Pitch 1"
       },
       {
-        "id": "cr-fn",
+        "id": "dm-cr-fn",
         "round": 2,
         "roundName": "Grand Final",
         "stageName": "Final",
@@ -460,8 +643,8 @@
         "winnerId": null,
         "nextMatchId": null,
         "nextMatchSlot": null,
-        "scheduledAt": "2026-12-04 15:00",
-        "venue": "Oval Main Ground"
+        "scheduledAt": "2026-11-29 15:00",
+        "venue": "Main Ground"
       }
     ]
   }

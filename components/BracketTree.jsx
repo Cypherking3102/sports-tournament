@@ -1,12 +1,20 @@
 "use client";
 
 import { useMemo } from "react";
-import { Trophy, ChevronRight, Edit3, Flame } from "lucide-react";
+import { Trophy, ChevronRight, Edit3, Flame, Award } from "lucide-react";
 
 export default function BracketTree({ tournament, onEditMatch, isAdmin }) {
-  const { matches = [], teams = [], scoreUnit = "Score" } = tournament;
+  const { matches = [], teams = [], scoreUnit = "Score", format } = tournament;
 
-  // Map teams for fast lookup
+  // Filter playoff matches if it's a group+knockout tournament, or all matches if pure knockout
+  const playoffMatches = useMemo(() => {
+    if (format === "GROUP_KNOCKOUT") {
+      return matches.filter((m) => m.groupId === "PLAYOFFS" || m.stageName?.includes("Playoff") || m.stageName?.includes("Final"));
+    }
+    return matches;
+  }, [matches, format]);
+
+  // Map teams for lookup
   const teamMap = useMemo(() => {
     const map = {};
     teams.forEach((t) => {
@@ -18,7 +26,7 @@ export default function BracketTree({ tournament, onEditMatch, isAdmin }) {
   // Group matches by round
   const rounds = useMemo(() => {
     const map = {};
-    matches.forEach((m) => {
+    playoffMatches.forEach((m) => {
       if (!map[m.round]) map[m.round] = [];
       map[m.round].push(m);
     });
@@ -26,45 +34,63 @@ export default function BracketTree({ tournament, onEditMatch, isAdmin }) {
       .sort((a, b) => Number(a) - Number(b))
       .map((r) => ({
         roundNumber: Number(r),
-        roundName: map[r][0]?.roundName || `Round ${r}`,
+        roundName: map[r][0]?.roundName || (Number(r) === 2 ? "Final" : `Round ${r}`),
         matches: map[r]
       }));
-  }, [matches]);
+  }, [playoffMatches]);
 
-  if (!matches || matches.length === 0) {
+  if (!playoffMatches || playoffMatches.length === 0) {
     return (
-      <div className="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-8 text-center">
-        <Trophy className="w-10 h-10 text-zinc-600 mx-auto mb-2" />
-        <p className="text-zinc-400 font-medium text-sm">No bracket generated yet.</p>
+      <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 text-center">
+        <Trophy className="w-10 h-10 text-slate-600 mx-auto mb-2" />
+        <p className="text-slate-400 font-medium text-sm">No knockout bracket generated yet.</p>
       </div>
     );
   }
 
   return (
-    <div className="relative">
-      {/* Mobile Hint */}
-      <div className="flex items-center justify-between text-xs text-zinc-400 mb-4 px-1 md:hidden">
-        <span className="flex items-center space-x-1">
-          <span>👈 Swipe horizontally to view full bracket 👉</span>
-        </span>
-        {isAdmin && <span className="text-amber-400 font-medium">Tap match to edit</span>}
+    <div className="space-y-4">
+      {/* Playoff Banner Header */}
+      {format === "GROUP_KNOCKOUT" && (
+        <div className="bg-gradient-to-r from-blue-950/40 via-slate-900 to-slate-900 border border-blue-500/30 rounded-3xl p-5 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-2xl bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400">
+              <Award className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="font-extrabold text-white text-base">Championship Playoff Tree</h3>
+              <p className="text-xs text-slate-400">
+                Top 2 qualifiers from Group A and Group B meet in single-elimination knockouts
+              </p>
+            </div>
+          </div>
+          <span className="hidden sm:inline-block text-xs font-mono text-blue-400 bg-blue-950/80 px-3 py-1 rounded-full border border-blue-800">
+            Semi-Finals & Final
+          </span>
+        </div>
+      )}
+
+      {/* Mobile Swipe Hint */}
+      <div className="flex items-center justify-between text-xs text-slate-400 px-1 md:hidden">
+        <span>👈 Swipe horizontally to view full bracket 👉</span>
+        {isAdmin && <span className="text-blue-400 font-medium">Tap match to edit</span>}
       </div>
 
-      {/* Scrollable Bracket Board */}
-      <div className="overflow-x-auto pb-8 pt-2 scrollbar-thin scrollbar-thumb-zinc-800">
+      {/* Bracket Board */}
+      <div className="overflow-x-auto pb-8 pt-2 scrollbar-thin scrollbar-thumb-slate-800">
         <div className="flex items-stretch space-x-8 min-w-max px-2">
-          {rounds.map((round, rIndex) => (
-            <div key={round.roundNumber} className="flex flex-col w-72">
+          {rounds.map((round) => (
+            <div key={round.roundNumber} className="flex flex-col w-72 sm:w-80">
               {/* Round Header */}
-              <div className="mb-4 pb-2 border-b border-zinc-800 flex items-center justify-between">
+              <div className="mb-4 pb-2.5 border-b border-slate-800 flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <span className="w-2 h-2 rounded-full bg-amber-400"></span>
-                  <h3 className="font-bold text-white text-sm tracking-wide uppercase">
+                  <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                  <h4 className="font-bold text-white text-xs tracking-wider uppercase">
                     {round.roundName}
-                  </h3>
+                  </h4>
                 </div>
-                <span className="text-[11px] text-zinc-500 font-mono">
-                  {round.matches.length} {round.matches.length === 1 ? "Match" : "Matches"}
+                <span className="text-[11px] text-slate-500 font-mono">
+                  {round.matches.length} {round.matches.length === 1 ? "Championship Match" : "Matches"}
                 </span>
               </div>
 
@@ -82,70 +108,67 @@ export default function BracketTree({ tournament, onEditMatch, isAdmin }) {
                     <div
                       key={match.id}
                       onClick={() => isAdmin && onEditMatch && onEditMatch(match)}
-                      className={`group relative rounded-xl border transition-all ${
-                        isAdmin ? "cursor-pointer hover:border-amber-400/80 hover:shadow-lg hover:shadow-amber-500/10" : ""
+                      className={`group relative rounded-2xl border transition-all ${
+                        isAdmin ? "cursor-pointer hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10" : ""
                       } ${
                         isLive
-                          ? "border-red-500/50 bg-gradient-to-b from-red-950/20 to-zinc-900/90 shadow-md shadow-red-500/10"
-                          : "border-zinc-800 bg-zinc-900/90 hover:border-zinc-700"
+                          ? "border-red-500/50 bg-gradient-to-b from-red-950/20 to-slate-900 shadow-md shadow-red-500/10"
+                          : "border-slate-800/80 bg-slate-900/90 hover:border-slate-700 shadow-md"
                       }`}
                     >
                       {/* Top Bar: Round & Status */}
-                      <div className="px-3 py-1.5 border-b border-zinc-800/80 flex items-center justify-between text-[11px]">
-                        <span className="text-zinc-400 font-mono">{match.scheduledAt || "TBD"}</span>
+                      <div className="px-3.5 py-2 border-b border-slate-800/80 flex items-center justify-between text-[11px]">
+                        <span className="text-slate-400 font-mono">{match.scheduledAt || "TBD"}</span>
                         <div className="flex items-center space-x-1.5">
                           {isLive && (
-                            <span className="flex items-center space-x-1 text-red-400 font-bold animate-pulse">
+                            <span className="flex items-center space-x-1 text-red-400 font-bold animate-pulse text-[10px]">
                               <Flame className="w-3 h-3" />
                               <span>LIVE</span>
                             </span>
                           )}
                           {isCompleted && (
-                            <span className="text-zinc-500 font-semibold uppercase text-[10px]">
+                            <span className="text-slate-500 font-semibold uppercase text-[10px]">
                               Final
                             </span>
                           )}
                           {match.status === "SCHEDULED" && (
-                            <span className="text-zinc-500 text-[10px] uppercase">Upcoming</span>
+                            <span className="text-slate-500 text-[10px] uppercase">Upcoming</span>
                           )}
                           {isAdmin && (
-                            <Edit3 className="w-3 h-3 text-zinc-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <Edit3 className="w-3 h-3 text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                           )}
                         </div>
                       </div>
 
                       {/* Team A Row */}
                       <div
-                        className={`flex items-center justify-between px-3 py-2.5 border-b border-zinc-800/50 transition-colors ${
-                          winnerIsA ? "bg-amber-500/10 font-bold" : ""
+                        className={`flex items-center justify-between px-3.5 py-2.5 border-b border-slate-800/60 transition-colors ${
+                          winnerIsA ? "bg-blue-500/10 font-bold" : ""
                         }`}
                       >
                         <div className="flex items-center space-x-2.5 min-w-0 pr-2">
-                          <span className="text-base flex-shrink-0">{teamA?.logo || "❔"}</span>
+                          <span className="text-base flex-shrink-0">
+                            {teamA?.logo || "🛡️"}
+                          </span>
                           <span
                             className={`truncate text-xs ${
                               teamA
                                 ? winnerIsA
-                                  ? "text-amber-300 font-bold"
-                                  : "text-zinc-200"
-                                : "text-zinc-600 italic"
+                                  ? "text-blue-300 font-bold"
+                                  : "text-slate-200"
+                                : "text-slate-500 italic"
                             }`}
                           >
-                            {teamA ? teamA.name : "TBD"}
+                            {teamA ? teamA.name : match.placeholderA || "TBD"}
                           </span>
-                          {teamA?.seed && (
-                            <span className="text-[10px] text-zinc-500 font-mono">
-                              #{teamA.seed}
-                            </span>
-                          )}
                         </div>
                         <span
-                          className={`font-mono text-sm px-2 py-0.5 rounded ${
+                          className={`font-mono text-xs px-2.5 py-0.5 rounded ${
                             winnerIsA
-                              ? "text-amber-400 font-extrabold bg-amber-500/20"
+                              ? "text-blue-400 font-extrabold bg-blue-500/20"
                               : isCompleted || isLive
-                              ? "text-white bg-zinc-800"
-                              : "text-zinc-600"
+                              ? "text-white bg-slate-800"
+                              : "text-slate-600"
                           }`}
                         >
                           {isCompleted || isLive ? match.scoreA : "-"}
@@ -154,49 +177,46 @@ export default function BracketTree({ tournament, onEditMatch, isAdmin }) {
 
                       {/* Team B Row */}
                       <div
-                        className={`flex items-center justify-between px-3 py-2.5 rounded-b-xl transition-colors ${
-                          winnerIsB ? "bg-amber-500/10 font-bold" : ""
+                        className={`flex items-center justify-between px-3.5 py-2.5 rounded-b-2xl transition-colors ${
+                          winnerIsB ? "bg-blue-500/10 font-bold" : ""
                         }`}
                       >
                         <div className="flex items-center space-x-2.5 min-w-0 pr-2">
-                          <span className="text-base flex-shrink-0">{teamB?.logo || "❔"}</span>
+                          <span className="text-base flex-shrink-0">
+                            {teamB?.logo || "🛡️"}
+                          </span>
                           <span
                             className={`truncate text-xs ${
                               teamB
                                 ? winnerIsB
-                                  ? "text-amber-300 font-bold"
-                                  : "text-zinc-200"
-                                : "text-zinc-600 italic"
+                                  ? "text-blue-300 font-bold"
+                                  : "text-slate-200"
+                                : "text-slate-500 italic"
                             }`}
                           >
-                            {teamB ? teamB.name : "TBD"}
+                            {teamB ? teamB.name : match.placeholderB || "TBD"}
                           </span>
-                          {teamB?.seed && (
-                            <span className="text-[10px] text-zinc-500 font-mono">
-                              #{teamB.seed}
-                            </span>
-                          )}
                         </div>
                         <span
-                          className={`font-mono text-sm px-2 py-0.5 rounded ${
+                          className={`font-mono text-xs px-2.5 py-0.5 rounded ${
                             winnerIsB
-                              ? "text-amber-400 font-extrabold bg-amber-500/20"
+                              ? "text-blue-400 font-extrabold bg-blue-500/20"
                               : isCompleted || isLive
-                              ? "text-white bg-zinc-800"
-                              : "text-zinc-600"
+                              ? "text-white bg-slate-800"
+                              : "text-slate-600"
                           }`}
                         >
                           {isCompleted || isLive ? match.scoreB : "-"}
                         </span>
                       </div>
 
-                      {/* Winner Crown Indicator */}
+                      {/* Winner Footer */}
                       {isCompleted && match.winnerId && (
-                        <div className="px-3 py-1 bg-zinc-950/60 rounded-b-xl border-t border-zinc-800/40 flex items-center justify-between text-[10px] text-amber-400">
-                          <span className="text-zinc-500">Winner:</span>
-                          <span className="font-semibold flex items-center space-x-1">
+                        <div className="px-3.5 py-1.5 bg-slate-950/70 rounded-b-2xl border-t border-slate-800/40 flex items-center justify-between text-[10px] text-blue-400">
+                          <span className="text-slate-500">Advances:</span>
+                          <span className="font-semibold flex items-center space-x-1 text-slate-200">
                             <Trophy className="w-3 h-3 text-amber-400" />
-                            <span>{teamMap[match.winnerId]?.name || "Advancing"}</span>
+                            <span>{teamMap[match.winnerId]?.name || "Winner"}</span>
                           </span>
                         </div>
                       )}

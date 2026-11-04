@@ -12,7 +12,8 @@ import {
   PlusCircle,
   RotateCcw,
   Sparkles,
-  BookOpen
+  Layers,
+  Award
 } from "lucide-react";
 
 export default function HomePage() {
@@ -42,11 +43,11 @@ export default function HomePage() {
   };
 
   const handleResetData = async () => {
-    if (!confirm("Reset all tournaments back to the original demo data?")) return;
+    if (!confirm("Reset tournaments to Divine Mercy Church default data?")) return;
     try {
       await fetch("/api/tournaments/reset", { method: "POST" });
       fetchTournaments();
-    } catch (err) {
+    } catch {
       alert("Error resetting data");
     }
   };
@@ -56,45 +57,45 @@ export default function HomePage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-10">
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-zinc-900 via-zinc-900 to-amber-950/40 border border-zinc-800 p-8 sm:p-12 shadow-2xl">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900 to-blue-950/40 border border-slate-800 p-8 sm:p-12 shadow-2xl">
         <div className="relative z-10 max-w-2xl space-y-4">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-400 text-xs font-bold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Interactive Tournament Engine</span>
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider">
+            <Award className="w-3.5 h-3.5" />
+            <span>Divine Mercy Parish Sports Ministry</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
-            Elevate Your <span className="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">Sports Leagues</span> & Tournaments
+            Faith, Fellowship & <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-emerald-400 bg-clip-text text-transparent">Excellence in Sports</span>
           </h1>
 
-          <p className="text-zinc-400 text-sm sm:text-base leading-relaxed">
-            Generate visual knockout brackets, manage round-robin tables, track live match scores,
-            and establish official tournament rulebooks for any sport.
+          <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+            Welcome to the official sports and tournament portal for <strong>Divine Mercy Church</strong>.
+            Follow inter-ward football group stages, round-robin youth leagues, knockout playoffs, live scorekeeping, and parish rulebooks.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <Link
               href="/admin/new"
-              className="inline-flex items-center space-x-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-zinc-950 font-extrabold text-sm px-6 py-3 rounded-2xl transition-all shadow-lg shadow-orange-500/25"
+              className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-sm px-6 py-3 rounded-2xl transition-all shadow-lg shadow-blue-500/20"
             >
               <PlusCircle className="w-4 h-4" />
-              <span>Create Tournament</span>
+              <span>Create Parish Tournament</span>
             </Link>
 
             <button
               onClick={handleResetData}
-              className="inline-flex items-center space-x-1.5 bg-zinc-950/80 hover:bg-zinc-800 border border-zinc-800 text-zinc-400 hover:text-zinc-200 text-xs px-4 py-3 rounded-2xl transition-all"
-              title="Reset sample data"
+              className="inline-flex items-center space-x-1.5 bg-slate-950/80 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-slate-200 text-xs px-4 py-3 rounded-2xl transition-all"
+              title="Reset default parish tournaments"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span>Reset Demos</span>
+              <span>Reset Parish Data</span>
             </button>
           </div>
         </div>
 
-        {/* Athletic Accent Backdrop */}
-        <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 pointer-events-none hidden md:flex items-center justify-center">
-          <Trophy className="w-96 h-96 text-amber-400" />
+        {/* Subtle Watermark Emblem */}
+        <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-5 pointer-events-none hidden md:flex items-center justify-center">
+          <Trophy className="w-96 h-96 text-blue-400" />
         </div>
       </div>
 
@@ -102,10 +103,10 @@ export default function HomePage() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-extrabold text-white tracking-tight flex items-center space-x-2">
-            <Trophy className="w-5 h-5 text-amber-400" />
-            <span>Active Tournaments</span>
+            <Trophy className="w-5 h-5 text-blue-400" />
+            <span>Active Parish Tournaments</span>
           </h2>
-          <span className="text-xs text-zinc-500 font-mono">
+          <span className="text-xs text-slate-400 font-mono">
             {tournaments.length} {tournaments.length === 1 ? "Tournament" : "Tournaments"}
           </span>
         </div>
@@ -115,13 +116,13 @@ export default function HomePage() {
             <button
               key={sp}
               onClick={() => setSelectedSport(sp)}
-              className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all whitespace-nowrap ${
+              className={`px-4 py-2 rounded-2xl text-xs font-semibold transition-all whitespace-nowrap ${
                 selectedSport === sp
-                  ? "bg-amber-400 text-zinc-950 shadow-md shadow-amber-400/20"
-                  : "bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white"
+                  ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+                  : "bg-slate-900 border border-slate-800 text-slate-400 hover:text-white"
               }`}
             >
-              {sp === "ALL" ? "All Sports" : sp}
+              {sp === "ALL" ? "All Parish Sports" : sp}
             </button>
           ))}
         </div>
@@ -133,18 +134,18 @@ export default function HomePage() {
           {[1, 2, 3].map((n) => (
             <div
               key={n}
-              className="h-72 rounded-3xl bg-zinc-900/60 border border-zinc-800/80 animate-pulse"
+              className="h-72 rounded-3xl bg-slate-900/60 border border-slate-800 animate-pulse"
             ></div>
           ))}
         </div>
       ) : tournaments.length === 0 ? (
-        <div className="bg-zinc-900/40 border border-zinc-800 rounded-3xl p-12 text-center space-y-3">
-          <Trophy className="w-12 h-12 text-zinc-600 mx-auto" />
-          <p className="text-zinc-300 font-bold text-base">No tournaments found</p>
-          <p className="text-zinc-500 text-xs">Create your first tournament using the creator wizard!</p>
+        <div className="bg-slate-900/40 border border-slate-800 rounded-3xl p-12 text-center space-y-3">
+          <Trophy className="w-12 h-12 text-slate-600 mx-auto" />
+          <p className="text-slate-300 font-bold text-base">No parish tournaments found</p>
+          <p className="text-slate-500 text-xs">Create your first parish tournament using the creator wizard!</p>
           <Link
             href="/admin/new"
-            className="inline-block px-5 py-2.5 bg-amber-400 text-zinc-950 font-bold text-xs rounded-xl"
+            className="inline-block px-5 py-2.5 bg-blue-600 text-white font-bold text-xs rounded-xl"
           >
             Launch Tournament
           </Link>
@@ -156,26 +157,26 @@ export default function HomePage() {
             return (
               <div
                 key={t.id}
-                className="group relative flex flex-col rounded-3xl border border-zinc-800 bg-zinc-900/80 overflow-hidden hover:border-zinc-700 hover:shadow-2xl hover:shadow-black/60 transition-all"
+                className="group relative flex flex-col rounded-3xl border border-slate-800 bg-slate-900/80 overflow-hidden hover:border-slate-700 hover:shadow-2xl hover:shadow-black/60 transition-all"
               >
                 {/* Banner Thumbnail */}
-                <div className="relative h-44 w-full bg-zinc-800 overflow-hidden">
+                <div className="relative h-44 w-full bg-slate-800 overflow-hidden">
                   <img
                     src={t.bannerUrl}
                     alt={t.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
 
                   {/* Badges on top */}
                   <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                    <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-zinc-950/80 backdrop-blur-md border border-zinc-700/60 text-xs font-bold text-white shadow">
+                    <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-slate-700/60 text-xs font-bold text-white shadow">
                       <span>{t.sportIcon}</span>
                       <span>{t.sport}</span>
                     </span>
 
                     {liveMatches > 0 ? (
-                      <span className="flex items-center space-x-1 px-3 py-1 rounded-full bg-red-500/90 text-white text-xs font-bold animate-pulse shadow-lg shadow-red-500/30">
+                      <span className="flex items-center space-x-1 px-3 py-1 rounded-full bg-red-500 text-white text-xs font-bold animate-pulse shadow-md shadow-red-500/30">
                         <Flame className="w-3.5 h-3.5" />
                         <span>{liveMatches} LIVE</span>
                       </span>
@@ -184,7 +185,7 @@ export default function HomePage() {
                         className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider ${
                           t.status === "LIVE"
                             ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                            : "bg-zinc-800/80 text-zinc-400 border border-zinc-700"
+                            : "bg-slate-800/80 text-slate-400 border border-slate-700"
                         }`}
                       >
                         {t.status}
@@ -194,8 +195,12 @@ export default function HomePage() {
 
                   {/* Format tag bottom left */}
                   <div className="absolute bottom-3 left-4">
-                    <span className="text-[11px] font-mono font-semibold uppercase px-2.5 py-0.5 rounded-md bg-amber-400/90 text-zinc-950">
-                      {t.format === "KNOCKOUT" ? "Knockout Bracket" : "Round Robin Table"}
+                    <span className="text-[11px] font-mono font-semibold uppercase px-2.5 py-0.5 rounded-md bg-blue-600 text-white">
+                      {t.format === "GROUP_KNOCKOUT"
+                        ? "Group Stage + Playoffs"
+                        : t.format === "KNOCKOUT"
+                        ? "Knockout Bracket"
+                        : "Round Robin Table"}
                     </span>
                   </div>
                 </div>
@@ -203,33 +208,33 @@ export default function HomePage() {
                 {/* Content */}
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                   <div>
-                    <h3 className="font-extrabold text-white text-lg tracking-tight group-hover:text-amber-300 transition-colors">
+                    <h3 className="font-extrabold text-white text-lg tracking-tight group-hover:text-blue-400 transition-colors">
                       {t.title}
                     </h3>
-                    <p className="text-zinc-400 text-xs mt-1.5 line-clamp-2 leading-relaxed">
+                    <p className="text-slate-400 text-xs mt-1.5 line-clamp-2 leading-relaxed">
                       {t.description}
                     </p>
                   </div>
 
                   {/* Details stats */}
-                  <div className="space-y-2 pt-2 border-t border-zinc-800/80 text-xs text-zinc-400">
+                  <div className="space-y-2 pt-2 border-t border-slate-800/80 text-xs text-slate-400">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center space-x-1.5">
-                        <Users className="w-3.5 h-3.5 text-zinc-500" />
-                        <span>{t.teams?.length || 0} Participating Teams</span>
+                        <Users className="w-3.5 h-3.5 text-slate-500" />
+                        <span>{t.teams?.length || 0} Participating Wards</span>
                       </span>
-                      <span className="font-mono text-zinc-500">
+                      <span className="font-mono text-slate-500">
                         {t.matches?.length || 0} Matches
                       </span>
                     </div>
 
                     <div className="flex items-center space-x-1.5">
-                      <MapPin className="w-3.5 h-3.5 text-zinc-500" />
+                      <MapPin className="w-3.5 h-3.5 text-slate-500" />
                       <span className="truncate">{t.location}</span>
                     </div>
 
                     <div className="flex items-center space-x-1.5">
-                      <Calendar className="w-3.5 h-3.5 text-zinc-500" />
+                      <Calendar className="w-3.5 h-3.5 text-slate-500" />
                       <span>{t.startDate}</span>
                     </div>
                   </div>
@@ -237,9 +242,9 @@ export default function HomePage() {
                   {/* Action Link */}
                   <Link
                     href={`/tournaments/${t.id}`}
-                    className="w-full py-2.5 px-4 rounded-xl bg-zinc-800 hover:bg-amber-400 hover:text-zinc-950 text-white font-bold text-xs flex items-center justify-center space-x-2 transition-all mt-2 group-hover:shadow-lg group-hover:shadow-amber-400/10"
+                    className="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-blue-600 hover:text-white text-slate-200 font-bold text-xs flex items-center justify-center space-x-2 transition-all mt-2 group-hover:shadow-md group-hover:shadow-blue-500/20"
                   >
-                    <span>View Brackets & Rules</span>
+                    <span>View Tables & Rules</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
