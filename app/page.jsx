@@ -11,18 +11,27 @@ import {
   ArrowRight,
   PlusCircle,
   RotateCcw,
-  Sparkles,
-  Layers,
-  Award
+  Award,
+  Lock,
+  ShieldCheck
 } from "lucide-react";
 
 export default function HomePage() {
   const [tournaments, setTournaments] = useState([]);
   const [selectedSport, setSelectedSport] = useState("ALL");
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     fetchTournaments();
+    const token = localStorage.getItem("sports_admin_token");
+    if (token) setIsAdmin(true);
+
+    const handleStorageChange = () => {
+      setIsAdmin(!!localStorage.getItem("sports_admin_token"));
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, [selectedSport]);
 
   const fetchTournaments = async () => {
@@ -74,22 +83,35 @@ export default function HomePage() {
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
-            <Link
-              href="/admin/new"
-              className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-sm px-6 py-3 rounded-2xl transition-all shadow-lg shadow-blue-500/20"
-            >
-              <PlusCircle className="w-4 h-4" />
-              <span>Create Parish Tournament</span>
-            </Link>
+            {/* If Admin, show Create Tournament; otherwise show Schedule / Explore */}
+            {isAdmin ? (
+              <>
+                <Link
+                  href="/admin/new"
+                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-sm px-6 py-3 rounded-2xl transition-all shadow-lg shadow-blue-500/20"
+                >
+                  <PlusCircle className="w-4 h-4" />
+                  <span>Create Parish Tournament</span>
+                </Link>
 
-            <button
-              onClick={handleResetData}
-              className="inline-flex items-center space-x-1.5 bg-slate-950/80 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-slate-200 text-xs px-4 py-3 rounded-2xl transition-all"
-              title="Reset default parish tournaments"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Reset Parish Data</span>
-            </button>
+                <button
+                  onClick={handleResetData}
+                  className="inline-flex items-center space-x-1.5 bg-slate-950/80 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-slate-200 text-xs px-4 py-3 rounded-2xl transition-all"
+                  title="Reset default parish tournaments"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>Reset Parish Demos</span>
+                </button>
+              </>
+            ) : (
+              <a
+                href="#active-tournaments"
+                className="inline-flex items-center space-x-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm px-6 py-3 rounded-2xl transition-all shadow-md shadow-blue-500/20"
+              >
+                <span>View Tournament Brackets</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            )}
           </div>
         </div>
 
@@ -100,7 +122,7 @@ export default function HomePage() {
       </div>
 
       {/* Sport Category Filter Chips */}
-      <div className="space-y-4">
+      <div id="active-tournaments" className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-extrabold text-white tracking-tight flex items-center space-x-2">
             <Trophy className="w-5 h-5 text-blue-400" />
@@ -142,13 +164,9 @@ export default function HomePage() {
         <div className="bg-slate-900/40 border border-slate-800 rounded-3xl p-12 text-center space-y-3">
           <Trophy className="w-12 h-12 text-slate-600 mx-auto" />
           <p className="text-slate-300 font-bold text-base">No parish tournaments found</p>
-          <p className="text-slate-500 text-xs">Create your first parish tournament using the creator wizard!</p>
-          <Link
-            href="/admin/new"
-            className="inline-block px-5 py-2.5 bg-blue-600 text-white font-bold text-xs rounded-xl"
-          >
-            Launch Tournament
-          </Link>
+          <p className="text-slate-500 text-xs">
+            {isAdmin ? "Create your first tournament using the admin wizard." : "Please check back later for upcoming parish fixtures."}
+          </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
