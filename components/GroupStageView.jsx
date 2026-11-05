@@ -134,32 +134,23 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
             {/* Standings Table */}
             <div className="overflow-x-auto rounded-2xl border border-slate-800/80">
               <table className="w-full text-left text-xs text-slate-300">
-                <thead className="text-[11px] uppercase tracking-wider text-slate-400 bg-slate-950/80 border-b border-slate-800 font-semibold font-mono">
+                <thead className="text-[11px] uppercase tracking-wider text-slate-400 bg-slate-950/80 border-b border-slate-800 font-bold font-mono">
                   <tr>
                     <th className="py-3 px-4 w-12 text-center">Pos</th>
-                    <th className="py-3 px-4">{isIndividual ? "Player" : "Team & Captain"}</th>
+                    <th className="py-3 px-4">{isIndividual ? "Participant" : "Team & Captain"}</th>
                     <th className="py-3 px-3 text-center" title="Played">
                       P
                     </th>
-                    <th className="py-3 px-3 text-center" title="Won">
+                    <th className="py-3 px-3 text-center text-emerald-400" title="Won">
                       W
                     </th>
-                    <th className="py-3 px-3 text-center" title="Drawn">
+                    <th className="py-3 px-3 text-center text-amber-400" title="Drawn">
                       D
                     </th>
-                    <th className="py-3 px-3 text-center" title="Lost">
+                    <th className="py-3 px-3 text-center text-rose-400" title="Lost">
                       L
                     </th>
-                    <th className="py-3 px-3 text-center" title="Goals For">
-                      GF
-                    </th>
-                    <th className="py-3 px-3 text-center" title="Goals Against">
-                      GA
-                    </th>
-                    <th className="py-3 px-3 text-center" title="Goal Difference">
-                      GD
-                    </th>
-                    <th className="py-3 px-4 text-center font-bold text-blue-400">PTS</th>
+                    <th className="py-3 px-4 text-center font-black text-blue-400 text-sm">PTS</th>
                     {showForm && (
                       <th className="py-3 px-4 text-center" title="Last 5 Matches Form">
                         Form
@@ -184,12 +175,12 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                       >
                         <td className="py-3 px-4 text-center">
                           <span
-                            className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-mono font-bold ${
+                            className={`inline-flex items-center justify-center w-6 h-6 rounded-lg text-xs font-mono font-bold ${
                               index === 0
                                 ? "bg-amber-400 text-slate-950 shadow-sm"
                                 : index === 1
                                 ? "bg-slate-300 text-slate-950"
-                                : "text-slate-500 bg-slate-800"
+                                : "text-slate-400 bg-slate-800"
                             }`}
                           >
                             {index + 1}
@@ -202,7 +193,7 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                             </span>
                             <div>
                               <div className="flex items-center space-x-1.5">
-                                <span>{teamObj.name || "Team"}</span>
+                                <span className="font-bold text-white">{teamObj.name || "Participant"}</span>
                                 {teamObj.shortName && (
                                   <span className="text-[10px] text-slate-500 font-mono">
                                     [{teamObj.shortName}]
@@ -240,30 +231,15 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                             </div>
                           </div>
                         </td>
-                        <td className="py-3 px-3 text-center font-mono">{row.played}</td>
-                        <td className="py-3 px-3 text-center font-mono text-emerald-400 font-semibold">
+                        <td className="py-3 px-3 text-center font-mono font-bold text-slate-200">{row.played}</td>
+                        <td className="py-3 px-3 text-center font-mono text-emerald-400 font-bold">
                           {row.won}
                         </td>
-                        <td className="py-3 px-3 text-center font-mono text-slate-400">
+                        <td className="py-3 px-3 text-center font-mono text-amber-300 font-bold">
                           {row.drawn}
                         </td>
-                        <td className="py-3 px-3 text-center font-mono text-red-400">{row.lost}</td>
-                        <td className="py-3 px-3 text-center font-mono">{row.goalsFor}</td>
-                        <td className="py-3 px-3 text-center font-mono text-slate-500">
-                          {row.goalsAgainst}
-                        </td>
-                        <td
-                          className={`py-3 px-3 text-center font-mono font-semibold ${
-                            row.goalDifference > 0
-                              ? "text-emerald-400"
-                              : row.goalDifference < 0
-                              ? "text-red-400"
-                              : "text-slate-400"
-                          }`}
-                        >
-                          {row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference}
-                        </td>
-                        <td className="py-3 px-4 text-center font-mono text-sm font-black text-blue-400">
+                        <td className="py-3 px-3 text-center font-mono text-rose-400 font-bold">{row.lost}</td>
+                        <td className="py-3 px-4 text-center font-mono text-base font-black text-blue-400">
                           {row.points}
                         </td>
 
@@ -274,19 +250,19 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                                 row.form.map((res, i) => (
                                   <span
                                     key={i}
-                                    className={`w-4 h-4 rounded text-[9px] font-bold font-mono text-white flex items-center justify-center ${
+                                    className={`w-5 h-5 rounded text-[10px] font-bold font-mono text-white flex items-center justify-center ${
                                       res === "W"
-                                        ? "bg-emerald-500"
+                                        ? "bg-emerald-500 shadow-sm"
                                         : res === "D"
-                                        ? "bg-amber-500"
-                                        : "bg-rose-500"
+                                        ? "bg-amber-500 shadow-sm"
+                                        : "bg-rose-500 shadow-sm"
                                     }`}
                                   >
                                     {res}
                                   </span>
                                 ))
                               ) : (
-                                <span className="text-slate-600 font-mono text-[10px]">-</span>
+                                <span className="text-slate-600 font-mono text-[10px]">—</span>
                               )}
                             </div>
                           </td>
@@ -294,8 +270,8 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
 
                         <td className="py-3 px-4 text-right">
                           {isQualified ? (
-                            <span className="text-[10px] font-semibold uppercase text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
-                              Playoff Zone
+                            <span className="text-[10px] font-bold uppercase text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
+                              Qualified
                             </span>
                           ) : (
                             <span className="text-[10px] text-slate-500 font-mono">—</span>
@@ -306,6 +282,21 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                   })}
                 </tbody>
               </table>
+            </div>
+
+            {/* Guide legend */}
+            <div className="px-3 py-2 bg-slate-950/40 rounded-xl border border-slate-800/60 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+              <div className="flex items-center space-x-3">
+                <span><strong>P</strong> = Played</span>
+                <span>•</span>
+                <span><strong className="text-emerald-400">W</strong> = Won</span>
+                <span>•</span>
+                <span><strong className="text-amber-400">D</strong> = Drawn</span>
+                <span>•</span>
+                <span><strong className="text-rose-400">L</strong> = Lost</span>
+                <span>•</span>
+                <span><strong className="text-blue-400">PTS</strong> = Points</span>
+              </div>
             </div>
 
             {/* Group Fixtures List */}
@@ -324,32 +315,35 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                   const isCompleted = m.status === "COMPLETED";
                   const isLive = m.status === "LIVE";
 
+                  const winnerIsA = isCompleted && m.winnerId === m.teamAId;
+                  const winnerIsB = isCompleted && m.winnerId === m.teamBId;
+
                   return (
                     <div
                       key={m.id}
-                      className={`p-3.5 rounded-2xl border transition-all ${
+                      className={`p-4 rounded-2xl border transition-all ${
                         isLive
-                          ? "border-red-500/50 bg-red-950/10 shadow-md"
-                          : "border-slate-800 bg-slate-950/60 hover:border-slate-700"
+                          ? "border-red-500/50 bg-red-950/15 shadow-md"
+                          : "border-slate-800 bg-slate-950/70 hover:border-slate-700"
                       }`}
                     >
-                      <div className="flex items-center justify-between text-[11px] text-slate-400 mb-2 border-b border-slate-800/60 pb-1.5">
-                        <span className="font-mono text-slate-300 font-semibold">{m.roundName}</span>
+                      <div className="flex items-center justify-between text-xs text-slate-400 mb-2.5 border-b border-slate-800/60 pb-2">
+                        <span className="font-bold text-slate-200">{m.roundName}</span>
                         <div>
                           {isLive && (
-                            <span className="flex items-center space-x-1 text-red-400 font-bold animate-pulse">
-                              <Flame className="w-3 h-3" />
+                            <span className="flex items-center space-x-1.5 text-red-400 font-bold animate-pulse text-xs">
+                              <Flame className="w-3.5 h-3.5" />
                               <span>LIVE NOW</span>
                             </span>
                           )}
                           {isCompleted && (
-                            <span className="text-slate-500 font-semibold uppercase">
+                            <span className="text-emerald-400 font-bold text-xs uppercase">
                               Final Result
                             </span>
                           )}
                           {m.status === "SCHEDULED" && (
-                            <span className="text-slate-500 flex items-center space-x-1">
-                              <Clock className="w-3 h-3 text-slate-500" />
+                            <span className="text-slate-400 flex items-center space-x-1 text-xs">
+                              <Clock className="w-3.5 h-3.5 text-blue-400" />
                               <span>{m.scheduledAt || "Scheduled"}</span>
                             </span>
                           )}
@@ -357,64 +351,87 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                       </div>
 
                       {/* Teams & Scores */}
-                      <div className="space-y-1.5">
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="flex items-center space-x-2 font-medium text-white truncate">
-                            <span>{teamA?.logo || (isIndividual ? "👤" : "🛡️")}</span>
-                            <span className="truncate">{teamA?.name || "TBD"}</span>
+                      <div className="space-y-2">
+                        <div className={`flex items-center justify-between p-2 rounded-xl text-xs sm:text-sm ${
+                          winnerIsA ? "bg-emerald-500/10 font-bold" : "bg-slate-900/60"
+                        }`}>
+                          <span className="flex items-center space-x-2 font-medium text-white truncate min-w-0 pr-2">
+                            <span className="text-base">{teamA?.logo || (isIndividual ? "👤" : "🛡️")}</span>
+                            <span className={`truncate font-bold ${winnerIsA ? "text-emerald-300" : "text-white"}`}>{teamA?.name || "TBD"}</span>
                             {captA && !isIndividual && (
-                              <span className="text-[10px] text-amber-400 font-mono">
+                              <span className="text-[10px] text-amber-400 font-medium">
                                 (C: {captA})
                               </span>
                             )}
                           </span>
-                          <span className="font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-200">
-                            {isCompleted || isLive ? m.scoreA : "-"}
+                          <span className={`font-mono font-black px-2.5 py-0.5 rounded-lg text-sm ${
+                            winnerIsA ? "bg-emerald-500 text-slate-950 font-bold" : "bg-slate-800 text-slate-200"
+                          }`}>
+                            {isCompleted || isLive ? m.scoreA : "—"}
                           </span>
                         </div>
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="flex items-center space-x-2 font-medium text-white truncate">
-                            <span>{teamB?.logo || (isIndividual ? "👤" : "🛡️")}</span>
-                            <span className="truncate">{teamB?.name || "TBD"}</span>
+
+                        <div className={`flex items-center justify-between p-2 rounded-xl text-xs sm:text-sm ${
+                          winnerIsB ? "bg-emerald-500/10 font-bold" : "bg-slate-900/60"
+                        }`}>
+                          <span className="flex items-center space-x-2 font-medium text-white truncate min-w-0 pr-2">
+                            <span className="text-base">{teamB?.logo || (isIndividual ? "👤" : "🛡️")}</span>
+                            <span className={`truncate font-bold ${winnerIsB ? "text-emerald-300" : "text-white"}`}>{teamB?.name || "TBD"}</span>
                             {captB && !isIndividual && (
-                              <span className="text-[10px] text-amber-400 font-mono">
+                              <span className="text-[10px] text-amber-400 font-medium">
                                 (C: {captB})
                               </span>
                             )}
                           </span>
-                          <span className="font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-200">
-                            {isCompleted || isLive ? m.scoreB : "-"}
+                          <span className={`font-mono font-black px-2.5 py-0.5 rounded-lg text-sm ${
+                            winnerIsB ? "bg-emerald-500 text-slate-950 font-bold" : "bg-slate-800 text-slate-200"
+                          }`}>
+                            {isCompleted || isLive ? m.scoreB : "—"}
                           </span>
                         </div>
                       </div>
 
-                      {/* Venue, Official & Lineup notes */}
-                      <div className="mt-2.5 pt-2 border-t border-slate-800/60 flex flex-wrap items-center justify-between text-[10px] text-slate-500 gap-1">
-                        <div className="flex items-center space-x-2 truncate">
-                          {m.venue && (
-                            <span className="flex items-center space-x-1">
-                              <MapPin className="w-2.5 h-2.5 text-blue-400" />
-                              <span>{m.venue}</span>
-                            </span>
-                          )}
-                          {m.official && (
-                            <span className="flex items-center space-x-1">
-                              <Award className="w-2.5 h-2.5 text-amber-400" />
-                              <span>{m.official}</span>
-                            </span>
+                      {/* Venue, Official & Lineup notes (only if present) */}
+                      {(m.venue || m.official || m.duration) && (
+                        <div className="mt-2.5 pt-2 border-t border-slate-800/60 flex flex-wrap items-center justify-between text-[11px] text-slate-400 gap-1.5">
+                          <div className="flex items-center space-x-2 truncate">
+                            {m.venue && (
+                              <span className="flex items-center space-x-1">
+                                <MapPin className="w-3 h-3 text-blue-400" />
+                                <span>{m.venue}</span>
+                              </span>
+                            )}
+                            {m.official && (
+                              <span className="flex items-center space-x-1 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+                                <Award className="w-3 h-3 text-amber-400" />
+                                <span>Ref: {m.official}</span>
+                              </span>
+                            )}
+                          </div>
+
+                          {isAdmin && (
+                            <button
+                              onClick={() => onEditMatch && onEditMatch(m)}
+                              className="flex items-center space-x-1 text-xs text-blue-400 hover:text-blue-300 font-bold ml-auto"
+                            >
+                              <Edit3 className="w-3.5 h-3.5" />
+                              <span>Update Score</span>
+                            </button>
                           )}
                         </div>
+                      )}
 
-                        {isAdmin && (
+                      {!m.venue && !m.official && !m.duration && isAdmin && (
+                        <div className="mt-2.5 pt-2 border-t border-slate-800/60 flex justify-end">
                           <button
                             onClick={() => onEditMatch && onEditMatch(m)}
-                            className="flex items-center space-x-1 text-[11px] text-blue-400 hover:text-blue-300 font-medium ml-auto"
+                            className="flex items-center space-x-1 text-xs text-blue-400 hover:text-blue-300 font-bold"
                           >
-                            <Edit3 className="w-3 h-3" />
+                            <Edit3 className="w-3.5 h-3.5" />
                             <span>Update Score</span>
                           </button>
-                        )}
-                      </div>
+                        </div>
+                      )}
                     </div>
                   );
                 })}

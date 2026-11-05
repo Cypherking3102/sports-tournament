@@ -223,7 +223,11 @@ export default function TournamentDetailPage({ params }) {
               {tournament.organizer && (
                 <span className="flex items-center space-x-1 text-slate-400">
                   <Award className="w-3.5 h-3.5 text-amber-400" />
-                  <span>{tournament.organizer}</span>
+                  <span>
+                    {tournament.organizer.includes("Sports Ministry")
+                      ? "Divine Mercy Church"
+                      : tournament.organizer}
+                  </span>
                 </span>
               )}
             </div>
@@ -311,59 +315,6 @@ export default function TournamentDetailPage({ params }) {
             <BookOpen className="w-4 h-4" />
             <span>Rules</span>
           </button>
-        </div>
-      </div>
-
-      {/* Enterprise Stats Bar (Sofascore / UEFA style overview KPI cards) */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex items-center space-x-3 shadow-md">
-          <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
-            <Users className="w-5 h-5" />
-          </div>
-          <div>
-            <span className="text-[11px] uppercase tracking-wider text-slate-400 font-mono block">
-              Teams
-            </span>
-            <span className="text-xl font-black text-white font-mono">{stats.totalTeams}</span>
-          </div>
-        </div>
-
-        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex items-center space-x-3 shadow-md">
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-            <CalendarDays className="w-5 h-5" />
-          </div>
-          <div>
-            <span className="text-[11px] uppercase tracking-wider text-slate-400 font-mono block">
-              Matches
-            </span>
-            <span className="text-xl font-black text-white font-mono">
-              {stats.completedMatches} / {stats.totalMatches}
-            </span>
-          </div>
-        </div>
-
-        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex items-center space-x-3 shadow-md">
-          <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
-            <Target className="w-5 h-5" />
-          </div>
-          <div>
-            <span className="text-[11px] uppercase tracking-wider text-slate-400 font-mono block">
-              Total {tournament.scoreUnit || "Goals"}
-            </span>
-            <span className="text-xl font-black text-white font-mono">{stats.totalGoals}</span>
-          </div>
-        </div>
-
-        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex items-center space-x-3 shadow-md">
-          <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-            <BarChart3 className="w-5 h-5" />
-          </div>
-          <div>
-            <span className="text-[11px] uppercase tracking-wider text-slate-400 font-mono block">
-              Avg / Match
-            </span>
-            <span className="text-xl font-black text-white font-mono">{stats.avgGoals}</span>
-          </div>
         </div>
       </div>
 

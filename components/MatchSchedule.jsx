@@ -13,14 +13,15 @@ import {
   Users,
   Award,
   Timer,
-  Star
+  Star,
+  Check
 } from "lucide-react";
 import { getCaptain, formatRosterString } from "@/lib/tournamentEngine";
 
 export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isAdmin }) {
-  const { matches = [], teams = [], scoreUnit = "Score" } = tournament;
-  const [filterStatus, setFilterStatus] = useState("ALL");
+  const { matches = [], teams = [], scoreUnit = "Score", participantType = "TEAM" } = tournament;
   const [filterStage, setFilterStage] = useState("ALL");
+  const isIndividual = participantType === "INDIVIDUAL";
 
   const teamMap = useMemo(() => {
     const map = {};
@@ -40,42 +41,25 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
 
   const filteredMatches = useMemo(() => {
     return matches.filter((m) => {
-      if (filterStatus !== "ALL" && m.status !== filterStatus) return false;
       if (filterStage !== "ALL" && m.stageName !== filterStage) return false;
       return true;
     });
-  }, [matches, filterStatus, filterStage]);
+  }, [matches, filterStage]);
 
   return (
     <div className="space-y-6">
-      {/* Top Filter & Admin Add Match bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900/70 border border-slate-800 p-3 rounded-2xl">
-        <div className="flex items-center space-x-1.5 overflow-x-auto text-xs scrollbar-none">
-          {["ALL", "LIVE", "SCHEDULED", "COMPLETED"].map((st) => (
-            <button
-              key={st}
-              onClick={() => setFilterStatus(st)}
-              className={`px-3.5 py-1.5 rounded-xl font-semibold transition-all ${
-                filterStatus === st
-                  ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
-                  : "bg-slate-800/80 text-slate-400 hover:text-white"
-              }`}
-            >
-              {st === "ALL" ? "All Fixtures" : st}
-            </button>
-          ))}
-        </div>
-
+      {/* Top Bar: Stage Selector & Admin Add Match Button */}
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900/80 border border-slate-800 p-3 sm:p-4 rounded-2xl">
         <div className="flex items-center space-x-2">
-          {uniqueStages.length > 1 && (
-            <div className="flex items-center space-x-1.5 text-xs">
-              <Filter className="w-3.5 h-3.5 text-slate-400" />
+          {uniqueStages.length > 1 ? (
+            <div className="flex items-center space-x-2">
+              <Filter className="w-4 h-4 text-slate-400" />
               <select
                 value={filterStage}
                 onChange={(e) => setFilterStage(e.target.value)}
-                className="bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-slate-200 text-xs focus:outline-none"
+                className="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-slate-200 text-xs sm:text-sm font-semibold focus:outline-none focus:border-blue-500"
               >
-                <option value="ALL">All Stages</option>
+                <option value="ALL">All Stages & Groups ({matches.length} Matches)</option>
                 {uniqueStages.map((s) => (
                   <option key={s} value={s}>
                     {s}
@@ -83,211 +67,237 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
                 ))}
               </select>
             </div>
-          )}
-
-          {isAdmin && onAddMatch && (
-            <button
-              onClick={onAddMatch}
-              className="flex items-center space-x-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs px-4 py-2 rounded-xl transition-all shadow-md shadow-blue-500/20"
-            >
-              <Plus className="w-4 h-4" />
-              <span>+ Add Match Fixture</span>
-            </button>
+          ) : (
+            <div className="text-xs sm:text-sm text-slate-300 font-semibold flex items-center space-x-2">
+              <Calendar className="w-4 h-4 text-blue-400" />
+              <span>All Tournament Fixtures ({matches.length})</span>
+            </div>
           )}
         </div>
+
+        {isAdmin && onAddMatch && (
+          <button
+            onClick={onAddMatch}
+            className="flex items-center space-x-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-xl transition-all shadow-md shadow-blue-500/20"
+          >
+            <Plus className="w-4 h-4" />
+            <span>+ Add Match</span>
+          </button>
+        )}
       </div>
 
       {/* Match Cards List */}
       {filteredMatches.length === 0 ? (
-        <div className="bg-slate-900/40 border border-slate-800/60 rounded-3xl p-8 text-center text-slate-500 text-sm">
-          No matches found for the selected filter.
+        <div className="bg-slate-900/40 border border-slate-800/60 rounded-3xl p-10 text-center space-y-2">
+          <Calendar className="w-10 h-10 text-slate-600 mx-auto" />
+          <p className="text-slate-400 text-sm font-medium">No matches scheduled yet.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {filteredMatches.map((m) => {
             const teamA = teamMap[m.teamAId];
             const teamB = teamMap[m.teamBId];
             const captA = getCaptain(teamA);
             const captB = getCaptain(teamB);
-            const rosterA = teamA?.players ? (typeof teamA.players === "string" ? teamA.players : formatRosterString(teamA.players)) : "";
-            const rosterB = teamB?.players ? (typeof teamB.players === "string" ? teamB.players : formatRosterString(teamB.players)) : "";
             const isCompleted = m.status === "COMPLETED";
             const isLive = m.status === "LIVE";
             const winnerIsA = isCompleted && m.winnerId === m.teamAId;
             const winnerIsB = isCompleted && m.winnerId === m.teamBId;
 
+            const nameA = teamA ? teamA.name : m.placeholderA || "TBD";
+            const nameB = teamB ? teamB.name : m.placeholderB || "TBD";
+            const logoA = teamA?.logo || (isIndividual ? "👤" : "🛡️");
+            const logoB = teamB?.logo || (isIndividual ? "👤" : "🛡️");
+
             return (
               <div
                 key={m.id}
-                className={`relative rounded-3xl border transition-all p-4 ${
+                className={`relative rounded-3xl border transition-all p-5 shadow-sm ${
                   isLive
-                    ? "border-red-500/40 bg-gradient-to-br from-slate-900 via-slate-900 to-red-950/20 shadow-lg shadow-red-500/5"
-                    : "border-slate-800 bg-slate-900/80 hover:border-slate-700 shadow-md"
+                    ? "border-red-500/60 bg-gradient-to-br from-slate-900 via-slate-900 to-red-950/20 shadow-red-500/10 shadow-lg"
+                    : isCompleted
+                    ? "border-slate-800 bg-slate-900/90 hover:border-slate-700"
+                    : "border-slate-800/80 bg-slate-900/70 hover:border-slate-700"
                 }`}
               >
-                {/* Header */}
-                <div className="flex items-center justify-between text-xs text-slate-400 border-b border-slate-800/80 pb-2.5 mb-3">
+                {/* Header: Stage and Live / Status badge */}
+                <div className="flex items-center justify-between border-b border-slate-800/80 pb-3 mb-4">
                   <div className="flex items-center space-x-2">
-                    <span className="font-semibold text-slate-200 font-mono text-[11px]">
+                    <span className="font-bold text-xs sm:text-sm text-slate-200">
                       {m.stageName || m.roundName}
                     </span>
                     {m.venue && (
-                      <span className="flex items-center space-x-1 text-slate-500 text-[11px]">
-                        <MapPin className="w-3 h-3 text-blue-400" />
+                      <span className="flex items-center space-x-1 text-slate-400 text-xs hidden sm:inline-flex">
+                        <MapPin className="w-3.5 h-3.5 text-blue-400" />
                         <span>{m.venue}</span>
                       </span>
                     )}
                   </div>
+
                   <div>
                     {isLive && (
-                      <span className="flex items-center space-x-1 text-red-400 font-bold animate-pulse text-[11px]">
-                        <Flame className="w-3 h-3" />
+                      <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-red-500/15 border border-red-500/30 text-red-400 font-bold text-xs animate-pulse">
+                        <Flame className="w-3.5 h-3.5" />
                         <span>LIVE NOW</span>
                       </span>
                     )}
                     {isCompleted && (
-                      <span className="flex items-center space-x-1 text-slate-400 text-[11px] font-semibold uppercase">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                      <span className="flex items-center space-x-1 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-bold text-xs">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
                         <span>Final Result</span>
                       </span>
                     )}
                     {m.status === "SCHEDULED" && (
-                      <span className="flex items-center space-x-1 text-slate-400 text-[11px]">
-                        <Clock className="w-3 h-3 text-blue-400" />
+                      <span className="flex items-center space-x-1 px-3 py-1 rounded-full bg-slate-800/80 text-slate-300 font-semibold text-xs border border-slate-700/60">
+                        <Clock className="w-3.5 h-3.5 text-blue-400" />
                         <span>{m.scheduledAt || "Upcoming"}</span>
                       </span>
                     )}
                   </div>
                 </div>
 
-                {/* Match Scoreboard */}
-                <div className="space-y-2 mb-3">
-                  {/* Team A */}
+                {/* Matchup Card: Large, Clear Names and Scores */}
+                <div className="space-y-2.5">
+                  {/* Participant A */}
                   <div
-                    className={`flex items-center justify-between p-2 rounded-xl transition-colors ${
-                      winnerIsA ? "bg-blue-500/10 font-bold" : "bg-slate-950/50"
+                    className={`flex items-center justify-between p-3 rounded-2xl transition-all ${
+                      winnerIsA
+                        ? "bg-emerald-500/10 border border-emerald-500/25"
+                        : "bg-slate-950/60 border border-slate-800/60"
                     }`}
                   >
-                    <div className="flex items-center space-x-3">
-                      <span className="text-xl">{teamA?.logo || "🛡️"}</span>
-                      <div>
-                        <div className="flex items-center space-x-1.5">
+                    <div className="flex items-center space-x-3 min-w-0 pr-2">
+                      <span className="text-2xl flex-shrink-0">{logoA}</span>
+                      <div className="min-w-0">
+                        <div className="flex items-center space-x-2">
                           <span
-                            className={`text-xs sm:text-sm ${
-                              winnerIsA ? "text-blue-300 font-bold" : "text-slate-100"
+                            className={`text-sm sm:text-base font-bold truncate ${
+                              winnerIsA ? "text-emerald-300" : "text-white"
                             }`}
                           >
-                            {teamA ? teamA.name : m.placeholderA || "TBD"}
+                            {nameA}
                           </span>
-                          {captA && (
-                            <span className="text-[10px] text-amber-400 font-mono font-medium">
-                              (C: {captA})
+                          {winnerIsA && (
+                            <span className="flex-shrink-0 text-emerald-400" title="Winner">
+                              <Check className="w-4 h-4" />
                             </span>
                           )}
                         </div>
-                        {rosterA && (
-                          <span className="text-[10px] text-slate-500 block truncate max-w-[200px]">
-                            {rosterA}
+                        {!isIndividual && captA && (
+                          <span className="text-xs text-amber-400 font-medium flex items-center space-x-1 mt-0.5">
+                            <Star className="w-3 h-3 fill-amber-400" />
+                            <span>Capt: {captA}</span>
                           </span>
                         )}
                       </div>
                     </div>
-                    <span
-                      className={`font-mono text-sm px-2.5 py-0.5 rounded-lg ${
-                        winnerIsA
-                          ? "text-blue-400 font-extrabold bg-blue-500/20"
-                          : isCompleted || isLive
-                          ? "text-white bg-slate-800"
-                          : "text-slate-600"
-                      }`}
-                    >
-                      {isCompleted || isLive ? m.scoreA : "-"}
-                    </span>
+
+                    <div className="flex-shrink-0">
+                      <span
+                        className={`inline-block font-mono text-base sm:text-lg font-black px-3.5 py-1 rounded-xl ${
+                          winnerIsA
+                            ? "bg-emerald-500 text-slate-950 shadow-sm"
+                            : isCompleted || isLive
+                            ? "bg-slate-800 text-white"
+                            : "bg-slate-900 text-slate-500 border border-slate-800"
+                        }`}
+                      >
+                        {isCompleted || isLive ? m.scoreA : "—"}
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Team B */}
+                  {/* Participant B */}
                   <div
-                    className={`flex items-center justify-between p-2 rounded-xl transition-colors ${
-                      winnerIsB ? "bg-blue-500/10 font-bold" : "bg-slate-950/50"
+                    className={`flex items-center justify-between p-3 rounded-2xl transition-all ${
+                      winnerIsB
+                        ? "bg-emerald-500/10 border border-emerald-500/25"
+                        : "bg-slate-950/60 border border-slate-800/60"
                     }`}
                   >
-                    <div className="flex items-center space-x-3">
-                      <span className="text-xl">{teamB?.logo || "🛡️"}</span>
-                      <div>
-                        <div className="flex items-center space-x-1.5">
+                    <div className="flex items-center space-x-3 min-w-0 pr-2">
+                      <span className="text-2xl flex-shrink-0">{logoB}</span>
+                      <div className="min-w-0">
+                        <div className="flex items-center space-x-2">
                           <span
-                            className={`text-xs sm:text-sm ${
-                              winnerIsB ? "text-blue-300 font-bold" : "text-slate-100"
+                            className={`text-sm sm:text-base font-bold truncate ${
+                              winnerIsB ? "text-emerald-300" : "text-white"
                             }`}
                           >
-                            {teamB ? teamB.name : m.placeholderB || "TBD"}
+                            {nameB}
                           </span>
-                          {captB && (
-                            <span className="text-[10px] text-amber-400 font-mono font-medium">
-                              (C: {captB})
+                          {winnerIsB && (
+                            <span className="flex-shrink-0 text-emerald-400" title="Winner">
+                              <Check className="w-4 h-4" />
                             </span>
                           )}
                         </div>
-                        {rosterB && (
-                          <span className="text-[10px] text-slate-500 block truncate max-w-[200px]">
-                            {rosterB}
+                        {!isIndividual && captB && (
+                          <span className="text-xs text-amber-400 font-medium flex items-center space-x-1 mt-0.5">
+                            <Star className="w-3 h-3 fill-amber-400" />
+                            <span>Capt: {captB}</span>
                           </span>
                         )}
                       </div>
                     </div>
-                    <span
-                      className={`font-mono text-sm px-2.5 py-0.5 rounded-lg ${
-                        winnerIsB
-                          ? "text-blue-400 font-extrabold bg-blue-500/20"
-                          : isCompleted || isLive
-                          ? "text-white bg-slate-800"
-                          : "text-slate-600"
-                      }`}
-                    >
-                      {isCompleted || isLive ? m.scoreB : "-"}
-                    </span>
+
+                    <div className="flex-shrink-0">
+                      <span
+                        className={`inline-block font-mono text-base sm:text-lg font-black px-3.5 py-1 rounded-xl ${
+                          winnerIsB
+                            ? "bg-emerald-500 text-slate-950 shadow-sm"
+                            : isCompleted || isLive
+                            ? "bg-slate-800 text-white"
+                            : "bg-slate-900 text-slate-500 border border-slate-800"
+                        }`}
+                      >
+                        {isCompleted || isLive ? m.scoreB : "—"}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Officials & Duration / Notes */}
-                {(m.official || m.duration || m.playerNotes) && (
-                  <div className="mb-2.5 p-2 rounded-xl bg-slate-950/40 border border-slate-800/40 text-[10px] text-slate-400 flex flex-wrap items-center gap-2">
+                {/* Optional Details (Venue, Referee, Duration) - Only shown if explicitly provided */}
+                {(m.venue || m.official || m.duration || m.playerNotes) && (
+                  <div className="mt-3.5 pt-3 border-t border-slate-800/70 flex flex-wrap items-center gap-2.5 text-xs text-slate-400">
+                    {m.venue && (
+                      <span className="flex items-center space-x-1 sm:hidden">
+                        <MapPin className="w-3.5 h-3.5 text-blue-400" />
+                        <span>{m.venue}</span>
+                      </span>
+                    )}
                     {m.official && (
-                      <span className="flex items-center space-x-1">
+                      <span className="flex items-center space-x-1 bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800">
                         <Award className="w-3 h-3 text-amber-400" />
-                        <span>{m.official}</span>
+                        <span>Ref: {m.official}</span>
                       </span>
                     )}
                     {m.duration && (
-                      <span className="flex items-center space-x-1 text-slate-500">
+                      <span className="flex items-center space-x-1 bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800">
                         <Timer className="w-3 h-3 text-blue-400" />
                         <span>{m.duration}</span>
                       </span>
                     )}
                     {m.playerNotes && (
-                      <span className="flex items-center space-x-1 text-slate-400 truncate max-w-full">
-                        <Users className="w-3 h-3 text-blue-400" />
-                        <span className="truncate">{m.playerNotes}</span>
+                      <span className="text-slate-400 truncate max-w-full italic text-[11px]">
+                        "{m.playerNotes}"
                       </span>
                     )}
                   </div>
                 )}
 
-                {/* Footer & Admin Actions */}
-                <div className="flex items-center justify-between pt-2 border-t border-slate-800/60 text-xs">
-                  <span className="text-slate-500 font-mono text-[11px]">
-                    {scoreUnit}: {isCompleted || isLive ? `${m.scoreA} - ${m.scoreB}` : "Not Started"}
-                  </span>
-                  {isAdmin && (
+                {/* Admin Action Button */}
+                {isAdmin && (
+                  <div className="mt-3.5 pt-3 border-t border-slate-800/70 flex items-center justify-end">
                     <button
                       onClick={() => onEditMatch && onEditMatch(m)}
-                      className="flex items-center space-x-1.5 px-3 py-1 bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-lg font-semibold transition-colors text-xs"
+                      className="flex items-center space-x-1.5 px-3.5 py-1.5 bg-blue-600/10 hover:bg-blue-600/20 text-blue-300 border border-blue-500/30 rounded-xl font-bold transition-colors text-xs"
                     >
                       <Edit3 className="w-3.5 h-3.5" />
                       <span>Edit Match & Score</span>
                     </button>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             );
           })}

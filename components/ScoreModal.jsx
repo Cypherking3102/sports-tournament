@@ -29,8 +29,8 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
   const [teamBId, setTeamBId] = useState(match?.teamBId || "");
   const [scheduledAt, setScheduledAt] = useState(match?.scheduledAt || "");
   const [venue, setVenue] = useState(match?.venue || "");
-  const [official, setOfficial] = useState(match?.official || "Parish Referee Panel");
-  const [duration, setDuration] = useState(match?.duration || "Standard Time");
+  const [official, setOfficial] = useState(match?.official || "");
+  const [duration, setDuration] = useState(match?.duration || "");
   const [playerNotes, setPlayerNotes] = useState(match?.playerNotes || "");
 
   const [loading, setLoading] = useState(false);
@@ -65,8 +65,8 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
           teamBId: teamBId || null,
           scheduledAt: scheduledAt || match.scheduledAt,
           venue: venue || match.venue,
-          official: official || match.official,
-          duration: duration || match.duration,
+          official: official.trim(),
+          duration: duration.trim(),
           playerNotes: playerNotes || match.playerNotes,
           scoreA: Number(scoreA),
           scoreB: Number(scoreB),
@@ -328,22 +328,22 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
 
               <div className="grid grid-cols-2 gap-2 pt-1 border-t border-slate-800">
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-1">Match Official</label>
+                  <label className="text-[11px] text-slate-400 block mb-1">Referee (Optional)</label>
                   <input
                     type="text"
                     value={official}
                     onChange={(e) => setOfficial(e.target.value)}
-                    placeholder="Referee Name"
+                    placeholder="Optional referee"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-400"
                   />
                 </div>
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-1">Duration</label>
+                  <label className="text-[11px] text-slate-400 block mb-1">Duration (Optional)</label>
                   <input
                     type="text"
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
-                    placeholder="e.g. 90 mins"
+                    placeholder="Optional duration"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-400"
                   />
                 </div>

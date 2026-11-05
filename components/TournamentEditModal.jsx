@@ -52,9 +52,71 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
       "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80"
   );
   const [organizer, setOrganizer] = useState(
-    tournament.organizer || "Divine Mercy Sports Ministry"
+    tournament.organizer || "Divine Mercy Church"
   );
   const [description, setDescription] = useState(tournament.description || "");
+
+  // Dynamic Multi-Group Management
+  const [groups, setGroups] = useState(
+    tournament.groups && tournament.groups.length > 0
+      ? tournament.groups
+      : [
+          { id: "grp-a", name: "Group A", teams: [] },
+          { id: "grp-b", name: "Group B", teams: [] }
+        ]
+  );
+  const [newTeamGroup, setNewTeamGroup] = useState(
+    tournament.groups?.[0]?.id || "grp-a"
+  );
+
+  // Playoff Matches for bracket & seed customization
+  const [playoffMatches, setPlayoffMatches] = useState(
+    (tournament.matches || []).filter(
+      (m) =>
+        m.groupId === "PLAYOFFS" ||
+        m.stageName?.includes("Playoff") ||
+        m.stageName?.includes("Final") ||
+        m.stageName?.includes("Semi") ||
+        m.stageName?.includes("Quarter")
+    )
+  );
+
+  // Group helpers
+  const handleAddGroup = () => {
+    const nextLetter = String.fromCharCode(65 + groups.length);
+    const newGrp = {
+      id: `grp-${String.fromCharCode(97 + groups.length)}`,
+      name: `Group ${nextLetter}`,
+      teams: []
+    };
+    setGroups([...groups, newGrp]);
+  };
+
+  const handleRemoveGroup = (groupId) => {
+    if (groups.length <= 1) return;
+    const remaining = groups.filter((g) => g.id !== groupId);
+    setGroups(remaining);
+    const fallbackId = remaining[0].id;
+    setTeams(
+      teams.map((t) => (t.groupId === groupId ? { ...t, groupId: fallbackId } : t))
+    );
+  };
+
+  const handleAutoBalanceTeams = () => {
+    if (!groups.length || !teams.length) return;
+    setTeams(
+      teams.map((t, idx) => ({
+        ...t,
+        groupId: groups[idx % groups.length].id
+      }))
+    );
+  };
+
+  const handleUpdatePlayoffMatch = (matchId, field, value) => {
+    setPlayoffMatches(
+      playoffMatches.map((m) => (m.id === matchId ? { ...m, [field]: value } : m))
+    );
+  };
 
   // Points & Scoring Engine
   const [winPoints, setWinPoints] = useState(tournament.pointsConfig?.win ?? 3);
@@ -72,6 +134,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
   const [teams, setTeams] = useState(
     (tournament.teams || []).map((t) => ({
       ...t,
+      groupId: t.groupId || tournament.groups?.[0]?.id || "grp-a",
       players: normalizePlayers(t.players)
     }))
   );
@@ -79,7 +142,6 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
   // Inputs for adding a new team
   const [newTeamName, setNewTeamName] = useState("");
   const [newTeamLogo, setNewTeamLogo] = useState("🛡️");
-  const [newTeamGroup, setNewTeamGroup] = useState("Group A");
 
   // Inputs for adding an individual player to a specific team
   const [activeAddTeamId, setActiveAddTeamId] = useState(null);
@@ -128,7 +190,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
       logo: newTeamLogo || "🛡️",
       players: [],
       seed: teams.length + 1,
-      groupId: newTeamGroup === "Group A" ? "grp-a" : "grp-b"
+      groupId: newTeamGroup || groups[0]?.id || "grp-a"
     };
     setTeams([...teams, newTeamObj]);
     setNewTeamName("");
@@ -144,7 +206,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
       logo: newSoloAvatar || "👤",
       players: [],
       seed: teams.length + 1,
-      groupId: "grp-a"
+      groupId: groups[0]?.id || "grp-a"
     };
     setTeams([...teams, newSoloObj]);
     setNewSoloName("");
@@ -285,14 +347,24 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
     });
 
     let updatedGroups = tournament.groups;
-    if (tournament.format === "GROUP_KNOCKOUT" && updatedGroups) {
-      updatedGroups = updatedGroups.map((grp) => {
-        const grpTeams = formattedTeams.filter((t) =>
-          grp.name.includes("A") ? t.groupId === "grp-a" : t.groupId === "grp-b"
-        );
-        return { ...grp, teams: grpTeams };
-      });
+    if (tournament.format === "GROUP_KNOCKOUT") {
+      updatedGroups = groups.map((grp) => ({
+        ...grp,
+        teams: formattedTeams.filter((t) => t.groupId === grp.id)
+      }));
     }
+
+    // Merge updated playoff matches back into matches array
+    const originalMatches = tournament.matches || [];
+    const nonPlayoffMatches = originalMatches.filter(
+      (m) =>
+        m.groupId !== "PLAYOFFS" &&
+        !m.stageName?.includes("Playoff") &&
+        !m.stageName?.includes("Final") &&
+        !m.stageName?.includes("Semi") &&
+        !m.stageName?.includes("Quarter")
+    );
+    const updatedMatches = [...nonPlayoffMatches, ...playoffMatches];
 
     const payload = {
       title,
@@ -304,11 +376,12 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
       scoreUnit,
       participantType,
       bannerUrl,
-      organizer,
+      organizer: organizer || "Divine Mercy Church",
       description,
       pointsConfig: updatedPointsConfig,
       teams: formattedTeams,
       groups: updatedGroups,
+      matches: updatedMatches,
       rules
     };
 
@@ -466,6 +539,20 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
             </span>
           </button>
 
+          {tournament.format === "GROUP_KNOCKOUT" && (
+            <button
+              onClick={() => setActiveTab("groups")}
+              className={`py-3 px-3.5 border-b-2 flex items-center space-x-1.5 transition-all whitespace-nowrap ${
+                activeTab === "groups"
+                  ? "border-blue-500 text-blue-400"
+                  : "border-transparent text-slate-400 hover:text-white"
+              }`}
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span>Groups & Playoff Seeds ({groups.length})</span>
+            </button>
+          )}
+
           <button
             onClick={() => setActiveTab("points")}
             className={`py-3 px-3.5 border-b-2 flex items-center space-x-1.5 transition-all whitespace-nowrap ${
@@ -599,13 +686,30 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                             className="bg-transparent border-0 border-b border-slate-700 focus:border-blue-400 font-bold text-white text-xs px-1 py-0.5 focus:outline-none"
                           />
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveTeam(t.id)}
-                          className="p-1.5 text-slate-500 hover:text-red-400"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+
+                        <div className="flex items-center space-x-2">
+                          {tournament.format === "GROUP_KNOCKOUT" && (
+                            <select
+                              value={t.groupId || groups[0]?.id}
+                              onChange={(e) => handleUpdateTeam(t.id, "groupId", e.target.value)}
+                              className="bg-slate-900 border border-slate-700 text-blue-400 font-bold text-xs rounded-xl px-2 py-1 focus:outline-none"
+                            >
+                              {groups.map((grp) => (
+                                <option key={grp.id} value={grp.id}>
+                                  {grp.name}
+                                </option>
+                              ))}
+                            </select>
+                          )}
+
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveTeam(t.id)}
+                            className="p-1.5 text-slate-500 hover:text-red-400"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -644,10 +748,13 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                         <select
                           value={newTeamGroup}
                           onChange={(e) => setNewTeamGroup(e.target.value)}
-                          className="w-24 bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-white focus:outline-none"
+                          className="w-28 bg-slate-900 border border-slate-700 rounded-xl p-2 text-xs text-blue-400 font-bold focus:outline-none"
                         >
-                          <option value="Group A">Group A</option>
-                          <option value="Group B">Group B</option>
+                          {groups.map((grp) => (
+                            <option key={grp.id} value={grp.id}>
+                              {grp.name}
+                            </option>
+                          ))}
                         </select>
                       )}
                       <button
@@ -708,18 +815,17 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                             <div className="flex items-center space-x-2">
                               {tournament.format === "GROUP_KNOCKOUT" && (
                                 <select
-                                  value={t.groupId === "grp-a" ? "Group A" : "Group B"}
+                                  value={t.groupId || groups[0]?.id}
                                   onChange={(e) =>
-                                    handleUpdateTeam(
-                                      t.id,
-                                      "groupId",
-                                      e.target.value === "Group A" ? "grp-a" : "grp-b"
-                                    )
+                                    handleUpdateTeam(t.id, "groupId", e.target.value)
                                   }
-                                  className="bg-slate-900 border border-slate-800 rounded-xl px-2.5 py-1 text-xs text-slate-300 font-mono focus:outline-none"
+                                  className="bg-slate-900 border border-slate-800 rounded-xl px-2.5 py-1 text-xs text-blue-400 font-bold focus:outline-none focus:border-blue-400"
                                 >
-                                  <option value="Group A">Group A</option>
-                                  <option value="Group B">Group B</option>
+                                  {groups.map((grp) => (
+                                    <option key={grp.id} value={grp.id}>
+                                      {grp.name}
+                                    </option>
+                                  ))}
                                 </select>
                               )}
 
@@ -864,6 +970,198 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                   </div>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* TAB: Groups & Playoff Seeds */}
+          {activeTab === "groups" && (
+            <div className="space-y-6">
+              {/* Groups Management */}
+              <div className="space-y-4 bg-slate-950/80 border border-slate-800 rounded-2xl p-5">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+                  <div>
+                    <h4 className="font-extrabold text-white text-sm flex items-center space-x-2">
+                      <Layers className="w-4 h-4 text-blue-400" />
+                      <span>Tournament Groups ({groups.length})</span>
+                    </h4>
+                    <p className="text-xs text-slate-400 mt-0.5">
+                      Add as many groups as needed (Group A, B, C, D...). Move teams between groups under the Teams tab or auto-balance below.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleAddGroup}
+                    className="flex items-center space-x-1.5 px-3 py-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs rounded-xl shadow-sm transition-all"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Add New Group</span>
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                  {groups.map((grp) => {
+                    const teamsInGrp = teams.filter((t) => t.groupId === grp.id);
+                    return (
+                      <div
+                        key={grp.id}
+                        className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2 shadow-sm"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-white text-sm">{grp.name}</span>
+                          {groups.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveGroup(grp.id)}
+                              className="text-slate-500 hover:text-red-400 p-1"
+                              title={`Delete ${grp.name}`}
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                        </div>
+                        <span className="text-xs text-blue-400 font-mono block">
+                          {teamsInGrp.length} {participantType === "TEAM" ? "Teams" : "Players"}
+                        </span>
+                        <div className="flex flex-wrap gap-1 max-h-24 overflow-y-auto">
+                          {teamsInGrp.length === 0 ? (
+                            <span className="text-[10px] text-slate-500 italic">No teams in this group</span>
+                          ) : (
+                            teamsInGrp.map((t) => (
+                              <span
+                                key={t.id}
+                                className="text-[10px] bg-slate-950 px-2 py-0.5 rounded-md border border-slate-800 text-slate-300"
+                              >
+                                {t.logo} {t.name}
+                              </span>
+                            ))
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {teams.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleAutoBalanceTeams}
+                    className="text-xs text-blue-400 hover:text-blue-300 font-semibold flex items-center space-x-1.5 hover:underline"
+                  >
+                    <Sliders className="w-3.5 h-3.5" />
+                    <span>Auto-balance teams evenly across all active groups</span>
+                  </button>
+                )}
+              </div>
+
+              {/* Playoff Seeds & Bracket Matchups Editor */}
+              <div className="space-y-4 bg-slate-950/80 border border-slate-800 rounded-2xl p-5">
+                <div className="border-b border-slate-800/80 pb-3">
+                  <h4 className="font-extrabold text-white text-sm flex items-center space-x-2">
+                    <Trophy className="w-4 h-4 text-amber-400" />
+                    <span>Playoff Bracket & Seed Pairings</span>
+                  </h4>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Customize the seeds and pairings for knockout playoff matches. You can edit slot descriptions (e.g. "Winner Group A") or assign a team directly.
+                  </p>
+                </div>
+
+                {playoffMatches.length === 0 ? (
+                  <p className="text-slate-500 text-xs italic py-2">
+                    No playoff fixtures configured for this tournament.
+                  </p>
+                ) : (
+                  <div className="space-y-3">
+                    {playoffMatches.map((m) => (
+                      <div
+                        key={m.id}
+                        className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3"
+                      >
+                        <div className="flex items-center justify-between text-xs border-b border-slate-800 pb-2">
+                          <input
+                            type="text"
+                            value={m.roundName || m.stageName || "Playoff Match"}
+                            onChange={(e) => handleUpdatePlayoffMatch(m.id, "roundName", e.target.value)}
+                            className="bg-transparent font-bold text-white text-xs border-b border-slate-700 focus:border-blue-400 focus:outline-none px-1"
+                          />
+                          <span className="font-mono text-slate-500 text-[11px]">{m.id}</span>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {/* Slot A */}
+                          <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
+                            <label className="text-[10px] text-blue-400 font-bold uppercase block">
+                              Slot A (Seed or Team)
+                            </label>
+                            <input
+                              type="text"
+                              value={m.placeholderA || ""}
+                              onChange={(e) => handleUpdatePlayoffMatch(m.id, "placeholderA", e.target.value)}
+                              placeholder="e.g. Winner Group A"
+                              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-blue-400"
+                            />
+                            <select
+                              value={m.teamAId || ""}
+                              onChange={(e) => handleUpdatePlayoffMatch(m.id, "teamAId", e.target.value || null)}
+                              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-[11px] text-slate-300 focus:outline-none"
+                            >
+                              <option value="">(Auto from result / TBD)</option>
+                              {teams.map((t) => (
+                                <option key={t.id} value={t.id}>
+                                  {t.logo} {t.name}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          {/* Slot B */}
+                          <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
+                            <label className="text-[10px] text-emerald-400 font-bold uppercase block">
+                              Slot B (Seed or Team)
+                            </label>
+                            <input
+                              type="text"
+                              value={m.placeholderB || ""}
+                              onChange={(e) => handleUpdatePlayoffMatch(m.id, "placeholderB", e.target.value)}
+                              placeholder="e.g. Runner-up Group B"
+                              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-emerald-400"
+                            />
+                            <select
+                              value={m.teamBId || ""}
+                              onChange={(e) => handleUpdatePlayoffMatch(m.id, "teamBId", e.target.value || null)}
+                              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-[11px] text-slate-300 focus:outline-none"
+                            >
+                              <option value="">(Auto from result / TBD)</option>
+                              {teams.map((t) => (
+                                <option key={t.id} value={t.id}>
+                                  {t.logo} {t.name}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+
+                        {/* Schedule & Venue */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-1">
+                          <input
+                            type="text"
+                            value={m.scheduledAt || ""}
+                            onChange={(e) => handleUpdatePlayoffMatch(m.id, "scheduledAt", e.target.value)}
+                            placeholder="Schedule (e.g. 2026-11-20 17:00)"
+                            className="bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-[11px] text-slate-300 focus:outline-none focus:border-blue-400"
+                          />
+                          <input
+                            type="text"
+                            value={m.venue || ""}
+                            onChange={(e) => handleUpdatePlayoffMatch(m.id, "venue", e.target.value)}
+                            placeholder="Venue / Pitch"
+                            className="bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-[11px] text-slate-300 focus:outline-none focus:border-blue-400"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           )}
 

@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 
 export const metadata = {
   title: "Divine Mercy Sports — Parish Tournaments, Groups & Brackets",
-  description: "Official sports and tournament portal for Divine Mercy Church wards and youth communities."
+  description: "Official sports and tournament portal for Divine Mercy Church community."
 };
 
 export const viewport = {
@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
           <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center space-x-2">
               <span className="font-extrabold text-slate-300">Divine Mercy Church</span>
-              <span>• Parish Sports Ministry</span>
+              <span>• Parish Tournaments</span>
             </div>
             <p className="text-slate-500 text-[11px]">
               Multi-Group Stages • Round-Robin Tables • Knockout Playoffs • Parish Rulebooks

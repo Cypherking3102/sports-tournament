@@ -32,11 +32,11 @@ export default function AddMatchModal({ tournament, onClose, onMatchAdded }) {
     tournament?.startDate || new Date().toISOString().split("T")[0]
   );
   const [scheduledTime, setScheduledTime] = useState("17:00");
-  const [venue, setVenue] = useState(tournament?.location || "Divine Mercy Parish Grounds");
+  const [venue, setVenue] = useState(tournament?.location || "");
 
-  // Rich Match Info
-  const [official, setOfficial] = useState("Parish Referee Panel");
-  const [duration, setDuration] = useState("Standard Match Time");
+  // Rich Match Info (all optional)
+  const [official, setOfficial] = useState("");
+  const [duration, setDuration] = useState("");
   const [teamALineup, setTeamALineup] = useState("");
   const [teamBLineup, setTeamBLineup] = useState("");
   const [matchNotes, setMatchNotes] = useState("");
@@ -102,8 +102,8 @@ export default function AddMatchModal({ tournament, onClose, onMatchAdded }) {
         winnerId: null,
         scheduledAt,
         venue,
-        official: official || "Official Referee",
-        duration: duration || "Standard Time",
+        official: official.trim(),
+        duration: duration.trim(),
         playerNotes: compositePlayerNotes
       };
 
@@ -330,36 +330,36 @@ export default function AddMatchModal({ tournament, onClose, onMatchAdded }) {
             </div>
           </div>
 
-          {/* Section 4: Match Officials & Duration */}
+          {/* Section 4: Match Officials & Duration (Optional) */}
           <div className="space-y-3 pt-2 border-t border-slate-800">
             <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center space-x-1.5">
               <Award className="w-3.5 h-3.5 text-blue-400" />
-              <span>Officials & Match Rules</span>
+              <span>Officials & Match Info (Optional)</span>
             </span>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="text-[11px] text-slate-400 block mb-1 font-medium">
-                  Match Official / Referee
+                  Referee / Official (Optional)
                 </label>
                 <input
                   type="text"
                   value={official}
                   onChange={(e) => setOfficial(e.target.value)}
-                  placeholder="e.g. Parish Referee Panel, Fr. Peter"
+                  placeholder="Optional (e.g. Fr. Jude / John D'Souza)"
                   className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
                 />
               </div>
 
               <div>
                 <label className="text-[11px] text-slate-400 block mb-1 font-medium">
-                  Duration & Format
+                  Duration (Optional)
                 </label>
                 <input
                   type="text"
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
-                  placeholder="e.g. 90 mins, 40 mins (20m halves), Best of 3"
+                  placeholder="Optional (e.g. 20 mins / 2 halves)"
                   className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
                 />
               </div>

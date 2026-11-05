@@ -30,7 +30,8 @@ import {
   generateKnockoutBracket,
   generateRoundRobinSchedule,
   normalizePlayers,
-  formatRosterString
+  formatRosterString,
+  buildDefaultPlayoffMatches
 } from "@/lib/tournamentEngine";
 
 const PRESET_SPORTS = [
@@ -64,6 +65,13 @@ export default function TournamentWizard() {
   const [location, setLocation] = useState("Parish Sports Turf");
   const [startDate, setStartDate] = useState(new Date().toISOString().split("T")[0]);
 
+  // Dynamic Multi-Group Management (Can add Group A, B, C, D, E...)
+  const [groupsList, setGroupsList] = useState(["Group A", "Group B"]);
+
+  // Playoff Structure & Seed Customization
+  const [playoffStage, setPlayoffStage] = useState("SEMI_FINALS"); // "FINAL", "SEMI_FINALS", "QUARTER_FINALS"
+  const [customPlayoffMatchups, setCustomPlayoffMatchups] = useState([]);
+
   // Points & Scoring Configuration (Fully Configurable)
   const [winPoints, setWinPoints] = useState(3);
   const [drawPoints, setDrawPoints] = useState(1);
@@ -75,8 +83,6 @@ export default function TournamentWizard() {
   const [customRuleValInput, setCustomRuleValInput] = useState("");
 
   // Participants (Clean slate: starts empty, no prefilled fake names)
-  // When participantType === "TEAM", each item has { name, logo, seed, group, players: [{ id, name, role }] }
-  // When participantType === "INDIVIDUAL", each item has { name, logo, seed, group, players: [] }
   const [teams, setTeams] = useState([]);
   const [newTeamName, setNewTeamName] = useState("");
   const [newTeamLogo, setNewTeamLogo] = useState("🛡️");
@@ -120,13 +126,49 @@ export default function TournamentWizard() {
     setTitle("Divine Mercy Community Tournament 2026");
   };
 
+  // Group helpers
+  const handleAddGroup = () => {
+    const nextLetter = String.fromCharCode(65 + groupsList.length);
+    const newGroupName = `Group ${nextLetter}`;
+    setGroupsList([...groupsList, newGroupName]);
+  };
+
+  const handleRemoveGroup = (groupNameToRemove) => {
+    if (groupsList.length <= 1) return;
+    const remaining = groupsList.filter((g) => g !== groupNameToRemove);
+    setGroupsList(remaining);
+    const fallbackGroup = remaining[0];
+    setTeams(
+      teams.map((t) => (t.group === groupNameToRemove ? { ...t, group: fallbackGroup } : t))
+    );
+  };
+
+  const handleSetPresetGroups = (count) => {
+    const newGroups = [];
+    for (let i = 0; i < count; i++) {
+      newGroups.push(`Group ${String.fromCharCode(65 + i)}`);
+    }
+    setGroupsList(newGroups);
+    handleAutoBalanceTeams(newGroups);
+  };
+
+  const handleAutoBalanceTeams = (groupsToUse = groupsList) => {
+    if (!groupsToUse.length || !teams.length) return;
+    setTeams(
+      teams.map((t, idx) => ({
+        ...t,
+        group: groupsToUse[idx % groupsToUse.length]
+      }))
+    );
+  };
+
   // Add a team (in TEAM mode)
   const handleAddTeam = (e) => {
     if (e) e.preventDefault();
     if (!newTeamName.trim()) return;
 
     const nextSeed = teams.length + 1;
-    const defaultGroup = nextSeed % 2 === 1 ? "Group A" : "Group B";
+    const defaultGroup = groupsList[teams.length % groupsList.length] || "Group A";
 
     const newTeam = {
       name: newTeamName.trim(),
@@ -148,7 +190,7 @@ export default function TournamentWizard() {
     if (!newSoloName.trim()) return;
 
     const nextSeed = teams.length + 1;
-    const defaultGroup = nextSeed % 2 === 1 ? "Group A" : "Group B";
+    const defaultGroup = groupsList[teams.length % groupsList.length] || "Group A";
 
     const newPlayer = {
       name: newSoloName.trim(),
@@ -258,13 +300,13 @@ export default function TournamentWizard() {
     reindexSeeds(updated);
   };
 
-  const reindexSeeds = (list) => {
-    const half = Math.ceil(list.length / 2);
+  const reindexSeeds = (list, currentGroups = groupsList) => {
+    const gCount = currentGroups.length || 1;
     setTeams(
       list.map((t, idx) => ({
         ...t,
         seed: idx + 1,
-        group: idx < half ? "Group A" : "Group B"
+        group: t.group && currentGroups.includes(t.group) ? t.group : currentGroups[idx % gCount]
       }))
     );
   };
@@ -277,13 +319,13 @@ export default function TournamentWizard() {
       .map((l) => l.trim())
       .filter(Boolean);
 
-    const half = Math.ceil(lines.length / 2);
+    const gCount = groupsList.length || 1;
 
     if (participantType === "INDIVIDUAL") {
       const parsed = lines.map((line, idx) => ({
         name: line,
         seed: idx + 1,
-        group: idx < half ? "Group A" : "Group B",
+        group: groupsList[idx % gCount] || "Group A",
         logo: "👤",
         players: []
       }));
@@ -300,7 +342,7 @@ export default function TournamentWizard() {
           name,
           players: playerObjects,
           seed: idx + 1,
-          group: idx < half ? "Group A" : "Group B",
+          group: groupsList[idx % gCount] || "Group A",
           logo: ["🛡️", "⚡", "🦅", "🐺", "🔥", "⚔️", "🌟", "👑", "🚀", "🎯"][idx % 10]
         };
       });
@@ -370,26 +412,41 @@ export default function TournamentWizard() {
           captain: captainObj ? captainObj.name : null,
           players: playersList,
           playersString: formatRosterString(playersList),
-          groupId: t.group === "Group A" ? "grp-a" : "grp-b"
+          group: t.group || groupsList[0],
+          groupId: `grp-${String.fromCharCode(97 + Math.max(0, groupsList.indexOf(t.group)))}`
         };
       });
 
       if (format === "GROUP_KNOCKOUT") {
-        const grpATeams = formattedParticipants
-          .filter((t) => t.groupId === "grp-a")
-          .map((t, i) => ({ ...t, id: `tm-a${i + 1}` }));
-        const grpBTeams = formattedParticipants
-          .filter((t) => t.groupId === "grp-b")
-          .map((t, i) => ({ ...t, id: `tm-b${i + 1}` }));
+        groups = groupsList.map((grpName, gIdx) => {
+          const grpId = `grp-${String.fromCharCode(97 + gIdx)}`;
+          const grpTeams = formattedParticipants
+            .filter((t) => t.group === grpName)
+            .map((t, i) => ({
+              ...t,
+              id: `tm-${String.fromCharCode(97 + gIdx)}${i + 1}`,
+              groupId: grpId
+            }));
+          return {
+            id: grpId,
+            name: grpName,
+            teams: grpTeams
+          };
+        });
 
-        groups = [
-          { id: "grp-a", name: "Group A", teams: grpATeams },
-          { id: "grp-b", name: "Group B", teams: grpBTeams }
-        ];
+        const activePlayoffMatches =
+          customPlayoffMatchups.length > 0
+            ? customPlayoffMatchups
+            : buildDefaultPlayoffMatches(groups, {
+                startDate,
+                venue: location,
+                playoffStage
+              });
 
         matches = generateGroupKnockoutTournament(groups, {
           startDate,
-          venue: location
+          venue: location,
+          playoffMatches: activePlayoffMatches
         });
       } else if (format === "KNOCKOUT") {
         matches = generateKnockoutBracket(formattedParticipants, {
@@ -424,7 +481,7 @@ export default function TournamentWizard() {
           format,
           startDate,
           location,
-          organizer: "Divine Mercy Sports Ministry",
+          organizer: "Divine Mercy Church",
           description: `Official ${activeSportName} ${
             participantType === "TEAM" ? "Team" : "Individual"
           } tournament.`,
@@ -761,6 +818,133 @@ export default function TournamentWizard() {
         </div>
       </div>
 
+      {/* Dynamic Multi-Group Stage & Playoff Brackets Setup (when GROUP_KNOCKOUT is selected) */}
+      {format === "GROUP_KNOCKOUT" && (
+        <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 space-y-6">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div>
+              <div className="flex items-center space-x-2 text-blue-400 text-xs font-bold uppercase tracking-wider mb-0.5">
+                <Layers className="w-4 h-4" />
+                <span>Multi-Group & Playoff Setup</span>
+              </div>
+              <h3 className="font-extrabold text-white text-base">
+                Configure Groups & Playoff Seeds
+              </h3>
+              <p className="text-xs text-slate-400">
+                Create any number of groups (Group A, B, C, D...), move teams between them, and customize playoff matchups.
+              </p>
+            </div>
+          </div>
+
+          {/* Group Management */}
+          <div className="space-y-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                Active Groups ({groupsList.length})
+              </span>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span className="text-[11px] text-slate-500 mr-1">Presets:</span>
+                {[2, 3, 4].map((cnt) => (
+                  <button
+                    key={cnt}
+                    type="button"
+                    onClick={() => handleSetPresetGroups(cnt)}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition-all ${
+                      groupsList.length === cnt
+                        ? "bg-blue-600 text-white border-blue-500"
+                        : "bg-slate-950 text-slate-400 border-slate-800 hover:text-white"
+                    }`}
+                  >
+                    {cnt} Groups
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={handleAddGroup}
+                  className="px-3 py-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs rounded-lg transition-all shadow-sm flex items-center space-x-1"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Add Group</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Group Badges Grid with team count */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              {groupsList.map((grpName) => {
+                const countInGrp = teams.filter((t) => t.group === grpName).length;
+                return (
+                  <div
+                    key={grpName}
+                    className="p-3 rounded-2xl bg-slate-950/90 border border-slate-800 flex items-center justify-between"
+                  >
+                    <div>
+                      <span className="font-extrabold text-white text-xs block">{grpName}</span>
+                      <span className="text-[11px] text-blue-400 font-mono">
+                        {countInGrp} {participantType === "TEAM" ? "Teams" : "Players"}
+                      </span>
+                    </div>
+                    {groupsList.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveGroup(grpName)}
+                        className="text-slate-500 hover:text-rose-400 p-1 rounded-lg hover:bg-slate-900 transition-colors"
+                        title={`Remove ${grpName}`}
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {teams.length > 0 && (
+              <button
+                type="button"
+                onClick={() => handleAutoBalanceTeams()}
+                className="text-xs text-blue-400 hover:text-blue-300 font-semibold flex items-center space-x-1.5 mt-1 hover:underline"
+              >
+                <Sliders className="w-3.5 h-3.5" />
+                <span>Auto-distribute existing teams evenly across these groups</span>
+              </button>
+            )}
+          </div>
+
+          {/* Playoff Structure & Seed Editor */}
+          <div className="space-y-3 pt-4 border-t border-slate-800">
+            <span className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+              Playoff Bracket Structure
+            </span>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {[
+                { id: "FINAL", label: "Direct Final (Top 2)", desc: "Winner Group A vs Winner Group B" },
+                { id: "SEMI_FINALS", label: "Semi-Finals & Final (Top 4)", desc: "2 Semis + Grand Final" },
+                { id: "QUARTER_FINALS", label: "Quarter-Finals (Top 8)", desc: "4 Quarters + 2 Semis + Final" }
+              ].map((stg) => (
+                <button
+                  key={stg.id}
+                  type="button"
+                  onClick={() => setPlayoffStage(stg.id)}
+                  className={`p-3 rounded-2xl border text-left transition-all ${
+                    playoffStage === stg.id
+                      ? "border-blue-500 bg-blue-500/10"
+                      : "border-slate-800 bg-slate-950 hover:border-slate-700"
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-bold text-xs text-white">{stg.label}</span>
+                    {playoffStage === stg.id && <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />}
+                  </div>
+                  <p className="text-[10px] text-slate-400">{stg.desc}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Step 3: Points Engine */}
       <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 space-y-4">
         <div className="flex items-center justify-between">
@@ -1028,29 +1212,19 @@ export default function TournamentWizard() {
 
                     <div className="flex items-center space-x-2">
                       {format === "GROUP_KNOCKOUT" && (
-                        <div className="flex items-center space-x-1">
-                          <button
-                            type="button"
-                            onClick={() => handleUpdateTeamGroup(idx, "Group A")}
-                            className={`px-2 py-1 rounded text-[10px] font-mono font-bold ${
-                              t.group === "Group A"
-                                ? "bg-blue-600 text-white"
-                                : "bg-slate-900 text-slate-500 hover:text-white"
-                            }`}
+                        <div className="flex items-center space-x-1.5">
+                          <label className="text-[10px] text-slate-500 font-mono hidden sm:inline-block">Group:</label>
+                          <select
+                            value={t.group || groupsList[0]}
+                            onChange={(e) => handleUpdateTeamGroup(idx, e.target.value)}
+                            className="bg-slate-900 border border-slate-700 text-blue-400 font-bold text-xs rounded-xl px-2.5 py-1 focus:outline-none focus:border-blue-400"
                           >
-                            Grp A
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleUpdateTeamGroup(idx, "Group B")}
-                            className={`px-2 py-1 rounded text-[10px] font-mono font-bold ${
-                              t.group === "Group B"
-                                ? "bg-emerald-600 text-white"
-                                : "bg-slate-900 text-slate-500 hover:text-white"
-                            }`}
-                          >
-                            Grp B
-                          </button>
+                            {groupsList.map((grp) => (
+                              <option key={grp} value={grp}>
+                                {grp}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                       )}
 
@@ -1185,29 +1359,19 @@ export default function TournamentWizard() {
                         {/* Group Selection & Delete Team */}
                         <div className="flex items-center space-x-2">
                           {format === "GROUP_KNOCKOUT" && (
-                            <div className="flex items-center space-x-1">
-                              <button
-                                type="button"
-                                onClick={() => handleUpdateTeamGroup(tIdx, "Group A")}
-                                className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold transition-all ${
-                                  team.group === "Group A"
-                                    ? "bg-blue-600 text-white"
-                                    : "bg-slate-900 text-slate-500 hover:text-white"
-                                }`}
+                            <div className="flex items-center space-x-1.5">
+                              <label className="text-[10px] text-slate-500 font-mono hidden sm:inline-block">Group:</label>
+                              <select
+                                value={team.group || groupsList[0]}
+                                onChange={(e) => handleUpdateTeamGroup(tIdx, e.target.value)}
+                                className="bg-slate-900 border border-slate-700 text-blue-400 font-bold text-xs rounded-xl px-2.5 py-1 focus:outline-none focus:border-blue-400"
                               >
-                                Group A
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => handleUpdateTeamGroup(tIdx, "Group B")}
-                                className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold transition-all ${
-                                  team.group === "Group B"
-                                    ? "bg-emerald-600 text-white"
-                                    : "bg-slate-900 text-slate-500 hover:text-white"
-                                }`}
-                              >
-                                Group B
-                              </button>
+                                {groupsList.map((grp) => (
+                                  <option key={grp} value={grp}>
+                                    {grp}
+                                  </option>
+                                ))}
+                              </select>
                             </div>
                           )}
 
