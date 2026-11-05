@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { normalizePlayers, getCaptain } from "@/lib/tournamentEngine";
 
-export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
+export default function GroupStageView({ tournament, onEditMatch, onAddMatch, isAdmin }) {
   const {
     groups = [],
     groupStandings = {},
@@ -301,10 +301,21 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
 
             {/* Group Fixtures List */}
             <div className="space-y-3 pt-2">
-              <h4 className="font-bold text-slate-300 text-xs tracking-wider uppercase flex items-center space-x-2">
-                <Calendar className="w-3.5 h-3.5 text-blue-400" />
-                <span>{group.name} Match Fixtures</span>
-              </h4>
+              <div className="flex items-center justify-between">
+                <h4 className="font-bold text-slate-300 text-xs tracking-wider uppercase flex items-center space-x-2">
+                  <Calendar className="w-3.5 h-3.5 text-blue-400" />
+                  <span>{group.name} Match Fixtures</span>
+                </h4>
+                {isAdmin && onAddMatch && (
+                  <button
+                    type="button"
+                    onClick={onAddMatch}
+                    className="text-xs text-blue-400 hover:text-blue-300 font-bold flex items-center space-x-1 hover:underline"
+                  >
+                    <span>+ Add Match</span>
+                  </button>
+                )}
+              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {groupMatches.map((m) => {
@@ -321,7 +332,10 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                   return (
                     <div
                       key={m.id}
+                      onClick={() => isAdmin && onEditMatch && onEditMatch(m)}
                       className={`p-4 rounded-2xl border transition-all ${
+                        isAdmin ? "cursor-pointer hover:border-blue-400 hover:shadow-lg" : ""
+                      } ${
                         isLive
                           ? "border-red-500/50 bg-red-950/15 shadow-md"
                           : "border-slate-800 bg-slate-950/70 hover:border-slate-700"
@@ -329,7 +343,7 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                     >
                       <div className="flex items-center justify-between text-xs text-slate-400 mb-2.5 border-b border-slate-800/60 pb-2">
                         <span className="font-bold text-slate-200">{m.roundName}</span>
-                        <div>
+                        <div className="flex items-center space-x-2">
                           {isLive && (
                             <span className="flex items-center space-x-1.5 text-red-400 font-bold animate-pulse text-xs">
                               <Flame className="w-3.5 h-3.5" />
@@ -346,6 +360,9 @@ export default function GroupStageView({ tournament, onEditMatch, isAdmin }) {
                               <Clock className="w-3.5 h-3.5 text-blue-400" />
                               <span>{m.scheduledAt || "Scheduled"}</span>
                             </span>
+                          )}
+                          {isAdmin && (
+                            <Edit3 className="w-3.5 h-3.5 text-blue-400" />
                           )}
                         </div>
                       </div>

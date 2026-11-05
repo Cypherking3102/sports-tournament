@@ -1,10 +1,45 @@
 "use client";
 
-import { useMemo } from "react";
-import { Trophy, ChevronRight, Edit3, Flame, Award } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Trophy, ChevronRight, Edit3, Flame, Award, Zap } from "lucide-react";
+import { seedPlayoffsFromGroups } from "@/lib/tournamentEngine";
+import { saveClientTournament } from "@/lib/clientStorage";
 
-export default function BracketTree({ tournament, onEditMatch, isAdmin }) {
+export default function BracketTree({ tournament, onEditMatch, onTournamentUpdated, isAdmin }) {
   const { matches = [], teams = [], scoreUnit = "Score", format } = tournament;
+  const [seeding, setSeeding] = useState(false);
+
+  const handleAutoSeed = async () => {
+    if (!tournament.groups || tournament.groups.length === 0) {
+      alert("No groups configured to seed from.");
+      return;
+    }
+    setSeeding(true);
+    try {
+      const updatedMatches = seedPlayoffsFromGroups(
+        tournament.groups,
+        tournament.matches,
+        tournament.pointsConfig,
+        tournament.teams
+      );
+      const updatedTournament = {
+        ...tournament,
+        matches: updatedMatches
+      };
+      saveClientTournament(updatedTournament);
+      if (onTournamentUpdated) onTournamentUpdated(updatedTournament);
+
+      await fetch(`/api/tournaments/${tournament.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ matches: updatedMatches })
+      });
+    } catch (e) {
+      console.warn("Seeding error:", e);
+    } finally {
+      setSeeding(false);
+    }
+  };
 
   // Filter playoff matches if it's a group+knockout tournament, or all matches if pure knockout
   const playoffMatches = useMemo(() => {
@@ -64,9 +99,23 @@ export default function BracketTree({ tournament, onEditMatch, isAdmin }) {
               </p>
             </div>
           </div>
-          <span className="hidden sm:inline-block text-xs font-mono text-blue-400 bg-blue-950/80 px-3 py-1 rounded-full border border-blue-800">
-            Semi-Finals & Final
-          </span>
+          <div className="flex items-center space-x-2.5">
+            {isAdmin && (
+              <button
+                type="button"
+                onClick={handleAutoSeed}
+                disabled={seeding}
+                className="px-3.5 py-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs rounded-xl transition-all shadow-md flex items-center space-x-1.5"
+                title="Populate 1st & 2nd place qualifiers into playoff matches based on current group standings"
+              >
+                <Zap className="w-3.5 h-3.5 text-amber-300" />
+                <span>{seeding ? "Seeding..." : "Seed from Groups"}</span>
+              </button>
+            )}
+            <span className="hidden sm:inline-block text-xs font-mono text-blue-400 bg-blue-950/80 px-3 py-1 rounded-full border border-blue-800">
+              Playoffs
+            </span>
+          </div>
         </div>
       )}
 

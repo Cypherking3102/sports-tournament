@@ -13,6 +13,12 @@ import {
   RotateCcw,
   Award
 } from "lucide-react";
+import {
+  getClientTournaments,
+  mergeTournaments,
+  syncTournamentsToServer,
+  clearClientTournaments
+} from "@/lib/clientStorage";
 
 export default function HomePage() {
   const [tournaments, setTournaments] = useState([]);
@@ -27,9 +33,14 @@ export default function HomePage() {
 
     const handleStorageChange = () => {
       setIsAdmin(!!localStorage.getItem("sports_admin_token"));
+      fetchTournaments();
     };
     window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
+    window.addEventListener("dmc_tournaments_updated", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("dmc_tournaments_updated", handleStorageChange);
+    };
   }, [selectedSport]);
 
   const fetchTournaments = async () => {
@@ -40,10 +51,32 @@ export default function HomePage() {
           ? "/api/tournaments"
           : `/api/tournaments?sport=${encodeURIComponent(selectedSport)}`;
       const res = await fetch(url);
-      const data = await res.json();
-      setTournaments(Array.isArray(data) ? data : []);
+      const serverData = res.ok ? await res.json() : [];
+      const safeServerData = Array.isArray(serverData) ? serverData : [];
+
+      // Merge server tournaments with client tournaments (ensures custom tournaments never vanish)
+      let combined = mergeTournaments(safeServerData);
+
+      if (selectedSport !== "ALL") {
+        combined = combined.filter(
+          (t) => t.sport?.toLowerCase() === selectedSport.toLowerCase()
+        );
+      }
+
+      setTournaments(combined);
+
+      // Silently sync local tournaments to the server in background
+      syncTournamentsToServer();
     } catch (err) {
       console.error("Error fetching tournaments:", err);
+      // Fallback directly to client storage if server is cold or unreachable
+      let localList = getClientTournaments();
+      if (selectedSport !== "ALL") {
+        localList = localList.filter(
+          (t) => t.sport?.toLowerCase() === selectedSport.toLowerCase()
+        );
+      }
+      setTournaments(localList);
     } finally {
       setLoading(false);
     }
@@ -52,6 +85,7 @@ export default function HomePage() {
   const handleResetData = async () => {
     if (!confirm("Reset tournaments to default data?")) return;
     try {
+      clearClientTournaments();
       await fetch("/api/tournaments/reset", { method: "POST" });
       fetchTournaments();
     } catch {

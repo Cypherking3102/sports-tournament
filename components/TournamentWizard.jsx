@@ -33,6 +33,7 @@ import {
   formatRosterString,
   buildDefaultPlayoffMatches
 } from "@/lib/tournamentEngine";
+import { saveClientTournament } from "@/lib/clientStorage";
 
 const PRESET_SPORTS = [
   { name: "Football", icon: "⚽", unit: "Goals", format: "GROUP_KNOCKOUT", type: "TEAM", win: 3, draw: 1, loss: 0 },
@@ -469,55 +470,69 @@ export default function TournamentWizard() {
         customRules: customPointRules
       };
 
-      const res = await fetch("/api/tournaments", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title,
-          sport: activeSportName,
-          sportIcon,
-          scoreUnit,
-          participantType, // "TEAM" or "INDIVIDUAL"
-          format,
-          startDate,
-          location,
-          organizer: "Divine Mercy Church",
-          description: `Official ${activeSportName} ${
-            participantType === "TEAM" ? "Team" : "Individual"
-          } tournament.`,
-          bannerUrl:
-            "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80",
-          pointsConfig,
-          teams: formattedParticipants,
-          groups,
-          rules: [
-            {
-              id: "r-1",
-              title: "Fair Play & Fellowship",
-              category: "Conduct",
-              content:
-                "Opening prayer before kickoff is observed. Respectful behavior towards officials, referees, and fellow parishioners is required."
-            },
-            {
-              id: "r-2",
-              title: "Match Duration & Tie-Breakers",
-              category: "Rules",
-              content:
-                "Standard game times apply. In playoff stages, tied matches proceed directly to sudden-death shootouts."
-            }
-          ],
-          autoGenerateFixtures: false,
-          customMatches: matches
-        })
-      });
+      const tournamentId = `dmc-${Date.now()}`;
+      const tournamentPayload = {
+        id: tournamentId,
+        title,
+        sport: activeSportName,
+        sportIcon,
+        scoreUnit,
+        participantType, // "TEAM" or "INDIVIDUAL"
+        format,
+        startDate,
+        location,
+        organizer: "Divine Mercy Church",
+        description: `Official ${activeSportName} ${
+          participantType === "TEAM" ? "Team" : "Individual"
+        } tournament.`,
+        bannerUrl:
+          "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80",
+        pointsConfig,
+        teams: formattedParticipants,
+        groups,
+        rules: [
+          {
+            id: "r-1",
+            title: "Fair Play & Fellowship",
+            category: "Conduct",
+            content:
+              "Opening prayer before kickoff is observed. Respectful behavior towards officials, referees, and fellow parishioners is required."
+          },
+          {
+            id: "r-2",
+            title: "Match Duration & Tie-Breakers",
+            category: "Rules",
+            content:
+              "Standard game times apply. In playoff stages, tied matches proceed directly to sudden-death shootouts."
+          }
+        ],
+        autoGenerateFixtures: false,
+        customMatches: matches,
+        matches,
+        playoffStage
+      };
 
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Failed to create tournament");
+      // 1. Immediately persist to client storage so it is NEVER lost
+      saveClientTournament(tournamentPayload);
+
+      // 2. Post to server
+      try {
+        const res = await fetch("/api/tournaments", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(tournamentPayload)
+        });
+
+        if (res.ok) {
+          const created = await res.json();
+          saveClientTournament(created);
+        }
+      } catch (postErr) {
+        console.warn("Server post warning, relying on local store:", postErr);
       }
 
-      const created = await res.json();
-      router.push(`/tournaments/${created.id}`);
+      // 3. Navigate directly to tournament
+      router.push(`/tournaments/${tournamentId}`);
     } catch (err) {
       setError(err.message);
       setLoading(false);

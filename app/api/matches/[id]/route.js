@@ -5,7 +5,21 @@ export async function PUT(request, { params }) {
   try {
     const { id: matchId } = await params;
     const body = await request.json();
-    const { tournamentId, scoreA, scoreB, status, winnerId, teamAId, teamBId, scheduledAt, venue } = body;
+    const {
+      tournamentId,
+      scoreA,
+      scoreB,
+      status,
+      winnerId,
+      teamAId,
+      teamBId,
+      scheduledAt,
+      venue,
+      official,
+      duration,
+      playerNotes,
+      fallbackTournament
+    } = body;
 
     if (!tournamentId) {
       return NextResponse.json(
@@ -22,7 +36,11 @@ export async function PUT(request, { params }) {
       teamAId,
       teamBId,
       scheduledAt,
-      venue
+      venue,
+      official,
+      duration,
+      playerNotes,
+      fallbackTournament
     });
 
     if (!updated) {

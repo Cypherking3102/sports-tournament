@@ -16,6 +16,12 @@ import {
   Award,
   Clock
 } from "lucide-react";
+import { saveClientTournament } from "@/lib/clientStorage";
+import {
+  applyMatchResult,
+  calculateStandings,
+  calculateGroupStandings
+} from "@/lib/tournamentEngine";
 
 export default function ScoreModal({ match, tournament, onClose, onSave }) {
   const [activeMode, setActiveMode] = useState("score"); // "score" or "draw"
@@ -55,38 +61,69 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
     setLoading(true);
     setError("");
 
+    const matchUpdates = {
+      teamAId: teamAId || null,
+      teamBId: teamBId || null,
+      scheduledAt: scheduledAt || match.scheduledAt,
+      venue: venue || match.venue,
+      official: official ? official.trim() : "",
+      duration: duration ? duration.trim() : "",
+      playerNotes: playerNotes || match.playerNotes,
+      scoreA: Number(scoreA),
+      scoreB: Number(scoreB),
+      status,
+      winnerId: status === "COMPLETED" ? winnerId : null
+    };
+
+    // 1. Optimistically calculate locally so changes NEVER fail
+    const updatedMatches = applyMatchResult(tournament.matches || [], match.id, matchUpdates);
+    let updatedTourney = {
+      ...tournament,
+      matches: updatedMatches,
+      updatedAt: new Date().toISOString()
+    };
+
+    if (updatedTourney.format === "GROUP_KNOCKOUT") {
+      updatedTourney.groupStandings = calculateGroupStandings(
+        updatedTourney.groups || [],
+        updatedMatches,
+        updatedTourney.pointsConfig,
+        updatedTourney.teams || []
+      );
+    } else if (updatedTourney.format === "ROUND_ROBIN") {
+      updatedTourney.standings = calculateStandings(
+        updatedTourney.teams || [],
+        updatedMatches,
+        updatedTourney.pointsConfig
+      );
+    }
+
+    // Immediately save locally
+    saveClientTournament(updatedTourney);
+    onSave(updatedTourney);
+
+    // 2. Sync to server in background or await response
     try {
       const res = await fetch(`/api/matches/${match.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           tournamentId: tournament.id,
-          teamAId: teamAId || null,
-          teamBId: teamBId || null,
-          scheduledAt: scheduledAt || match.scheduledAt,
-          venue: venue || match.venue,
-          official: official.trim(),
-          duration: duration.trim(),
-          playerNotes: playerNotes || match.playerNotes,
-          scoreA: Number(scoreA),
-          scoreB: Number(scoreB),
-          status,
-          winnerId: status === "COMPLETED" ? winnerId : null
+          ...matchUpdates,
+          fallbackTournament: updatedTourney
         })
       });
 
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Failed to update match");
+      if (res.ok) {
+        const serverTournament = await res.json();
+        saveClientTournament(serverTournament);
+        onSave(serverTournament);
       }
-
-      const updatedTournament = await res.json();
-      onSave(updatedTournament);
-      onClose();
     } catch (err) {
-      setError(err.message);
+      console.warn("Server sync error (saved locally):", err.message);
     } finally {
       setLoading(false);
+      onClose();
     }
   };
 
@@ -186,6 +223,21 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
                     {teamA ? teamA.name : match.placeholderA || "TBD"}
                   </span>
 
+                  {!teamA && (
+                    <select
+                      value={teamAId}
+                      onChange={(e) => setTeamAId(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-[11px] text-blue-400 mt-1 focus:outline-none"
+                    >
+                      <option value="">Select Team A...</option>
+                      {teams.map((t) => (
+                        <option key={t.id} value={t.id}>
+                          {t.name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+
                   <div className="flex items-center justify-center space-x-2.5">
                     <button
                       type="button"
@@ -217,6 +269,21 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
                   <span className="font-bold text-white text-xs block truncate">
                     {teamB ? teamB.name : match.placeholderB || "TBD"}
                   </span>
+
+                  {!teamB && (
+                    <select
+                      value={teamBId}
+                      onChange={(e) => setTeamBId(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-[11px] text-blue-400 mt-1 focus:outline-none"
+                    >
+                      <option value="">Select Team B...</option>
+                      {teams.map((t) => (
+                        <option key={t.id} value={t.id}>
+                          {t.name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
 
                   <div className="flex items-center justify-center space-x-2.5">
                     <button

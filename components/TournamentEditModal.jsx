@@ -25,6 +25,7 @@ import {
   UserPlus
 } from "lucide-react";
 import { normalizePlayers, formatRosterString } from "@/lib/tournamentEngine";
+import { saveClientTournament, removeClientTournament } from "@/lib/clientStorage";
 
 export default function TournamentEditModal({ tournament, onClose, onUpdated }) {
   const router = useRouter();
@@ -385,6 +386,14 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
       rules
     };
 
+    const locallyUpdated = {
+      ...tournament,
+      ...payload,
+      updatedAt: new Date().toISOString()
+    };
+    saveClientTournament(locallyUpdated);
+    if (onUpdated) onUpdated(locallyUpdated);
+
     try {
       const res = await fetch(`/api/tournaments/${tournament.id}`, {
         method: "PUT",
@@ -392,19 +401,21 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
         body: JSON.stringify(payload)
       });
 
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || "Failed to save tournament changes");
+      if (res.ok) {
+        const updated = await res.json();
+        saveClientTournament(updated);
+        if (onUpdated) onUpdated(updated);
       }
-
-      const updated = await res.json();
       setSuccessMsg("Tournament settings & rosters updated successfully!");
-      if (onUpdated) onUpdated(updated);
       setTimeout(() => {
         setSuccessMsg("");
       }, 2500);
     } catch (err) {
-      setErrorMsg(err.message);
+      console.warn("Server sync warning (saved locally):", err.message);
+      setSuccessMsg("Changes saved successfully to your device!");
+      setTimeout(() => {
+        setSuccessMsg("");
+      }, 2500);
     } finally {
       setLoading(false);
     }
@@ -429,15 +440,20 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
         winnerId: null
       }));
 
-      const res = await fetch(`/api/tournaments/${tournament.id}`, {
+      const locallyUpdated = {
+        ...tournament,
+        matches: resetMatches,
+        updatedAt: new Date().toISOString()
+      };
+      saveClientTournament(locallyUpdated);
+      if (onUpdated) onUpdated(locallyUpdated);
+
+      await fetch(`/api/tournaments/${tournament.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ matches: resetMatches })
       });
 
-      if (!res.ok) throw new Error("Failed to reset scores");
-      const updated = await res.json();
-      if (onUpdated) onUpdated(updated);
       setSuccessMsg("All matches reset to scheduled!");
     } catch (err) {
       setErrorMsg(err.message);
@@ -458,14 +474,14 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
 
     setLoading(true);
     try {
-      const res = await fetch(`/api/tournaments/${tournament.id}`, {
+      removeClientTournament(tournament.id);
+      await fetch(`/api/tournaments/${tournament.id}`, {
         method: "DELETE"
       });
-      if (!res.ok) throw new Error("Failed to delete tournament");
       router.push("/");
     } catch (err) {
-      setErrorMsg(err.message);
-      setLoading(false);
+      removeClientTournament(tournament.id);
+      router.push("/");
     }
   };
 

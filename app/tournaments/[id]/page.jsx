@@ -29,7 +29,16 @@ import RulesViewer from "@/components/RulesViewer";
 import ScoreModal from "@/components/ScoreModal";
 import AddMatchModal from "@/components/AddMatchModal";
 import TournamentEditModal from "@/components/TournamentEditModal";
-import { calculateTournamentStats } from "@/lib/tournamentEngine";
+import {
+  calculateTournamentStats,
+  calculateStandings,
+  calculateGroupStandings
+} from "@/lib/tournamentEngine";
+import {
+  getClientTournamentById,
+  saveClientTournament,
+  syncTournamentsToServer
+} from "@/lib/clientStorage";
 
 export default function TournamentDetailPage({ params }) {
   const unwrappedParams = use(params);
@@ -56,32 +65,64 @@ export default function TournamentDetailPage({ params }) {
   }, [id]);
 
   const fetchTournament = async () => {
-    try {
-      setLoading(true);
-      const res = await fetch(`/api/tournaments/${id}`);
-      if (!res.ok) throw new Error("Failed to load tournament");
-      const data = await res.json();
-      setTournament(data);
+    // 1. Instant optimistic load from client persistent storage
+    const localData = getClientTournamentById(id);
+    if (localData) {
+      if (localData.format === "GROUP_KNOCKOUT" && !localData.groupStandings) {
+        localData.groupStandings = calculateGroupStandings(
+          localData.groups || [],
+          localData.matches || [],
+          localData.pointsConfig,
+          localData.teams || []
+        );
+      } else if (localData.format === "ROUND_ROBIN" && !localData.standings) {
+        localData.standings = calculateStandings(
+          localData.teams || [],
+          localData.matches || [],
+          localData.pointsConfig
+        );
+      }
+      setTournament(localData);
+      setLoading(false);
+    }
 
-      if (data.format === "GROUP_KNOCKOUT") {
-        setActiveTab("groups");
-      } else if (data.format === "ROUND_ROBIN") {
-        setActiveTab("standings");
+    try {
+      const res = await fetch(`/api/tournaments/${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        saveClientTournament(data);
+        setTournament(data);
+
+        if (data.format === "GROUP_KNOCKOUT") {
+          setActiveTab("groups");
+        } else if (data.format === "ROUND_ROBIN") {
+          setActiveTab("standings");
+        } else {
+          setActiveTab("brackets");
+        }
+      } else if (localData) {
+        // Re-sync local tournament to serverless container if cold start
+        syncTournamentsToServer([localData]);
       } else {
-        setActiveTab("brackets");
+        throw new Error("Failed to load tournament");
       }
     } catch (err) {
-      console.error(err);
+      if (!localData) {
+        console.error(err);
+        setTournament(null);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   const handleMatchSaved = (updatedTourney) => {
+    saveClientTournament(updatedTourney);
     setTournament(updatedTourney);
   };
 
   const handleTournamentUpdated = (updatedTourney) => {
+    saveClientTournament(updatedTourney);
     setTournament(updatedTourney);
   };
 
@@ -325,6 +366,7 @@ export default function TournamentDetailPage({ params }) {
             tournament={tournament}
             isAdmin={isAdmin}
             onEditMatch={(m) => setSelectedMatch(m)}
+            onAddMatch={() => setShowAddMatch(true)}
           />
         )}
 
@@ -333,15 +375,22 @@ export default function TournamentDetailPage({ params }) {
             tournament={tournament}
             isAdmin={isAdmin}
             onEditMatch={(m) => setSelectedMatch(m)}
+            onTournamentUpdated={handleTournamentUpdated}
           />
         )}
 
         {activeTab === "standings" && (
           <PointsTable
+            tournament={tournament}
             standings={tournament.standings}
+            matches={tournament.matches}
+            teams={tournament.teams}
             scoreUnit={tournament.scoreUnit}
             pointsConfig={tournament.pointsConfig}
             participantType={tournament.participantType}
+            isAdmin={isAdmin}
+            onEditMatch={(m) => setSelectedMatch(m)}
+            onAddMatch={() => setShowAddMatch(true)}
           />
         )}
 

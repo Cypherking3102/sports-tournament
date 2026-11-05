@@ -14,6 +14,7 @@ import {
   Layers,
   FileText
 } from "lucide-react";
+import { saveClientTournament } from "@/lib/clientStorage";
 
 export default function AddMatchModal({ tournament, onClose, onMatchAdded }) {
   const teams = tournament?.teams || [];
@@ -109,20 +110,32 @@ export default function AddMatchModal({ tournament, onClose, onMatchAdded }) {
 
       const existingMatches = tournament.matches || [];
       const updatedMatches = [...existingMatches, newMatch];
+      const locallyUpdated = {
+        ...tournament,
+        matches: updatedMatches,
+        updatedAt: new Date().toISOString()
+      };
 
-      const res = await fetch(`/api/tournaments/${tournament.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ matches: updatedMatches })
-      });
+      // Optimistically save to local store immediately
+      saveClientTournament(locallyUpdated);
+      onMatchAdded(locallyUpdated);
 
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || "Failed to schedule match");
+      try {
+        const res = await fetch(`/api/tournaments/${tournament.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ matches: updatedMatches })
+        });
+
+        if (res.ok) {
+          const updatedTournament = await res.json();
+          saveClientTournament(updatedTournament);
+          onMatchAdded(updatedTournament);
+        }
+      } catch (postErr) {
+        console.warn("Server update skipped (saved locally):", postErr.message);
       }
 
-      const updatedTournament = await res.json();
-      onMatchAdded(updatedTournament);
       onClose();
     } catch (err) {
       setError(err.message);
