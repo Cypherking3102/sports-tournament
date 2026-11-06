@@ -141,8 +141,8 @@ export default function GlobalSchedulePage() {
       // 2. Floor / Area filter
       if (selectedFloor === "4th" && !m.venue?.includes("4th Floor")) return false;
       if (selectedFloor === "Ground" && !m.venue?.includes("Ground Floor")) return false;
-      if (selectedFloor === "Turf" && !m.venue?.includes("Turf")) return false;
-      if (selectedFloor === "Court" && !m.venue?.includes("Throwball Court") && !m.venue?.includes("Court")) return false;
+      if (selectedFloor === "Hall" && !m.venue?.includes("Church Hall") && !m.venue?.includes("Hall")) return false;
+      if (selectedFloor === "Grotto" && !m.venue?.includes("Grotto")) return false;
 
       // 3. Player filter from custom dropdown
       if (selectedPlayer) {
@@ -273,8 +273,8 @@ export default function GlobalSchedulePage() {
             <span className="text-xs text-slate-500 font-mono">Venue:</span>
             {[
               { id: "ALL", label: "All Areas" },
-              { id: "Turf", label: "Turf Pitch" },
-              { id: "Court", label: "Throwball Court" },
+              { id: "Hall", label: "Church Hall" },
+              { id: "Grotto", label: "Grotto Area" },
               { id: "4th", label: "4th Floor" },
               { id: "Ground", label: "Ground Floor" }
             ].map(({ id, label }) => (

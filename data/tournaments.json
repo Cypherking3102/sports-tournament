@@ -3171,7 +3171,7 @@
     "participantType": "TEAM",
     "startDate": "2026-11-07",
     "endDate": "2026-11-07",
-    "location": "Parish Sports Turf / Grounds",
+    "location": "Church Hall",
     "organizer": "Divine Mercy Church",
     "description": "Official Parish Cricket Championship 2026. 5 teams: Divine United, Yellow Palthans, Game Changers, Pink Panthers, and Green Goblin (AD). Top 2 contest the Grand Final.",
     "bannerUrl": "https://images.unsplash.com/photo-1531415074868-036b107e7752?auto=format&fit=crop&w=1200&q=80",
@@ -3268,8 +3268,8 @@
         "scheduledAt": "2026-11-07 10:30 AM",
         "startTime": "10:30 AM",
         "endTime": "11:00 AM",
-        "venue": "Parish Sports Turf",
-        "court": "Turf Pitch",
+        "venue": "Church Hall",
+        "court": "Church Hall",
         "duration": "30 mins"
       },
       {
@@ -3290,8 +3290,8 @@
         "scheduledAt": "2026-11-07 11:05 AM",
         "startTime": "11:05 AM",
         "endTime": "11:35 AM",
-        "venue": "Parish Sports Turf",
-        "court": "Turf Pitch",
+        "venue": "Church Hall",
+        "court": "Church Hall",
         "duration": "30 mins"
       },
       {
@@ -3312,8 +3312,8 @@
         "scheduledAt": "2026-11-07 11:40 AM",
         "startTime": "11:40 AM",
         "endTime": "12:10 PM",
-        "venue": "Parish Sports Turf",
-        "court": "Turf Pitch",
+        "venue": "Church Hall",
+        "court": "Church Hall",
         "duration": "30 mins"
       },
       {
@@ -3334,8 +3334,8 @@
         "scheduledAt": "2026-11-07 12:15 PM",
         "startTime": "12:15 PM",
         "endTime": "12:45 PM",
-        "venue": "Parish Sports Turf",
-        "court": "Turf Pitch",
+        "venue": "Church Hall",
+        "court": "Church Hall",
         "duration": "30 mins"
       },
       {
@@ -3356,8 +3356,8 @@
         "scheduledAt": "2026-11-07 12:50 PM",
         "startTime": "12:50 PM",
         "endTime": "01:20 PM",
-        "venue": "Parish Sports Turf",
-        "court": "Turf Pitch",
+        "venue": "Church Hall",
+        "court": "Church Hall",
         "duration": "30 mins"
       },
       {
@@ -3378,8 +3378,8 @@
         "scheduledAt": "2026-11-07 01:25 PM",
         "startTime": "01:25 PM",
         "endTime": "01:55 PM",
-        "venue": "Parish Sports Turf",
-        "court": "Turf Pitch",
+        "venue": "Church Hall",
+        "court": "Church Hall",
         "duration": "30 mins"
       },
       {
@@ -3400,8 +3400,8 @@
         "scheduledAt": "2026-11-07 02:00 PM",
         "startTime": "02:00 PM",
         "endTime": "02:30 PM",
-        "venue": "Parish Sports Turf",
-        "court": "Turf Pitch",
+        "venue": "Church Hall",
+        "court": "Church Hall",
         "duration": "30 mins"
       },
       {
@@ -3422,8 +3422,8 @@
         "scheduledAt": "2026-11-07 02:35 PM",
         "startTime": "02:35 PM",
         "endTime": "03:05 PM",
-        "venue": "Parish Sports Turf",
-        "court": "Turf Pitch",
+        "venue": "Church Hall",
+        "court": "Church Hall",
         "duration": "30 mins"
       },
       {
@@ -3444,8 +3444,8 @@
         "scheduledAt": "2026-11-07 03:10 PM",
         "startTime": "03:10 PM",
         "endTime": "03:40 PM",
-        "venue": "Parish Sports Turf",
-        "court": "Turf Pitch",
+        "venue": "Church Hall",
+        "court": "Church Hall",
         "duration": "30 mins"
       },
       {
@@ -3466,8 +3466,8 @@
         "scheduledAt": "2026-11-07 03:45 PM",
         "startTime": "03:45 PM",
         "endTime": "04:15 PM",
-        "venue": "Parish Sports Turf",
-        "court": "Turf Pitch",
+        "venue": "Church Hall",
+        "court": "Church Hall",
         "duration": "30 mins"
       },
       {
@@ -3488,8 +3488,8 @@
         "scheduledAt": "2026-11-07 05:00 PM",
         "startTime": "05:00 PM",
         "endTime": "05:45 PM",
-        "venue": "Parish Sports Turf",
-        "court": "Main Turf Pitch",
+        "venue": "Church Hall",
+        "court": "Church Hall",
         "duration": "45 mins"
       }
     ]
@@ -3505,7 +3505,7 @@
     "participantType": "TEAM",
     "startDate": "2026-11-07",
     "endDate": "2026-11-07",
-    "location": "Parish Throwball Court",
+    "location": "Grotto Area",
     "organizer": "Divine Mercy Church",
     "description": "Official Parish Throwball Championship 2026. 5 teams: Divine United, Yellow Palthans, Game Changers, Pink Panthers, and Green Goblin (AD). Top 2 contest the Grand Final.",
     "bannerUrl": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=1200&q=80",
@@ -3602,8 +3602,8 @@
         "scheduledAt": "2026-11-07 10:30 AM",
         "startTime": "10:30 AM",
         "endTime": "11:00 AM",
-        "venue": "Parish Throwball Court",
-        "court": "Court 1",
+        "venue": "Grotto Area",
+        "court": "Grotto Area",
         "duration": "30 mins"
       },
       {
@@ -3624,8 +3624,8 @@
         "scheduledAt": "2026-11-07 11:05 AM",
         "startTime": "11:05 AM",
         "endTime": "11:35 AM",
-        "venue": "Parish Throwball Court",
-        "court": "Court 1",
+        "venue": "Grotto Area",
+        "court": "Grotto Area",
         "duration": "30 mins"
       },
       {
@@ -3646,8 +3646,8 @@
         "scheduledAt": "2026-11-07 11:40 AM",
         "startTime": "11:40 AM",
         "endTime": "12:10 PM",
-        "venue": "Parish Throwball Court",
-        "court": "Court 1",
+        "venue": "Grotto Area",
+        "court": "Grotto Area",
         "duration": "30 mins"
       },
       {
@@ -3668,8 +3668,8 @@
         "scheduledAt": "2026-11-07 12:15 PM",
         "startTime": "12:15 PM",
         "endTime": "12:45 PM",
-        "venue": "Parish Throwball Court",
-        "court": "Court 1",
+        "venue": "Grotto Area",
+        "court": "Grotto Area",
         "duration": "30 mins"
       },
       {
@@ -3690,8 +3690,8 @@
         "scheduledAt": "2026-11-07 12:50 PM",
         "startTime": "12:50 PM",
         "endTime": "01:20 PM",
-        "venue": "Parish Throwball Court",
-        "court": "Court 1",
+        "venue": "Grotto Area",
+        "court": "Grotto Area",
         "duration": "30 mins"
       },
       {
@@ -3712,8 +3712,8 @@
         "scheduledAt": "2026-11-07 02:00 PM",
         "startTime": "02:00 PM",
         "endTime": "02:30 PM",
-        "venue": "Parish Throwball Court",
-        "court": "Court 1",
+        "venue": "Grotto Area",
+        "court": "Grotto Area",
         "duration": "30 mins"
       },
       {
@@ -3734,8 +3734,8 @@
         "scheduledAt": "2026-11-07 02:35 PM",
         "startTime": "02:35 PM",
         "endTime": "03:05 PM",
-        "venue": "Parish Throwball Court",
-        "court": "Court 1",
+        "venue": "Grotto Area",
+        "court": "Grotto Area",
         "duration": "30 mins"
       },
       {
@@ -3756,8 +3756,8 @@
         "scheduledAt": "2026-11-07 03:10 PM",
         "startTime": "03:10 PM",
         "endTime": "03:40 PM",
-        "venue": "Parish Throwball Court",
-        "court": "Court 1",
+        "venue": "Grotto Area",
+        "court": "Grotto Area",
         "duration": "30 mins"
       },
       {
@@ -3778,8 +3778,8 @@
         "scheduledAt": "2026-11-07 03:45 PM",
         "startTime": "03:45 PM",
         "endTime": "04:15 PM",
-        "venue": "Parish Throwball Court",
-        "court": "Court 1",
+        "venue": "Grotto Area",
+        "court": "Grotto Area",
         "duration": "30 mins"
       },
       {
@@ -3800,8 +3800,8 @@
         "scheduledAt": "2026-11-07 04:20 PM",
         "startTime": "04:20 PM",
         "endTime": "04:50 PM",
-        "venue": "Parish Throwball Court",
-        "court": "Court 1",
+        "venue": "Grotto Area",
+        "court": "Grotto Area",
         "duration": "30 mins"
       },
       {
@@ -3822,8 +3822,8 @@
         "scheduledAt": "2026-11-07 05:00 PM",
         "startTime": "05:00 PM",
         "endTime": "05:40 PM",
-        "venue": "Parish Throwball Court",
-        "court": "Main Court",
+        "venue": "Grotto Area",
+        "court": "Grotto Area",
         "duration": "40 mins"
       }
     ]

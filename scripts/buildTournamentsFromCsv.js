@@ -277,7 +277,7 @@ const tournamentsConfig = [
     participantType: "TEAM",
     startDate: "2026-11-07",
     endDate: "2026-11-07",
-    location: "Parish Sports Turf / Grounds",
+    location: "Church Hall",
     organizer: "Divine Mercy Church",
     description: "Official Parish Cricket Championship 2026. 5 teams: Divine United, Yellow Palthans, Game Changers, Pink Panthers, and Green Goblin (AD). Top 2 contest the Grand Final.",
     bannerUrl: "https://images.unsplash.com/photo-1531415074868-036b107e7752?auto=format&fit=crop&w=1200&q=80",
@@ -300,7 +300,7 @@ const tournamentsConfig = [
     participantType: "TEAM",
     startDate: "2026-11-07",
     endDate: "2026-11-07",
-    location: "Parish Throwball Court",
+    location: "Grotto Area",
     organizer: "Divine Mercy Church",
     description: "Official Parish Throwball Championship 2026. 5 teams: Divine United, Yellow Palthans, Game Changers, Pink Panthers, and Green Goblin (AD). Top 2 contest the Grand Final.",
     bannerUrl: "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=1200&q=80",
@@ -522,8 +522,8 @@ cricketRawMatches.forEach((m) => {
       scheduledAt: "2026-11-07 05:00 PM",
       startTime: "05:00 PM",
       endTime: "05:45 PM",
-      venue: "Parish Sports Turf",
-      court: "Main Turf Pitch",
+      venue: "Church Hall",
+      court: "Church Hall",
       duration: "45 mins"
     });
     return;
@@ -552,8 +552,8 @@ cricketRawMatches.forEach((m) => {
     scheduledAt: `2026-11-07 ${m.time}`,
     startTime: m.time,
     endTime: m.endTime,
-    venue: "Parish Sports Turf",
-    court: "Turf Pitch",
+    venue: "Church Hall",
+    court: "Church Hall",
     duration: "30 mins"
   });
 });
@@ -596,8 +596,8 @@ throwballRawMatches.forEach((m) => {
       scheduledAt: "2026-11-07 05:00 PM",
       startTime: "05:00 PM",
       endTime: "05:40 PM",
-      venue: "Parish Throwball Court",
-      court: "Main Court",
+      venue: "Grotto Area",
+      court: "Grotto Area",
       duration: "40 mins"
     });
     return;
@@ -626,8 +626,8 @@ throwballRawMatches.forEach((m) => {
     scheduledAt: `2026-11-07 ${m.time}`,
     startTime: m.time,
     endTime: m.endTime,
-    venue: "Parish Throwball Court",
-    court: "Court 1",
+    venue: "Grotto Area",
+    court: "Grotto Area",
     duration: "30 mins"
   });
 });
