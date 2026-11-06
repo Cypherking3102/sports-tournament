@@ -100,23 +100,23 @@ const rosters = {
     ],
     "Group B": [
       "Jim D'souza",
+      "Charlette Sequera",
       "Sunborn Perrira",
-      "James Louis",
-      "Rosslin Louis",
       "Gerald Rodrigues",
-      "Charlette Sequera"
+      "Rosslin Louis",
+      "James Louis"
     ],
     "Group C": [
       "Emmanuel Menezes",
+      "Florine Fernandes",
       "Dean D'souza",
-      "Patrick Menezes",
-      "Daniel Danthi",
       "Joseph Rodrigues",
-      "Florine Fernandes"
+      "Patrick Menezes",
+      "Daniel Danthi"
     ]
   },
   Chess: {
-    "Round-robin (all 6)": [
+    "Group": [
       "Mario Chettiar",
       "Frank Mathias",
       "Shibu Jacob",
@@ -141,17 +141,30 @@ const rosters = {
   }
 };
 
-// Player ID slug helper
+// 5 Teams for Cricket & Throwball
+const parishTeams = [
+  { id: "team-divine-united", name: "Divine United", shortName: "DU", seed: 1 },
+  { id: "team-yellow-palthans", name: "Yellow Palthans", shortName: "YP", seed: 2 },
+  { id: "team-game-changers", name: "Game Changers", shortName: "GC", seed: 3 },
+  { id: "team-pink-panthers", name: "Pink Panthers", shortName: "PP", seed: 4 },
+  { id: "team-green-goblin", name: "Green Goblin (AD)", shortName: "GG", seed: 5 }
+];
+
+function normalizeTeamName(rawName) {
+  const clean = rawName.trim().toLowerCase();
+  if (clean === "ad" || clean.includes("green goblin")) return "Green Goblin (AD)";
+  if (clean.includes("divine united")) return "Divine United";
+  if (clean.includes("yellow palthan") || clean.includes("yellow paltan")) return "Yellow Palthans";
+  if (clean.includes("game changer")) return "Game Changers";
+  if (clean.includes("pink panther")) return "Pink Panthers";
+  return rawName.trim();
+}
+
 function makePlayerId(name) {
   return "p-" + name.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-");
 }
 
-// Clean avatars without emojis
-function getAvatar(name) {
-  return "";
-}
-
-// 1. Build Participant Objects (NO EMOJIS)
+// 1. Build Tournaments Configuration
 const tournamentsConfig = [
   {
     id: "dmc-carrom-2026",
@@ -228,18 +241,72 @@ const tournamentsConfig = [
       { id: "grp-a", name: "Group A", teams: [] },
       { id: "grp-b", name: "Group B", teams: [] }
     ]
+  },
+  {
+    id: "dmc-cricket-2026",
+    title: "Divine Mercy Parish Cricket Tournament 2026",
+    sport: "Cricket",
+    sportIcon: "",
+    scoreUnit: "Runs",
+    format: "ROUND_ROBIN",
+    status: "UPCOMING",
+    participantType: "TEAM",
+    startDate: "2026-11-07",
+    endDate: "2026-11-07",
+    location: "Parish Sports Turf / Grounds",
+    organizer: "Divine Mercy Church",
+    description: "Official Parish Cricket Championship 2026. 5 teams: Divine United, Yellow Palthans, Game Changers, Pink Panthers, and Green Goblin (AD). Top 2 contest the Grand Final.",
+    bannerUrl: "https://images.unsplash.com/photo-1531415074868-036b107e7752?auto=format&fit=crop&w=1200&q=80",
+    pointsConfig: { win: 2, draw: 1, loss: 0, showForm: true },
+    rules: [
+      { id: "cr-1", title: "Match Format", category: "Rules", content: "Rapid 5 overs per side. Rotational bowling with standard cricket rules." },
+      { id: "cr-2", title: "Championship Final", category: "Format", content: "Top 2 teams on the league points table contest the Grand Final at 05:00 PM." },
+      { id: "cr-3", title: "Sportsmanship", category: "Conduct", content: "Umpire decisions are final. Respect opponents and celebrate parish fellowship." }
+    ],
+    groups: []
+  },
+  {
+    id: "dmc-throwball-2026",
+    title: "Divine Mercy Parish Throwball Tournament 2026",
+    sport: "Throwball",
+    sportIcon: "",
+    scoreUnit: "Points",
+    format: "ROUND_ROBIN",
+    status: "UPCOMING",
+    participantType: "TEAM",
+    startDate: "2026-11-07",
+    endDate: "2026-11-07",
+    location: "Parish Throwball Court",
+    organizer: "Divine Mercy Church",
+    description: "Official Parish Throwball Championship 2026. 5 teams: Divine United, Yellow Palthans, Game Changers, Pink Panthers, and Green Goblin (AD). Top 2 contest the Grand Final.",
+    bannerUrl: "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=1200&q=80",
+    pointsConfig: { win: 2, draw: 1, loss: 0, showForm: true },
+    rules: [
+      { id: "tb-1", title: "Match Format", category: "Rules", content: "Best of 3 sets format. Standard rotational catching and throwing rules apply." },
+      { id: "tb-2", title: "Championship Final", category: "Format", content: "Top 2 teams on the league points table advance to the Grand Final at 05:00 PM." },
+      { id: "tb-3", title: "Fellowship", category: "Conduct", content: "Fair play, support teammates, and cheer for all participating parish teams." }
+    ],
+    groups: []
   }
 ];
 
-// Populate players and teams
-let globalPlayerIndex = 0;
+// Populate players and teams for Carrom, Chess, TT
 tournamentsConfig.forEach((cfg) => {
+  if (cfg.sport === "Cricket" || cfg.sport === "Throwball") {
+    cfg.teams = parishTeams.map((t) => ({
+      ...t,
+      logo: "",
+      group: "League",
+      players: []
+    }));
+    return;
+  }
+
   const sportRosters = rosters[cfg.sport] || {};
   const allTeams = [];
 
   Object.entries(sportRosters).forEach(([groupName, playerNames]) => {
     playerNames.forEach((name, idx) => {
-      globalPlayerIndex++;
       const pId = makePlayerId(name);
       const teamObj = {
         id: pId,
@@ -270,18 +337,17 @@ tournamentsConfig.forEach((cfg) => {
   }
 });
 
-// 2. Parse matches from CSV lines
-const lines = csvRaw.trim().split("\n");
+// 2. Parse matches from CSV lines for Carrom, Chess, TT
 const matchesBySport = {
   Carrom: [],
   Chess: [],
-  "Table Tennis": []
+  "Table Tennis": [],
+  Cricket: [],
+  Throwball: []
 };
 
-// Global all matches list for the match finder
-const allScheduleMatches = [];
-
-lines.forEach((line, lineIdx) => {
+const lines = csvRaw.trim().split("\n");
+lines.forEach((line) => {
   if (!line.trim()) return;
   const parts = line.split(",");
   if (parts.length < 9) return;
@@ -296,12 +362,9 @@ lines.forEach((line, lineIdx) => {
     player2Name,
     venue,
     boardTable,
-    duration,
-    resetTime,
-    restNote
+    duration
   ] = parts;
 
-  // Determine if it's playoff or group
   const isPlayoff =
     stageRound.includes("Preliminary") ||
     stageRound.includes("Semifinal") ||
@@ -313,12 +376,10 @@ lines.forEach((line, lineIdx) => {
   else if (stageRound.includes("Group C")) groupId = "grp-c";
   else if (isPlayoff) groupId = "PLAYOFFS";
 
-  // Check if player names correspond to team IDs
   const targetConfig = tournamentsConfig.find((c) => c.sport === sport);
   const team1 = targetConfig ? targetConfig.teams.find((t) => t.name.toLowerCase() === player1Name.toLowerCase()) : null;
   const team2 = targetConfig ? targetConfig.teams.find((t) => t.name.toLowerCase() === player2Name.toLowerCase()) : null;
 
-  // Round number
   let roundNum = 1;
   const rMatch = stageRound.match(/Round (\d+)/);
   if (rMatch) roundNum = parseInt(rMatch[1], 10);
@@ -352,12 +413,152 @@ lines.forEach((line, lineIdx) => {
   if (matchesBySport[sport]) {
     matchesBySport[sport].push(matchObj);
   }
+});
 
-  allScheduleMatches.push({
-    ...matchObj,
-    sport,
-    player1Name: player1Name.trim(),
-    player2Name: player2Name.trim()
+// 3. Build Cricket Matches (From PDF Page 1)
+const cricketRawMatches = [
+  { time: "10:30", endTime: "11:00", teamA: "Divine United", teamB: "Yellow palthans", round: 1, matchNum: 1 },
+  { time: "11:05", endTime: "11:35", teamA: "Game changer", teamB: "Pink Panther", round: 1, matchNum: 2 },
+  { time: "11:40", endTime: "12:10", teamA: "Divine united", teamB: "AD", round: 2, matchNum: 3 },
+  { time: "12:15", endTime: "12:45", teamA: "Yellow Palthans", teamB: "Game changers", round: 2, matchNum: 4 },
+  { time: "12:50", endTime: "13:20", teamA: "Pink Panthers", teamB: "AD", round: 3, matchNum: 5 },
+  { time: "13:25", endTime: "13:55", teamA: "Divine United", teamB: "Game Changers", round: 3, matchNum: 6 },
+  { time: "14:00", endTime: "14:30", teamA: "Yellow Palthans", teamB: "Pink Panthers", round: 4, matchNum: 7 },
+  { time: "14:35", endTime: "15:05", teamA: "Game changers", teamB: "AD", round: 4, matchNum: 8 },
+  { time: "15:10", endTime: "15:40", teamA: "Divine United", teamB: "Pink Panthers", round: 5, matchNum: 9 },
+  { time: "15:45", endTime: "16:15", teamA: "Yellow Palthans", teamB: "AD", round: 5, matchNum: 10 },
+  { time: "17:00", endTime: "17:45", isFinal: true, round: 6, matchNum: 11 }
+];
+
+const cricketConfig = tournamentsConfig.find((t) => t.id === "dmc-cricket-2026");
+
+cricketRawMatches.forEach((m) => {
+  if (m.isFinal) {
+    matchesBySport.Cricket.push({
+      id: "CRIC-FINAL",
+      round: 6,
+      roundName: "Championship Final",
+      stageName: "Championship Final",
+      groupId: "PLAYOFFS",
+      groupName: "Championship Final",
+      teamAId: null,
+      teamBId: null,
+      placeholderA: "Winner Group Stage 1",
+      placeholderB: "Winner Group Stage 2",
+      scoreA: 0,
+      scoreB: 0,
+      status: "SCHEDULED",
+      winnerId: null,
+      scheduledAt: "2026-11-07 17:00",
+      startTime: "17:00",
+      endTime: "17:45",
+      venue: "Parish Sports Turf",
+      court: "Main Turf Pitch",
+      duration: "45 mins"
+    });
+    return;
+  }
+
+  const normA = normalizeTeamName(m.teamA);
+  const normB = normalizeTeamName(m.teamB);
+  const tA = cricketConfig.teams.find((t) => t.name === normA);
+  const tB = cricketConfig.teams.find((t) => t.name === normB);
+
+  matchesBySport.Cricket.push({
+    id: `CRIC-M${m.matchNum}`,
+    round: m.round,
+    roundName: `Round ${m.round}`,
+    stageName: `League Match ${m.matchNum}`,
+    groupId: "ALL",
+    groupName: "League Stage",
+    teamAId: tA ? tA.id : null,
+    teamBId: tB ? tB.id : null,
+    placeholderA: tA ? null : normA,
+    placeholderB: tB ? null : normB,
+    scoreA: 0,
+    scoreB: 0,
+    status: "SCHEDULED",
+    winnerId: null,
+    scheduledAt: `2026-11-07 ${m.time}`,
+    startTime: m.time,
+    endTime: m.endTime,
+    venue: "Parish Sports Turf",
+    court: "Turf Pitch",
+    duration: "30 mins"
+  });
+});
+
+// 4. Build Throwball Matches (From PDF Page 2)
+const throwballRawMatches = [
+  { time: "10:30", endTime: "11:00", teamA: "Game Changers", teamB: "Pink Panthers", round: 1, matchNum: 1 },
+  { time: "11:05", endTime: "11:35", teamA: "Divine United", teamB: "AD", round: 1, matchNum: 2 },
+  { time: "11:40", endTime: "12:10", teamA: "Yellow Palthans", teamB: "Game Changers", round: 2, matchNum: 3 },
+  { time: "12:15", endTime: "12:45", teamA: "Pink Panthers", teamB: "AD", round: 2, matchNum: 4 },
+  { time: "12:50", endTime: "13:20", teamA: "Divine United", teamB: "Yellow Palthans", round: 3, matchNum: 5 },
+  // BREAK at 13:25
+  { time: "14:00", endTime: "14:30", teamA: "Game Changers", teamB: "AD", round: 3, matchNum: 6 },
+  { time: "14:35", endTime: "15:05", teamA: "Divine United", teamB: "Pink Panthers", round: 4, matchNum: 7 },
+  { time: "15:10", endTime: "15:40", teamA: "Yellow Palthans", teamB: "AD", round: 4, matchNum: 8 },
+  { time: "15:45", endTime: "16:15", teamA: "Divine United", teamB: "Game Changers", round: 5, matchNum: 9 },
+  { time: "16:20", endTime: "16:50", teamA: "Yellow Palthans", teamB: "Pink Panthers", round: 5, matchNum: 10 },
+  { time: "17:00", endTime: "17:40", isFinal: true, round: 6, matchNum: 11 }
+];
+
+const throwballConfig = tournamentsConfig.find((t) => t.id === "dmc-throwball-2026");
+
+throwballRawMatches.forEach((m) => {
+  if (m.isFinal) {
+    matchesBySport.Throwball.push({
+      id: "TB-FINAL",
+      round: 6,
+      roundName: "Championship Final",
+      stageName: "Championship Final",
+      groupId: "PLAYOFFS",
+      groupName: "Championship Final",
+      teamAId: null,
+      teamBId: null,
+      placeholderA: "Winner Group Stage 1",
+      placeholderB: "Winner Group Stage 2",
+      scoreA: 0,
+      scoreB: 0,
+      status: "SCHEDULED",
+      winnerId: null,
+      scheduledAt: "2026-11-07 17:00",
+      startTime: "17:00",
+      endTime: "17:40",
+      venue: "Parish Throwball Court",
+      court: "Main Court",
+      duration: "40 mins"
+    });
+    return;
+  }
+
+  const normA = normalizeTeamName(m.teamA);
+  const normB = normalizeTeamName(m.teamB);
+  const tA = throwballConfig.teams.find((t) => t.name === normA);
+  const tB = throwballConfig.teams.find((t) => t.name === normB);
+
+  matchesBySport.Throwball.push({
+    id: `TB-M${m.matchNum}`,
+    round: m.round,
+    roundName: `Round ${m.round}`,
+    stageName: `League Match ${m.matchNum}`,
+    groupId: "ALL",
+    groupName: "League Stage",
+    teamAId: tA ? tA.id : null,
+    teamBId: tB ? tB.id : null,
+    placeholderA: tA ? null : normA,
+    placeholderB: tB ? null : normB,
+    scoreA: 0,
+    scoreB: 0,
+    status: "SCHEDULED",
+    winnerId: null,
+    scheduledAt: `2026-11-07 ${m.time}`,
+    startTime: m.time,
+    endTime: m.endTime,
+    venue: "Parish Throwball Court",
+    court: "Court 1",
+    duration: "30 mins"
   });
 });
 
@@ -366,18 +567,20 @@ tournamentsConfig.forEach((cfg) => {
   cfg.matches = matchesBySport[cfg.sport] || [];
 });
 
+let totalFixtures = 0;
 console.log("Tournaments generated:");
 tournamentsConfig.forEach((t) => {
-  console.log(`- ${t.title}: ${t.teams.length} players, ${t.groups?.length || 0} groups, ${t.matches.length} matches`);
+  console.log(`- ${t.title}: ${t.teams.length} teams, ${t.groups?.length || 0} groups, ${t.matches.length} matches`);
+  totalFixtures += t.matches.length;
 });
-console.log(`Total fixtures: ${allScheduleMatches.length}`);
+console.log(`Total fixtures across all tournaments: ${totalFixtures}`);
 
 // Write to seedData.js
 const seedContent = `/**
  * Official Divine Mercy Parish Sports Tournament Seed Data
  * Schedule Date: 7th November 2026
- * Sports: Carrom (50 matches), Chess (16 matches), Table Tennis (15 matches)
- * Total Fixtures: 81 Matches (All scheduled with exact timings and board allocations)
+ * Sports: Carrom, Chess, Table Tennis, Cricket, Throwball
+ * Total Fixtures: ${totalFixtures} Matches
  */
 
 export const initialTournaments = ${JSON.stringify(tournamentsConfig, null, 2)};

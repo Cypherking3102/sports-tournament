@@ -157,10 +157,25 @@
             ]
           },
           {
+            "id": "p-charlette-sequera",
+            "name": "Charlette Sequera",
+            "shortName": "CHAR",
+            "seed": 2,
+            "logo": "",
+            "group": "Group B",
+            "players": [
+              {
+                "id": "p-charlette-sequera",
+                "name": "Charlette Sequera",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
             "id": "p-sunborn-perrira",
             "name": "Sunborn Perrira",
             "shortName": "SUNB",
-            "seed": 2,
+            "seed": 3,
             "logo": "",
             "group": "Group B",
             "players": [
@@ -172,40 +187,10 @@
             ]
           },
           {
-            "id": "p-james-louis",
-            "name": "James Louis",
-            "shortName": "JAME",
-            "seed": 3,
-            "logo": "",
-            "group": "Group B",
-            "players": [
-              {
-                "id": "p-james-louis",
-                "name": "James Louis",
-                "role": "PLAYER"
-              }
-            ]
-          },
-          {
-            "id": "p-rosslin-louis",
-            "name": "Rosslin Louis",
-            "shortName": "ROSS",
-            "seed": 4,
-            "logo": "",
-            "group": "Group B",
-            "players": [
-              {
-                "id": "p-rosslin-louis",
-                "name": "Rosslin Louis",
-                "role": "PLAYER"
-              }
-            ]
-          },
-          {
             "id": "p-gerald-rodrigues",
             "name": "Gerald Rodrigues",
             "shortName": "GERA",
-            "seed": 5,
+            "seed": 4,
             "logo": "",
             "group": "Group B",
             "players": [
@@ -217,16 +202,31 @@
             ]
           },
           {
-            "id": "p-charlette-sequera",
-            "name": "Charlette Sequera",
-            "shortName": "CHAR",
+            "id": "p-rosslin-louis",
+            "name": "Rosslin Louis",
+            "shortName": "ROSS",
+            "seed": 5,
+            "logo": "",
+            "group": "Group B",
+            "players": [
+              {
+                "id": "p-rosslin-louis",
+                "name": "Rosslin Louis",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
+            "id": "p-james-louis",
+            "name": "James Louis",
+            "shortName": "JAME",
             "seed": 6,
             "logo": "",
             "group": "Group B",
             "players": [
               {
-                "id": "p-charlette-sequera",
-                "name": "Charlette Sequera",
+                "id": "p-james-louis",
+                "name": "James Louis",
                 "role": "PLAYER"
               }
             ]
@@ -253,10 +253,25 @@
             ]
           },
           {
+            "id": "p-florine-fernandes",
+            "name": "Florine Fernandes",
+            "shortName": "FLOR",
+            "seed": 2,
+            "logo": "",
+            "group": "Group C",
+            "players": [
+              {
+                "id": "p-florine-fernandes",
+                "name": "Florine Fernandes",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
             "id": "p-dean-d-souza",
             "name": "Dean D'souza",
             "shortName": "DEAN",
-            "seed": 2,
+            "seed": 3,
             "logo": "",
             "group": "Group C",
             "players": [
@@ -268,10 +283,25 @@
             ]
           },
           {
+            "id": "p-joseph-rodrigues",
+            "name": "Joseph Rodrigues",
+            "shortName": "JOSE",
+            "seed": 4,
+            "logo": "",
+            "group": "Group C",
+            "players": [
+              {
+                "id": "p-joseph-rodrigues",
+                "name": "Joseph Rodrigues",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
             "id": "p-patrick-menezes",
             "name": "Patrick Menezes",
             "shortName": "PATR",
-            "seed": 3,
+            "seed": 5,
             "logo": "",
             "group": "Group C",
             "players": [
@@ -286,43 +316,13 @@
             "id": "p-daniel-danthi",
             "name": "Daniel Danthi",
             "shortName": "DANI",
-            "seed": 4,
+            "seed": 6,
             "logo": "",
             "group": "Group C",
             "players": [
               {
                 "id": "p-daniel-danthi",
                 "name": "Daniel Danthi",
-                "role": "PLAYER"
-              }
-            ]
-          },
-          {
-            "id": "p-joseph-rodrigues",
-            "name": "Joseph Rodrigues",
-            "shortName": "JOSE",
-            "seed": 5,
-            "logo": "",
-            "group": "Group C",
-            "players": [
-              {
-                "id": "p-joseph-rodrigues",
-                "name": "Joseph Rodrigues",
-                "role": "PLAYER"
-              }
-            ]
-          },
-          {
-            "id": "p-florine-fernandes",
-            "name": "Florine Fernandes",
-            "shortName": "FLOR",
-            "seed": 6,
-            "logo": "",
-            "group": "Group C",
-            "players": [
-              {
-                "id": "p-florine-fernandes",
-                "name": "Florine Fernandes",
                 "role": "PLAYER"
               }
             ]
@@ -437,10 +437,25 @@
         ]
       },
       {
+        "id": "p-charlette-sequera",
+        "name": "Charlette Sequera",
+        "shortName": "CHAR",
+        "seed": 2,
+        "logo": "",
+        "group": "Group B",
+        "players": [
+          {
+            "id": "p-charlette-sequera",
+            "name": "Charlette Sequera",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
         "id": "p-sunborn-perrira",
         "name": "Sunborn Perrira",
         "shortName": "SUNB",
-        "seed": 2,
+        "seed": 3,
         "logo": "",
         "group": "Group B",
         "players": [
@@ -452,40 +467,10 @@
         ]
       },
       {
-        "id": "p-james-louis",
-        "name": "James Louis",
-        "shortName": "JAME",
-        "seed": 3,
-        "logo": "",
-        "group": "Group B",
-        "players": [
-          {
-            "id": "p-james-louis",
-            "name": "James Louis",
-            "role": "PLAYER"
-          }
-        ]
-      },
-      {
-        "id": "p-rosslin-louis",
-        "name": "Rosslin Louis",
-        "shortName": "ROSS",
-        "seed": 4,
-        "logo": "",
-        "group": "Group B",
-        "players": [
-          {
-            "id": "p-rosslin-louis",
-            "name": "Rosslin Louis",
-            "role": "PLAYER"
-          }
-        ]
-      },
-      {
         "id": "p-gerald-rodrigues",
         "name": "Gerald Rodrigues",
         "shortName": "GERA",
-        "seed": 5,
+        "seed": 4,
         "logo": "",
         "group": "Group B",
         "players": [
@@ -497,16 +482,31 @@
         ]
       },
       {
-        "id": "p-charlette-sequera",
-        "name": "Charlette Sequera",
-        "shortName": "CHAR",
+        "id": "p-rosslin-louis",
+        "name": "Rosslin Louis",
+        "shortName": "ROSS",
+        "seed": 5,
+        "logo": "",
+        "group": "Group B",
+        "players": [
+          {
+            "id": "p-rosslin-louis",
+            "name": "Rosslin Louis",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-james-louis",
+        "name": "James Louis",
+        "shortName": "JAME",
         "seed": 6,
         "logo": "",
         "group": "Group B",
         "players": [
           {
-            "id": "p-charlette-sequera",
-            "name": "Charlette Sequera",
+            "id": "p-james-louis",
+            "name": "James Louis",
             "role": "PLAYER"
           }
         ]
@@ -527,10 +527,25 @@
         ]
       },
       {
+        "id": "p-florine-fernandes",
+        "name": "Florine Fernandes",
+        "shortName": "FLOR",
+        "seed": 2,
+        "logo": "",
+        "group": "Group C",
+        "players": [
+          {
+            "id": "p-florine-fernandes",
+            "name": "Florine Fernandes",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
         "id": "p-dean-d-souza",
         "name": "Dean D'souza",
         "shortName": "DEAN",
-        "seed": 2,
+        "seed": 3,
         "logo": "",
         "group": "Group C",
         "players": [
@@ -542,10 +557,25 @@
         ]
       },
       {
+        "id": "p-joseph-rodrigues",
+        "name": "Joseph Rodrigues",
+        "shortName": "JOSE",
+        "seed": 4,
+        "logo": "",
+        "group": "Group C",
+        "players": [
+          {
+            "id": "p-joseph-rodrigues",
+            "name": "Joseph Rodrigues",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
         "id": "p-patrick-menezes",
         "name": "Patrick Menezes",
         "shortName": "PATR",
-        "seed": 3,
+        "seed": 5,
         "logo": "",
         "group": "Group C",
         "players": [
@@ -560,43 +590,13 @@
         "id": "p-daniel-danthi",
         "name": "Daniel Danthi",
         "shortName": "DANI",
-        "seed": 4,
+        "seed": 6,
         "logo": "",
         "group": "Group C",
         "players": [
           {
             "id": "p-daniel-danthi",
             "name": "Daniel Danthi",
-            "role": "PLAYER"
-          }
-        ]
-      },
-      {
-        "id": "p-joseph-rodrigues",
-        "name": "Joseph Rodrigues",
-        "shortName": "JOSE",
-        "seed": 5,
-        "logo": "",
-        "group": "Group C",
-        "players": [
-          {
-            "id": "p-joseph-rodrigues",
-            "name": "Joseph Rodrigues",
-            "role": "PLAYER"
-          }
-        ]
-      },
-      {
-        "id": "p-florine-fernandes",
-        "name": "Florine Fernandes",
-        "shortName": "FLOR",
-        "seed": 6,
-        "logo": "",
-        "group": "Group C",
-        "players": [
-          {
-            "id": "p-florine-fernandes",
-            "name": "Florine Fernandes",
             "role": "PLAYER"
           }
         ]
@@ -1754,7 +1754,7 @@
         "shortName": "MARI",
         "seed": 1,
         "logo": "",
-        "group": "Group A",
+        "group": "Group",
         "players": [
           {
             "id": "p-mario-chettiar",
@@ -1769,7 +1769,7 @@
         "shortName": "FRAN",
         "seed": 2,
         "logo": "",
-        "group": "Group A",
+        "group": "Group",
         "players": [
           {
             "id": "p-frank-mathias",
@@ -1784,7 +1784,7 @@
         "shortName": "SHIB",
         "seed": 3,
         "logo": "",
-        "group": "Group A",
+        "group": "Group",
         "players": [
           {
             "id": "p-shibu-jacob",
@@ -1799,7 +1799,7 @@
         "shortName": "JOEL",
         "seed": 4,
         "logo": "",
-        "group": "Group A",
+        "group": "Group",
         "players": [
           {
             "id": "p-joel-britto",
@@ -1814,7 +1814,7 @@
         "shortName": "CHRI",
         "seed": 5,
         "logo": "",
-        "group": "Group A",
+        "group": "Group",
         "players": [
           {
             "id": "p-christine",
@@ -1829,7 +1829,7 @@
         "shortName": "DON",
         "seed": 6,
         "logo": "",
-        "group": "Group A",
+        "group": "Group",
         "players": [
           {
             "id": "p-don-danthi",
@@ -2821,6 +2821,674 @@
         "venue": "Ground Floor",
         "court": "Table 1",
         "duration": "7 mins"
+      }
+    ]
+  },
+  {
+    "id": "dmc-cricket-2026",
+    "title": "Divine Mercy Parish Cricket Tournament 2026",
+    "sport": "Cricket",
+    "sportIcon": "",
+    "scoreUnit": "Runs",
+    "format": "ROUND_ROBIN",
+    "status": "UPCOMING",
+    "participantType": "TEAM",
+    "startDate": "2026-11-07",
+    "endDate": "2026-11-07",
+    "location": "Parish Sports Turf / Grounds",
+    "organizer": "Divine Mercy Church",
+    "description": "Official Parish Cricket Championship 2026. 5 teams: Divine United, Yellow Palthans, Game Changers, Pink Panthers, and Green Goblin (AD). Top 2 contest the Grand Final.",
+    "bannerUrl": "https://images.unsplash.com/photo-1531415074868-036b107e7752?auto=format&fit=crop&w=1200&q=80",
+    "pointsConfig": {
+      "win": 2,
+      "draw": 1,
+      "loss": 0,
+      "showForm": true
+    },
+    "rules": [
+      {
+        "id": "cr-1",
+        "title": "Match Format",
+        "category": "Rules",
+        "content": "Rapid 5 overs per side. Rotational bowling with standard cricket rules."
+      },
+      {
+        "id": "cr-2",
+        "title": "Championship Final",
+        "category": "Format",
+        "content": "Top 2 teams on the league points table contest the Grand Final at 05:00 PM."
+      },
+      {
+        "id": "cr-3",
+        "title": "Sportsmanship",
+        "category": "Conduct",
+        "content": "Umpire decisions are final. Respect opponents and celebrate parish fellowship."
+      }
+    ],
+    "groups": [],
+    "teams": [
+      {
+        "id": "team-divine-united",
+        "name": "Divine United",
+        "shortName": "DU",
+        "seed": 1,
+        "logo": "",
+        "group": "League",
+        "players": []
+      },
+      {
+        "id": "team-yellow-palthans",
+        "name": "Yellow Palthans",
+        "shortName": "YP",
+        "seed": 2,
+        "logo": "",
+        "group": "League",
+        "players": []
+      },
+      {
+        "id": "team-game-changers",
+        "name": "Game Changers",
+        "shortName": "GC",
+        "seed": 3,
+        "logo": "",
+        "group": "League",
+        "players": []
+      },
+      {
+        "id": "team-pink-panthers",
+        "name": "Pink Panthers",
+        "shortName": "PP",
+        "seed": 4,
+        "logo": "",
+        "group": "League",
+        "players": []
+      },
+      {
+        "id": "team-green-goblin",
+        "name": "Green Goblin (AD)",
+        "shortName": "GG",
+        "seed": 5,
+        "logo": "",
+        "group": "League",
+        "players": []
+      }
+    ],
+    "matches": [
+      {
+        "id": "CRIC-M1",
+        "round": 1,
+        "roundName": "Round 1",
+        "stageName": "League Match 1",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-divine-united",
+        "teamBId": "team-yellow-palthans",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 10:30",
+        "startTime": "10:30",
+        "endTime": "11:00",
+        "venue": "Parish Sports Turf",
+        "court": "Turf Pitch",
+        "duration": "30 mins"
+      },
+      {
+        "id": "CRIC-M2",
+        "round": 1,
+        "roundName": "Round 1",
+        "stageName": "League Match 2",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-game-changers",
+        "teamBId": "team-pink-panthers",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 11:05",
+        "startTime": "11:05",
+        "endTime": "11:35",
+        "venue": "Parish Sports Turf",
+        "court": "Turf Pitch",
+        "duration": "30 mins"
+      },
+      {
+        "id": "CRIC-M3",
+        "round": 2,
+        "roundName": "Round 2",
+        "stageName": "League Match 3",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-divine-united",
+        "teamBId": "team-green-goblin",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 11:40",
+        "startTime": "11:40",
+        "endTime": "12:10",
+        "venue": "Parish Sports Turf",
+        "court": "Turf Pitch",
+        "duration": "30 mins"
+      },
+      {
+        "id": "CRIC-M4",
+        "round": 2,
+        "roundName": "Round 2",
+        "stageName": "League Match 4",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-yellow-palthans",
+        "teamBId": "team-game-changers",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 12:15",
+        "startTime": "12:15",
+        "endTime": "12:45",
+        "venue": "Parish Sports Turf",
+        "court": "Turf Pitch",
+        "duration": "30 mins"
+      },
+      {
+        "id": "CRIC-M5",
+        "round": 3,
+        "roundName": "Round 3",
+        "stageName": "League Match 5",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-pink-panthers",
+        "teamBId": "team-green-goblin",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 12:50",
+        "startTime": "12:50",
+        "endTime": "13:20",
+        "venue": "Parish Sports Turf",
+        "court": "Turf Pitch",
+        "duration": "30 mins"
+      },
+      {
+        "id": "CRIC-M6",
+        "round": 3,
+        "roundName": "Round 3",
+        "stageName": "League Match 6",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-divine-united",
+        "teamBId": "team-game-changers",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 13:25",
+        "startTime": "13:25",
+        "endTime": "13:55",
+        "venue": "Parish Sports Turf",
+        "court": "Turf Pitch",
+        "duration": "30 mins"
+      },
+      {
+        "id": "CRIC-M7",
+        "round": 4,
+        "roundName": "Round 4",
+        "stageName": "League Match 7",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-yellow-palthans",
+        "teamBId": "team-pink-panthers",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 14:00",
+        "startTime": "14:00",
+        "endTime": "14:30",
+        "venue": "Parish Sports Turf",
+        "court": "Turf Pitch",
+        "duration": "30 mins"
+      },
+      {
+        "id": "CRIC-M8",
+        "round": 4,
+        "roundName": "Round 4",
+        "stageName": "League Match 8",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-game-changers",
+        "teamBId": "team-green-goblin",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 14:35",
+        "startTime": "14:35",
+        "endTime": "15:05",
+        "venue": "Parish Sports Turf",
+        "court": "Turf Pitch",
+        "duration": "30 mins"
+      },
+      {
+        "id": "CRIC-M9",
+        "round": 5,
+        "roundName": "Round 5",
+        "stageName": "League Match 9",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-divine-united",
+        "teamBId": "team-pink-panthers",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 15:10",
+        "startTime": "15:10",
+        "endTime": "15:40",
+        "venue": "Parish Sports Turf",
+        "court": "Turf Pitch",
+        "duration": "30 mins"
+      },
+      {
+        "id": "CRIC-M10",
+        "round": 5,
+        "roundName": "Round 5",
+        "stageName": "League Match 10",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-yellow-palthans",
+        "teamBId": "team-green-goblin",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 15:45",
+        "startTime": "15:45",
+        "endTime": "16:15",
+        "venue": "Parish Sports Turf",
+        "court": "Turf Pitch",
+        "duration": "30 mins"
+      },
+      {
+        "id": "CRIC-FINAL",
+        "round": 6,
+        "roundName": "Championship Final",
+        "stageName": "Championship Final",
+        "groupId": "PLAYOFFS",
+        "groupName": "Championship Final",
+        "teamAId": null,
+        "teamBId": null,
+        "placeholderA": "Winner Group Stage 1",
+        "placeholderB": "Winner Group Stage 2",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 17:00",
+        "startTime": "17:00",
+        "endTime": "17:45",
+        "venue": "Parish Sports Turf",
+        "court": "Main Turf Pitch",
+        "duration": "45 mins"
+      }
+    ]
+  },
+  {
+    "id": "dmc-throwball-2026",
+    "title": "Divine Mercy Parish Throwball Tournament 2026",
+    "sport": "Throwball",
+    "sportIcon": "",
+    "scoreUnit": "Points",
+    "format": "ROUND_ROBIN",
+    "status": "UPCOMING",
+    "participantType": "TEAM",
+    "startDate": "2026-11-07",
+    "endDate": "2026-11-07",
+    "location": "Parish Throwball Court",
+    "organizer": "Divine Mercy Church",
+    "description": "Official Parish Throwball Championship 2026. 5 teams: Divine United, Yellow Palthans, Game Changers, Pink Panthers, and Green Goblin (AD). Top 2 contest the Grand Final.",
+    "bannerUrl": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=1200&q=80",
+    "pointsConfig": {
+      "win": 2,
+      "draw": 1,
+      "loss": 0,
+      "showForm": true
+    },
+    "rules": [
+      {
+        "id": "tb-1",
+        "title": "Match Format",
+        "category": "Rules",
+        "content": "Best of 3 sets format. Standard rotational catching and throwing rules apply."
+      },
+      {
+        "id": "tb-2",
+        "title": "Championship Final",
+        "category": "Format",
+        "content": "Top 2 teams on the league points table advance to the Grand Final at 05:00 PM."
+      },
+      {
+        "id": "tb-3",
+        "title": "Fellowship",
+        "category": "Conduct",
+        "content": "Fair play, support teammates, and cheer for all participating parish teams."
+      }
+    ],
+    "groups": [],
+    "teams": [
+      {
+        "id": "team-divine-united",
+        "name": "Divine United",
+        "shortName": "DU",
+        "seed": 1,
+        "logo": "",
+        "group": "League",
+        "players": []
+      },
+      {
+        "id": "team-yellow-palthans",
+        "name": "Yellow Palthans",
+        "shortName": "YP",
+        "seed": 2,
+        "logo": "",
+        "group": "League",
+        "players": []
+      },
+      {
+        "id": "team-game-changers",
+        "name": "Game Changers",
+        "shortName": "GC",
+        "seed": 3,
+        "logo": "",
+        "group": "League",
+        "players": []
+      },
+      {
+        "id": "team-pink-panthers",
+        "name": "Pink Panthers",
+        "shortName": "PP",
+        "seed": 4,
+        "logo": "",
+        "group": "League",
+        "players": []
+      },
+      {
+        "id": "team-green-goblin",
+        "name": "Green Goblin (AD)",
+        "shortName": "GG",
+        "seed": 5,
+        "logo": "",
+        "group": "League",
+        "players": []
+      }
+    ],
+    "matches": [
+      {
+        "id": "TB-M1",
+        "round": 1,
+        "roundName": "Round 1",
+        "stageName": "League Match 1",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-game-changers",
+        "teamBId": "team-pink-panthers",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 10:30",
+        "startTime": "10:30",
+        "endTime": "11:00",
+        "venue": "Parish Throwball Court",
+        "court": "Court 1",
+        "duration": "30 mins"
+      },
+      {
+        "id": "TB-M2",
+        "round": 1,
+        "roundName": "Round 1",
+        "stageName": "League Match 2",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-divine-united",
+        "teamBId": "team-green-goblin",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 11:05",
+        "startTime": "11:05",
+        "endTime": "11:35",
+        "venue": "Parish Throwball Court",
+        "court": "Court 1",
+        "duration": "30 mins"
+      },
+      {
+        "id": "TB-M3",
+        "round": 2,
+        "roundName": "Round 2",
+        "stageName": "League Match 3",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-yellow-palthans",
+        "teamBId": "team-game-changers",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 11:40",
+        "startTime": "11:40",
+        "endTime": "12:10",
+        "venue": "Parish Throwball Court",
+        "court": "Court 1",
+        "duration": "30 mins"
+      },
+      {
+        "id": "TB-M4",
+        "round": 2,
+        "roundName": "Round 2",
+        "stageName": "League Match 4",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-pink-panthers",
+        "teamBId": "team-green-goblin",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 12:15",
+        "startTime": "12:15",
+        "endTime": "12:45",
+        "venue": "Parish Throwball Court",
+        "court": "Court 1",
+        "duration": "30 mins"
+      },
+      {
+        "id": "TB-M5",
+        "round": 3,
+        "roundName": "Round 3",
+        "stageName": "League Match 5",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-divine-united",
+        "teamBId": "team-yellow-palthans",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 12:50",
+        "startTime": "12:50",
+        "endTime": "13:20",
+        "venue": "Parish Throwball Court",
+        "court": "Court 1",
+        "duration": "30 mins"
+      },
+      {
+        "id": "TB-M6",
+        "round": 3,
+        "roundName": "Round 3",
+        "stageName": "League Match 6",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-game-changers",
+        "teamBId": "team-green-goblin",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 14:00",
+        "startTime": "14:00",
+        "endTime": "14:30",
+        "venue": "Parish Throwball Court",
+        "court": "Court 1",
+        "duration": "30 mins"
+      },
+      {
+        "id": "TB-M7",
+        "round": 4,
+        "roundName": "Round 4",
+        "stageName": "League Match 7",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-divine-united",
+        "teamBId": "team-pink-panthers",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 14:35",
+        "startTime": "14:35",
+        "endTime": "15:05",
+        "venue": "Parish Throwball Court",
+        "court": "Court 1",
+        "duration": "30 mins"
+      },
+      {
+        "id": "TB-M8",
+        "round": 4,
+        "roundName": "Round 4",
+        "stageName": "League Match 8",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-yellow-palthans",
+        "teamBId": "team-green-goblin",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 15:10",
+        "startTime": "15:10",
+        "endTime": "15:40",
+        "venue": "Parish Throwball Court",
+        "court": "Court 1",
+        "duration": "30 mins"
+      },
+      {
+        "id": "TB-M9",
+        "round": 5,
+        "roundName": "Round 5",
+        "stageName": "League Match 9",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-divine-united",
+        "teamBId": "team-game-changers",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 15:45",
+        "startTime": "15:45",
+        "endTime": "16:15",
+        "venue": "Parish Throwball Court",
+        "court": "Court 1",
+        "duration": "30 mins"
+      },
+      {
+        "id": "TB-M10",
+        "round": 5,
+        "roundName": "Round 5",
+        "stageName": "League Match 10",
+        "groupId": "ALL",
+        "groupName": "League Stage",
+        "teamAId": "team-yellow-palthans",
+        "teamBId": "team-pink-panthers",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 16:20",
+        "startTime": "16:20",
+        "endTime": "16:50",
+        "venue": "Parish Throwball Court",
+        "court": "Court 1",
+        "duration": "30 mins"
+      },
+      {
+        "id": "TB-FINAL",
+        "round": 6,
+        "roundName": "Championship Final",
+        "stageName": "Championship Final",
+        "groupId": "PLAYOFFS",
+        "groupName": "Championship Final",
+        "teamAId": null,
+        "teamBId": null,
+        "placeholderA": "Winner Group Stage 1",
+        "placeholderB": "Winner Group Stage 2",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 17:00",
+        "startTime": "17:00",
+        "endTime": "17:40",
+        "venue": "Parish Throwball Court",
+        "court": "Main Court",
+        "duration": "40 mins"
       }
     ]
   }

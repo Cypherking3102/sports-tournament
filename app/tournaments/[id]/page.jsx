@@ -320,17 +320,33 @@ export default function TournamentDetailPage({ params }) {
           )}
 
           {tournament.format === "ROUND_ROBIN" && (
-            <button
-              onClick={() => setActiveTab("standings")}
-              className={`py-3.5 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center space-x-2 whitespace-nowrap ${
-                activeTab === "standings"
-                  ? "border-blue-500 text-blue-400"
-                  : "border-transparent text-slate-400 hover:text-white"
-              }`}
-            >
-              <TrendingUp className="w-4 h-4" />
-              <span>Standings Table</span>
-            </button>
+            <>
+              <button
+                onClick={() => setActiveTab("standings")}
+                className={`py-3.5 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center space-x-2 whitespace-nowrap ${
+                  activeTab === "standings"
+                    ? "border-blue-500 text-blue-400"
+                    : "border-transparent text-slate-400 hover:text-white"
+                }`}
+              >
+                <TrendingUp className="w-4 h-4" />
+                <span>Standings Table</span>
+              </button>
+
+              {tournament.matches?.some((m) => m.stageName?.includes("Final") || m.roundName?.includes("Final") || m.id?.includes("Final")) && (
+                <button
+                  onClick={() => setActiveTab("brackets")}
+                  className={`py-3.5 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center space-x-2 whitespace-nowrap ${
+                    activeTab === "brackets"
+                      ? "border-blue-500 text-blue-400"
+                      : "border-transparent text-slate-400 hover:text-white"
+                  }`}
+                >
+                  <Trophy className="w-4 h-4" />
+                  <span>Final Match</span>
+                </button>
+              )}
+            </>
           )}
 
           <button

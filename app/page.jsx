@@ -81,7 +81,7 @@ export default function HomePage() {
     }
   };
 
-  const sportsList = ["ALL", "Carrom", "Chess", "Table Tennis"];
+  const sportsList = ["ALL", "Carrom", "Chess", "Table Tennis", "Cricket", "Throwball"];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 space-y-6">
@@ -96,7 +96,7 @@ export default function HomePage() {
             Parish Sports Day & <span className="text-blue-400">Live Fixtures</span>
           </h1>
           <p className="text-xs text-slate-400">
-            Carrom, Chess & Table Tennis • Check group tables, upcoming games or search your match time.
+            Carrom, Chess, Table Tennis, Cricket & Throwball • Check standings tables, upcoming games or search your match schedule.
           </p>
         </div>
 

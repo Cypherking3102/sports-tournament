@@ -124,9 +124,11 @@ export default function GlobalSchedulePage() {
         return false;
       }
 
-      // 2. Floor filter
+      // 2. Floor / Area filter
       if (selectedFloor === "4th" && !m.venue?.includes("4th Floor")) return false;
       if (selectedFloor === "Ground" && !m.venue?.includes("Ground Floor")) return false;
+      if (selectedFloor === "Turf" && !m.venue?.includes("Turf")) return false;
+      if (selectedFloor === "Court" && !m.venue?.includes("Throwball Court") && !m.venue?.includes("Court")) return false;
 
       // 3. Player filter from custom dropdown
       if (selectedPlayer) {
@@ -198,7 +200,7 @@ export default function GlobalSchedulePage() {
           </h1>
 
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Select your name from the dropdown below to view your scheduled match times across Carrom, Chess, and Table Tennis.
+            Select your name or team from the dropdown below to view your scheduled match times across Carrom, Chess, Table Tennis, Cricket, and Throwball.
           </p>
         </div>
       </div>
@@ -209,7 +211,7 @@ export default function GlobalSchedulePage() {
           <label className="text-xs text-slate-400 font-bold uppercase tracking-wider block mb-2 flex items-center justify-between">
             <span className="flex items-center space-x-1.5">
               <User className="w-3.5 h-3.5 text-blue-400" />
-              <span>Select Your Name (Parishioner)</span>
+              <span>Select Your Name or Team</span>
             </span>
             {selectedPlayer && (
               <button
@@ -218,7 +220,7 @@ export default function GlobalSchedulePage() {
                 className="text-xs text-blue-400 hover:text-blue-300 font-bold flex items-center space-x-1"
               >
                 <X className="w-3.5 h-3.5" />
-                <span>Show All Players</span>
+                <span>Show All Participants</span>
               </button>
             )}
           </label>
@@ -228,7 +230,7 @@ export default function GlobalSchedulePage() {
               players={allPlayers}
               selectedPlayer={selectedPlayer}
               onSelectPlayer={setSelectedPlayer}
-              placeholder={`Choose Player (${allPlayers.length} Participants)`}
+              placeholder={`Choose Player or Team (${allPlayers.length} Participants)`}
             />
           </div>
         </div>
@@ -237,7 +239,7 @@ export default function GlobalSchedulePage() {
         <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-800">
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-xs text-slate-500 font-mono mr-1">Sport:</span>
-            {["ALL", "Carrom", "Chess", "Table Tennis"].map((sp) => (
+            {["ALL", "Carrom", "Chess", "Table Tennis", "Cricket", "Throwball"].map((sp) => (
               <button
                 key={sp}
                 type="button"
@@ -253,10 +255,12 @@ export default function GlobalSchedulePage() {
             ))}
           </div>
 
-          <div className="flex items-center space-x-1.5">
+          <div className="flex items-center space-x-1.5 overflow-x-auto">
             <span className="text-xs text-slate-500 font-mono">Venue:</span>
             {[
               { id: "ALL", label: "All Areas" },
+              { id: "Turf", label: "Turf Pitch" },
+              { id: "Court", label: "Throwball Court" },
               { id: "4th", label: "4th Floor" },
               { id: "Ground", label: "Ground Floor" }
             ].map(({ id, label }) => (
@@ -264,7 +268,7 @@ export default function GlobalSchedulePage() {
                 key={id}
                 type="button"
                 onClick={() => setSelectedFloor(id)}
-                className={`px-3 py-1 rounded-xl text-xs font-semibold transition-all ${
+                className={`px-3 py-1 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ${
                   selectedFloor === id
                     ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
                     : "bg-slate-950 border border-slate-800 text-slate-400 hover:text-white"
