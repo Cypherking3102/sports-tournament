@@ -203,21 +203,23 @@ export default function HomePage() {
                 className="group relative flex flex-col rounded-3xl border border-slate-800 bg-slate-900/80 overflow-hidden hover:border-slate-700 hover:shadow-2xl transition-all"
               >
                 {/* Banner Thumbnail */}
-                <Link href={`/tournaments/${t.id}`} className="block relative h-40 w-full bg-slate-800 overflow-hidden cursor-pointer">
-                  <img
-                    src={t.bannerUrl}
-                    alt={t.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+                <div className="relative h-40 w-full bg-slate-800 overflow-hidden">
+                  <Link href={`/tournaments/${t.id}`} className="block w-full h-full">
+                    <img
+                      src={t.bannerUrl}
+                      alt={t.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+                  </Link>
 
                   {/* Badges on top */}
-                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                    <span className="px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-slate-700/60 text-xs font-bold text-white shadow">
+                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
+                    <span className="px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-slate-700/60 text-xs font-bold text-white shadow pointer-events-auto">
                       {t.sport}
                     </span>
 
-                    <div className="flex items-center space-x-1.5" onClick={(e) => e.stopPropagation()}>
+                    <div className="flex items-center space-x-1.5 pointer-events-auto">
                       {liveMatches > 0 ? (
                         <span className="flex items-center space-x-1 px-3 py-1 rounded-full bg-red-500 text-white text-xs font-bold animate-pulse shadow-md shadow-red-500/30">
                           <Flame className="w-3.5 h-3.5" />
@@ -253,8 +255,8 @@ export default function HomePage() {
                   </div>
 
                   {/* Format tag bottom left */}
-                  <div className="absolute bottom-3 left-4">
-                    <span className="text-[11px] font-mono font-semibold uppercase px-2.5 py-0.5 rounded-md bg-blue-600 text-white">
+                  <div className="absolute bottom-3 left-4 pointer-events-none">
+                    <span className="text-[11px] font-mono font-semibold uppercase px-2.5 py-0.5 rounded-md bg-blue-600 text-white shadow">
                       {t.format === "GROUP_KNOCKOUT"
                         ? "Group Stage + Knockout"
                         : t.format === "KNOCKOUT"
@@ -262,7 +264,7 @@ export default function HomePage() {
                         : "Round Robin Table"}
                     </span>
                   </div>
-                </Link>
+                </div>
 
                 {/* Content */}
                 <div className="p-5 flex-1 flex flex-col justify-between space-y-3.5">

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect, use, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import {
   Trophy,
   Calendar,
@@ -44,8 +45,9 @@ import {
 } from "@/lib/clientStorage";
 
 export default function TournamentDetailPage({ params }) {
-  const unwrappedParams = use(params);
-  const id = unwrappedParams.id;
+  const routeParams = useParams();
+  const rawId = routeParams?.id || params?.id;
+  const id = Array.isArray(rawId) ? rawId[0] : (typeof rawId === "string" ? rawId : "");
 
   const [tournament, setTournament] = useState(null);
   const [activeTab, setActiveTab] = useState("groups");
@@ -86,6 +88,7 @@ export default function TournamentDetailPage({ params }) {
   }, [id]);
 
   const fetchTournament = async () => {
+    if (!id) return;
     // 1. Instant optimistic load from client persistent storage
     const localData = getClientTournamentById(id);
     if (localData) {
