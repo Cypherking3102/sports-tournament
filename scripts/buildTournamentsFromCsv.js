@@ -171,12 +171,12 @@ const parishTeams = [
   { id: "team-yellow-palthans", name: "Yellow Palthans", shortName: "YP", seed: 2 },
   { id: "team-game-changers", name: "Game Changers", shortName: "GC", seed: 3 },
   { id: "team-pink-panthers", name: "Pink Panthers", shortName: "PP", seed: 4 },
-  { id: "team-green-goblin", name: "Green Goblin (AD)", shortName: "GG", seed: 5 }
+  { id: "team-green-goblin", name: "Green Goblin", shortName: "GG", seed: 5 }
 ];
 
 function normalizeTeamName(rawName) {
   const clean = rawName.trim().toLowerCase();
-  if (clean === "ad" || clean.includes("green goblin")) return "Green Goblin (AD)";
+  if (clean === "ad" || clean.includes("green goblin")) return "Green Goblin";
   if (clean.includes("divine united")) return "Divine United";
   if (clean.includes("yellow palthan") || clean.includes("yellow paltan")) return "Yellow Palthans";
   if (clean.includes("game changer")) return "Game Changers";
@@ -279,7 +279,7 @@ const tournamentsConfig = [
     endDate: "2026-11-07",
     location: "Church Hall",
     organizer: "Divine Mercy Church",
-    description: "Official Parish Cricket Championship 2026. 5 teams: Divine United, Yellow Palthans, Game Changers, Pink Panthers, and Green Goblin (AD). Top 2 contest the Grand Final.",
+    description: "Official Parish Cricket Championship 2026. 5 teams: Divine United, Yellow Palthans, Game Changers, Pink Panthers, and Green Goblin. Top 2 contest the Grand Final.",
     bannerUrl: "https://images.unsplash.com/photo-1531415074868-036b107e7752?auto=format&fit=crop&w=1200&q=80",
     pointsConfig: { win: 2, draw: 1, loss: 0, showForm: true },
     rules: [
@@ -302,7 +302,7 @@ const tournamentsConfig = [
     endDate: "2026-11-07",
     location: "Grotto Area",
     organizer: "Divine Mercy Church",
-    description: "Official Parish Throwball Championship 2026. 5 teams: Divine United, Yellow Palthans, Game Changers, Pink Panthers, and Green Goblin (AD). Top 2 contest the Grand Final.",
+    description: "Official Parish Throwball Championship 2026. 5 teams: Divine United, Yellow Palthans, Game Changers, Pink Panthers, and Green Goblin. Top 2 contest the Grand Final.",
     bannerUrl: "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=1200&q=80",
     pointsConfig: { win: 2, draw: 1, loss: 0, showForm: true },
     rules: [
