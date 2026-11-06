@@ -21,6 +21,20 @@ import ScoreModal from "@/components/ScoreModal";
 import CustomPlayerDropdown from "@/components/CustomPlayerDropdown";
 import { getClientTournaments, saveClientTournament } from "@/lib/clientStorage";
 
+function parseTimeToMinutes(t) {
+  if (!t) return 0;
+  const str = String(t).trim().toUpperCase();
+  const isPM = str.includes("PM");
+  const isAM = str.includes("AM");
+  const clean = str.replace(/[AP]M/, "").trim();
+  const parts = clean.split(":");
+  let h = parseInt(parts[0], 10) || 0;
+  const m = parseInt(parts[1], 10) || 0;
+  if (isPM && h < 12) h += 12;
+  if (isAM && h === 12) h = 0;
+  return h * 60 + m;
+}
+
 export default function GlobalSchedulePage() {
   const [tournaments, setTournaments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -111,8 +125,8 @@ export default function GlobalSchedulePage() {
       });
     });
 
-    // Chronological Sort: by timeStr ascending
-    list.sort((a, b) => (a.timeStr || "").localeCompare(b.timeStr || ""));
+    // Chronological Sort: strictly by minutes from midnight ascending
+    list.sort((a, b) => parseTimeToMinutes(a.timeStr) - parseTimeToMinutes(b.timeStr));
     return list;
   }, [tournaments]);
 

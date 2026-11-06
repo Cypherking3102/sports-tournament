@@ -95,7 +95,9 @@ export default function BracketTree({ tournament, onEditMatch, onTournamentUpdat
             <div>
               <h3 className="font-extrabold text-white text-base">Championship Playoff Tree</h3>
               <p className="text-xs text-slate-400">
-                Top 2 qualifiers from Group A and Group B meet in single-elimination knockouts
+                {tournament.groups?.length > 2
+                  ? "Top qualifiers from Group A, B, C and best 3rd-place finishers advance to Quarterfinals"
+                  : "Top 2 qualifiers from Group A and Group B meet in single-elimination knockouts"}
               </p>
             </div>
           </div>

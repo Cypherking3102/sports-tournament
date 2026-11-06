@@ -15,6 +15,20 @@ import {
 } from "lucide-react";
 import CustomPlayerDropdown from "./CustomPlayerDropdown";
 
+function parseTimeToMinutes(t) {
+  if (!t) return 0;
+  const str = String(t).trim().toUpperCase();
+  const isPM = str.includes("PM");
+  const isAM = str.includes("AM");
+  const clean = str.replace(/[AP]M/, "").trim();
+  const parts = clean.split(":");
+  let h = parseInt(parts[0], 10) || 0;
+  const m = parseInt(parts[1], 10) || 0;
+  if (isPM && h < 12) h += 12;
+  if (isAM && h === 12) h = 0;
+  return h * 60 + m;
+}
+
 export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isAdmin }) {
   const { matches = [], teams = [], participantType = "INDIVIDUAL" } = tournament;
   const [selectedPlayer, setSelectedPlayer] = useState("");
@@ -34,16 +48,23 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
     return Array.from(new Set(list)).sort((a, b) => a.localeCompare(b));
   }, [teams]);
 
-  // Filtered matches by selected player
+  // Filtered matches by selected player, sorted chronologically
   const filteredMatches = useMemo(() => {
-    if (!selectedPlayer) return matches;
-    const target = selectedPlayer.trim().toLowerCase();
-    return matches.filter((m) => {
-      const teamA = teamMap[m.teamAId];
-      const teamB = teamMap[m.teamBId];
-      const nameA = (teamA ? teamA.name : m.placeholderA || "").toLowerCase();
-      const nameB = (teamB ? teamB.name : m.placeholderB || "").toLowerCase();
-      return nameA.includes(target) || nameB.includes(target);
+    let list = matches;
+    if (selectedPlayer) {
+      const target = selectedPlayer.trim().toLowerCase();
+      list = matches.filter((m) => {
+        const teamA = teamMap[m.teamAId];
+        const teamB = teamMap[m.teamBId];
+        const nameA = (teamA ? teamA.name : m.placeholderA || "").toLowerCase();
+        const nameB = (teamB ? teamB.name : m.placeholderB || "").toLowerCase();
+        return nameA.includes(target) || nameB.includes(target);
+      });
+    }
+    return list.slice().sort((a, b) => {
+      const minA = parseTimeToMinutes(a.startTime || (a.scheduledAt ? a.scheduledAt.split(" ")[1] : ""));
+      const minB = parseTimeToMinutes(b.startTime || (b.scheduledAt ? b.scheduledAt.split(" ")[1] : ""));
+      return minA - minB;
     });
   }, [matches, selectedPlayer, teamMap]);
 

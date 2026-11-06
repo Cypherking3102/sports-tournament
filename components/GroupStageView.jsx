@@ -16,6 +16,20 @@ import {
 } from "lucide-react";
 import { normalizePlayers, getCaptain } from "@/lib/tournamentEngine";
 
+function parseTimeToMinutes(t) {
+  if (!t) return 0;
+  const str = String(t).trim().toUpperCase();
+  const isPM = str.includes("PM");
+  const isAM = str.includes("AM");
+  const clean = str.replace(/[AP]M/, "").trim();
+  const parts = clean.split(":");
+  let h = parseInt(parts[0], 10) || 0;
+  const m = parseInt(parts[1], 10) || 0;
+  if (isPM && h < 12) h += 12;
+  if (isAM && h === 12) h = 0;
+  return h * 60 + m;
+}
+
 export default function GroupStageView({ tournament, onEditMatch, onAddMatch, isAdmin }) {
   const {
     groups = [],
@@ -61,9 +75,9 @@ export default function GroupStageView({ tournament, onEditMatch, onAddMatch, is
         !m.stageName?.includes("Final")
     );
     list.sort((a, b) => {
-      const timeA = a.startTime || a.scheduledAt || "";
-      const timeB = b.startTime || b.scheduledAt || "";
-      return timeA.localeCompare(timeB);
+      const minA = parseTimeToMinutes(a.startTime || (a.scheduledAt ? a.scheduledAt.split(" ")[1] : ""));
+      const minB = parseTimeToMinutes(b.startTime || (b.scheduledAt ? b.scheduledAt.split(" ")[1] : ""));
+      return minA - minB;
     });
     return list;
   }, [matches]);
@@ -77,9 +91,9 @@ export default function GroupStageView({ tournament, onEditMatch, onAddMatch, is
       (m) => m.groupId === selectedGroupId || (m.stageName && m.stageName.includes(grpName))
     );
     list.sort((a, b) => {
-      const timeA = a.startTime || a.scheduledAt || "";
-      const timeB = b.startTime || b.scheduledAt || "";
-      return timeA.localeCompare(timeB);
+      const minA = parseTimeToMinutes(a.startTime || (a.scheduledAt ? a.scheduledAt.split(" ")[1] : ""));
+      const minB = parseTimeToMinutes(b.startTime || (b.scheduledAt ? b.scheduledAt.split(" ")[1] : ""));
+      return minA - minB;
     });
     return list;
   }, [matches, selectedGroupId, groups]);
