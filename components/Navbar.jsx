@@ -15,6 +15,7 @@ import {
   Sun,
   Moon
 } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
 
 export default function Navbar() {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -96,17 +97,10 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           {/* Logo & Brand */}
           <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-emerald-500 flex items-center justify-center shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
-              <Trophy className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <span className="font-extrabold text-base sm:text-lg tracking-tight text-white block">
-                Divine Mercy Sports
-              </span>
-              <span className="text-[10px] block font-mono text-blue-400 tracking-wider font-semibold uppercase">
-                Parish Tournaments & Brackets
-              </span>
-            </div>
+            <BrandLogo className="w-10 h-10 group-hover:scale-105 transition-transform" />
+            <span className="font-black text-base sm:text-lg tracking-tight text-white group-hover:text-blue-300 transition-colors">
+              Divine Mercy Sports
+            </span>
           </Link>
 
           {/* Desktop Nav */}

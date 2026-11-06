@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, use, useMemo } from "react";
 import Link from "next/link";
 import {
   Trophy,
@@ -104,6 +104,13 @@ export default function TournamentDetailPage({ params }) {
         );
       }
       setTournament(localData);
+      if (localData.format === "ROUND_ROBIN") {
+        setActiveTab("standings");
+      } else if (localData.format === "KNOCKOUT") {
+        setActiveTab("brackets");
+      } else {
+        setActiveTab("groups");
+      }
       setLoading(false);
     }
 
@@ -191,6 +198,17 @@ export default function TournamentDetailPage({ params }) {
 
   const liveMatches = tournament.matches?.filter((m) => m.status === "LIVE").length || 0;
   const stats = calculateTournamentStats(tournament);
+
+  const resolvedTab = useMemo(() => {
+    if (!tournament) return activeTab;
+    if (tournament.format === "ROUND_ROBIN" && activeTab === "groups") {
+      return "standings";
+    }
+    if (tournament.format === "KNOCKOUT" && (activeTab === "groups" || activeTab === "standings")) {
+      return "brackets";
+    }
+    return activeTab;
+  }, [tournament, activeTab]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
@@ -312,7 +330,7 @@ export default function TournamentDetailPage({ params }) {
               <button
                 onClick={() => setActiveTab("groups")}
                 className={`py-3.5 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center space-x-2 whitespace-nowrap ${
-                  activeTab === "groups"
+                  resolvedTab === "groups"
                     ? "border-blue-500 text-blue-400"
                     : "border-transparent text-slate-400 hover:text-white"
                 }`}
@@ -324,7 +342,7 @@ export default function TournamentDetailPage({ params }) {
               <button
                 onClick={() => setActiveTab("brackets")}
                 className={`py-3.5 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center space-x-2 whitespace-nowrap ${
-                  activeTab === "brackets"
+                  resolvedTab === "brackets"
                     ? "border-blue-500 text-blue-400"
                     : "border-transparent text-slate-400 hover:text-white"
                 }`}
@@ -339,7 +357,7 @@ export default function TournamentDetailPage({ params }) {
             <button
               onClick={() => setActiveTab("brackets")}
               className={`py-3.5 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center space-x-2 whitespace-nowrap ${
-                activeTab === "brackets"
+                resolvedTab === "brackets"
                   ? "border-blue-500 text-blue-400"
                   : "border-transparent text-slate-400 hover:text-white"
               }`}
@@ -354,7 +372,7 @@ export default function TournamentDetailPage({ params }) {
               <button
                 onClick={() => setActiveTab("standings")}
                 className={`py-3.5 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center space-x-2 whitespace-nowrap ${
-                  activeTab === "standings"
+                  resolvedTab === "standings"
                     ? "border-blue-500 text-blue-400"
                     : "border-transparent text-slate-400 hover:text-white"
                 }`}
@@ -367,7 +385,7 @@ export default function TournamentDetailPage({ params }) {
                 <button
                   onClick={() => setActiveTab("brackets")}
                   className={`py-3.5 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center space-x-2 whitespace-nowrap ${
-                    activeTab === "brackets"
+                    resolvedTab === "brackets"
                       ? "border-blue-500 text-blue-400"
                       : "border-transparent text-slate-400 hover:text-white"
                   }`}
@@ -382,7 +400,7 @@ export default function TournamentDetailPage({ params }) {
           <button
             onClick={() => setActiveTab("schedule")}
             className={`py-3.5 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center space-x-2 whitespace-nowrap ${
-              activeTab === "schedule"
+              resolvedTab === "schedule"
                 ? "border-blue-500 text-blue-400"
                 : "border-transparent text-slate-400 hover:text-white"
             }`}
@@ -394,7 +412,7 @@ export default function TournamentDetailPage({ params }) {
           <button
             onClick={() => setActiveTab("rules")}
             className={`py-3.5 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center space-x-2 whitespace-nowrap ${
-              activeTab === "rules"
+              resolvedTab === "rules"
                 ? "border-blue-500 text-blue-400"
                 : "border-transparent text-slate-400 hover:text-white"
             }`}
@@ -407,7 +425,7 @@ export default function TournamentDetailPage({ params }) {
 
       {/* Tab Panels */}
       <div>
-        {activeTab === "groups" && tournament.format === "GROUP_KNOCKOUT" && (
+        {resolvedTab === "groups" && tournament.format === "GROUP_KNOCKOUT" && (
           <GroupStageView
             tournament={tournament}
             isAdmin={isAdmin}
@@ -416,7 +434,7 @@ export default function TournamentDetailPage({ params }) {
           />
         )}
 
-        {activeTab === "brackets" && (
+        {resolvedTab === "brackets" && (
           <BracketTree
             tournament={tournament}
             isAdmin={isAdmin}
@@ -425,7 +443,7 @@ export default function TournamentDetailPage({ params }) {
           />
         )}
 
-        {activeTab === "standings" && (
+        {resolvedTab === "standings" && (
           <PointsTable
             tournament={tournament}
             standings={tournament.standings}
@@ -440,7 +458,7 @@ export default function TournamentDetailPage({ params }) {
           />
         )}
 
-        {activeTab === "schedule" && (
+        {resolvedTab === "schedule" && (
           <MatchSchedule
             tournament={tournament}
             isAdmin={isAdmin}
@@ -449,7 +467,7 @@ export default function TournamentDetailPage({ params }) {
           />
         )}
 
-        {activeTab === "rules" && (
+        {resolvedTab === "rules" && (
           <RulesViewer
             tournament={tournament}
             isAdmin={isAdmin}

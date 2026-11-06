@@ -10,17 +10,13 @@ export default function BracketTree({ tournament, onEditMatch, onTournamentUpdat
   const [seeding, setSeeding] = useState(false);
 
   const handleAutoSeed = async () => {
-    if (!tournament.groups || tournament.groups.length === 0) {
-      alert("No groups configured to seed from.");
-      return;
-    }
     setSeeding(true);
     try {
       const updatedMatches = seedPlayoffsFromGroups(
-        tournament.groups,
-        tournament.matches,
-        tournament.pointsConfig,
-        tournament.teams
+        tournament.groups || [],
+        tournament.matches || [],
+        tournament.pointsConfig || {},
+        tournament.teams || []
       );
       const updatedTournament = {
         ...tournament,
@@ -41,10 +37,17 @@ export default function BracketTree({ tournament, onEditMatch, onTournamentUpdat
     }
   };
 
-  // Filter playoff matches if it's a group+knockout tournament, or all matches if pure knockout
+  // Filter playoff matches if it's a group+knockout tournament or round robin with final, or all matches if pure knockout
   const playoffMatches = useMemo(() => {
-    if (format === "GROUP_KNOCKOUT") {
-      return matches.filter((m) => m.groupId === "PLAYOFFS" || m.stageName?.includes("Playoff") || m.stageName?.includes("Final"));
+    if (format === "GROUP_KNOCKOUT" || format === "ROUND_ROBIN") {
+      return matches.filter(
+        (m) =>
+          m.groupId === "PLAYOFFS" ||
+          m.stageName?.toLowerCase().includes("playoff") ||
+          m.stageName?.toLowerCase().includes("final") ||
+          m.roundName?.toLowerCase().includes("final") ||
+          m.id?.toLowerCase().includes("final")
+      );
     }
     return matches;
   }, [matches, format]);
