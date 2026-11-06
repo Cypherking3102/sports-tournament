@@ -40,20 +40,6 @@ export default function GroupStageView({ tournament, onEditMatch, onAddMatch, is
     return map;
   }, [teams]);
 
-  if (!groups || groups.length === 0) {
-    return (
-      <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-8 text-center text-slate-400">
-        No group stage configured for this tournament.
-      </div>
-    );
-  }
-
-  const winPts = pointsConfig?.win ?? 3;
-  const drawPts = pointsConfig?.draw ?? 1;
-  const lossPts = pointsConfig?.loss ?? 0;
-  const showForm = pointsConfig?.showForm !== false;
-  const isIndividual = participantType === "INDIVIDUAL" || teams.length > 0;
-
   // Chronologically sorted matches across all groups
   const allChronologicalMatches = useMemo(() => {
     const list = matches.filter(
@@ -85,6 +71,20 @@ export default function GroupStageView({ tournament, onEditMatch, onAddMatch, is
     });
     return list;
   }, [matches, selectedGroupId, groups]);
+
+  if (!groups || groups.length === 0) {
+    return (
+      <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-8 text-center text-slate-400">
+        No group stage configured for this tournament.
+      </div>
+    );
+  }
+
+  const winPts = pointsConfig?.win ?? 3;
+  const drawPts = pointsConfig?.draw ?? 1;
+  const lossPts = pointsConfig?.loss ?? 0;
+  const showForm = pointsConfig?.showForm !== false;
+  const isIndividual = participantType === "INDIVIDUAL" || teams.length > 0;
 
   const renderMatchCard = (m) => (
     <GroupMatchCard

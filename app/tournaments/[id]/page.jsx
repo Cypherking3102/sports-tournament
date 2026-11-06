@@ -59,6 +59,17 @@ export default function TournamentDetailPage({ params }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  const resolvedTab = useMemo(() => {
+    if (!tournament) return activeTab;
+    if (tournament.format === "ROUND_ROBIN" && activeTab === "groups") {
+      return "standings";
+    }
+    if (tournament.format === "KNOCKOUT" && (activeTab === "groups" || activeTab === "standings")) {
+      return "brackets";
+    }
+    return activeTab;
+  }, [tournament, activeTab]);
+
   const handleDeleteTournament = async () => {
     setIsDeleting(true);
     try {
@@ -201,17 +212,6 @@ export default function TournamentDetailPage({ params }) {
 
   const liveMatches = tournament.matches?.filter((m) => m.status === "LIVE").length || 0;
   const stats = calculateTournamentStats(tournament);
-
-  const resolvedTab = useMemo(() => {
-    if (!tournament) return activeTab;
-    if (tournament.format === "ROUND_ROBIN" && activeTab === "groups") {
-      return "standings";
-    }
-    if (tournament.format === "KNOCKOUT" && (activeTab === "groups" || activeTab === "standings")) {
-      return "brackets";
-    }
-    return activeTab;
-  }, [tournament, activeTab]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
