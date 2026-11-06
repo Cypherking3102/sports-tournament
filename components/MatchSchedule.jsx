@@ -11,6 +11,7 @@ import {
   Plus,
   Check,
   User,
+  Users,
   X
 } from "lucide-react";
 import CustomPlayerDropdown from "./CustomPlayerDropdown";
@@ -19,7 +20,9 @@ import { parseTimeToMinutes } from "@/lib/utils/timeUtils";
 export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isAdmin }) {
   const { matches = [], teams = [], participantType = "INDIVIDUAL" } = tournament;
   const [selectedPlayer, setSelectedPlayer] = useState("");
-  const isIndividual = participantType === "INDIVIDUAL" || teams.length > 0;
+  const isIndividual = participantType === "INDIVIDUAL";
+  const entityLabel = isIndividual ? "Player" : "Team";
+  const entityPlural = isIndividual ? "Participants" : "Teams";
 
   const teamMap = useMemo(() => {
     const map = {};
@@ -29,13 +32,13 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
     return map;
   }, [teams]);
 
-  // Unique players in this tournament, sorted strictly A-Z
+  // Unique participants in this tournament, sorted strictly A-Z
   const tournamentPlayers = useMemo(() => {
     const list = teams.map((t) => t.name).filter(Boolean);
     return Array.from(new Set(list)).sort((a, b) => a.localeCompare(b));
   }, [teams]);
 
-  // Filtered matches by selected player, sorted chronologically
+  // Filtered matches by selected participant, sorted chronologically
   const filteredMatches = useMemo(() => {
     let list = matches;
     if (selectedPlayer) {
@@ -57,7 +60,7 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
 
   return (
     <div className="space-y-6">
-      {/* Top Controls: Custom Player Dropdown & Admin Add Match Button */}
+      {/* Top Controls: Dropdown & Admin Add Match Button */}
       <div className="bg-slate-900/90 border border-slate-800 p-4 sm:p-5 rounded-3xl space-y-4 shadow-xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center space-x-2">
@@ -79,27 +82,31 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
           )}
         </div>
 
-        {/* Custom Player Dropdown Only (Filter by Stage removed as requested) */}
+        {/* Dropdown Filter */}
         <div className="pt-2 border-t border-slate-800">
           <label className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-2">
-            Find Your Match (Select Player)
+            Find Your Match (Select {entityLabel})
           </label>
           <div className="max-w-md">
             <CustomPlayerDropdown
               players={tournamentPlayers}
               selectedPlayer={selectedPlayer}
               onSelectPlayer={setSelectedPlayer}
-              placeholder={`Choose Player (${tournamentPlayers.length} Participants)`}
+              placeholder={`Choose ${entityLabel} (${tournamentPlayers.length} ${entityPlural})`}
             />
           </div>
         </div>
       </div>
 
-      {/* Active Filter Banner if player is selected */}
+      {/* Active Filter Banner if participant is selected */}
       {selectedPlayer && (
         <div className="flex items-center justify-between bg-blue-500/10 border border-blue-500/30 rounded-2xl px-4 py-2.5 text-xs">
           <div className="flex items-center space-x-2 text-blue-300">
-            <User className="w-4 h-4 text-blue-400" />
+            {isIndividual ? (
+              <User className="w-4 h-4 text-blue-400" />
+            ) : (
+              <Users className="w-4 h-4 text-blue-400" />
+            )}
             <span>
               Showing matches for: <strong>"{selectedPlayer}"</strong> ({filteredMatches.length} matches found)
             </span>

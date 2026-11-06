@@ -132,30 +132,23 @@ export default function GroupStageView({ tournament, onEditMatch, onAddMatch, is
             <thead className="text-[11px] uppercase tracking-wider text-slate-400 bg-slate-950/80 border-b border-slate-800 font-bold font-mono">
               <tr>
                 <th className="py-2.5 px-3 w-10 text-center">#</th>
-                <th className="py-2.5 px-3">Player</th>
+                <th className="py-2.5 px-3">{participantType === "TEAM" ? "Team" : "Player"}</th>
                 <th className="py-2.5 px-2 text-center" title="Played">P</th>
                 <th className="py-2.5 px-2 text-center text-emerald-400" title="Won">W</th>
                 <th className="py-2.5 px-2 text-center text-amber-400" title="Drawn">D</th>
                 <th className="py-2.5 px-2 text-center text-rose-400" title="Lost">L</th>
                 <th className="py-2.5 px-3 text-center font-black text-blue-400 text-sm">PTS</th>
-                {showForm && (
-                  <th className="py-2.5 px-3 text-center" title="Form">Form</th>
-                )}
-                <th className="py-2.5 px-3 text-right">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60 font-medium">
               {standings.map((row, index) => {
-                const isQualified = index < 2;
                 const teamObj = row.team || {};
                 const initial = (teamObj.name || "P")[0]?.toUpperCase();
 
                 return (
                   <tr
                     key={teamObj.id || index}
-                    className={`hover:bg-slate-800/30 transition-colors ${
-                      isQualified ? "bg-emerald-500/5" : ""
-                    }`}
+                    className="hover:bg-slate-800/30 transition-colors"
                   >
                     <td className="py-2.5 px-3 text-center">
                       <span
@@ -175,7 +168,7 @@ export default function GroupStageView({ tournament, onEditMatch, onAddMatch, is
                         <span className="w-5 h-5 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center text-[10px] font-bold font-mono">
                           {initial}
                         </span>
-                        <span className="font-bold text-white">{teamObj.name || "Participant"}</span>
+                        <span className="font-bold text-white">{teamObj.name || (participantType === "TEAM" ? "Team" : "Participant")}</span>
                       </div>
                     </td>
                     <td className="py-2.5 px-2 text-center font-mono font-bold text-slate-200">{row.played}</td>
@@ -184,41 +177,6 @@ export default function GroupStageView({ tournament, onEditMatch, onAddMatch, is
                     <td className="py-2.5 px-2 text-center font-mono text-rose-400 font-bold">{row.lost}</td>
                     <td className="py-2.5 px-3 text-center font-mono text-sm font-black text-blue-400">
                       {row.points}
-                    </td>
-
-                    {showForm && (
-                      <td className="py-2.5 px-3 text-center">
-                        <div className="flex items-center justify-center space-x-1">
-                          {row.form && row.form.length > 0 ? (
-                            row.form.map((res, i) => (
-                              <span
-                                key={i}
-                                className={`w-4 h-4 rounded text-[9px] font-bold font-mono text-white flex items-center justify-center ${
-                                  res === "W"
-                                    ? "bg-emerald-500"
-                                    : res === "D"
-                                    ? "bg-amber-500"
-                                    : "bg-rose-500"
-                                }`}
-                              >
-                                {res}
-                              </span>
-                            ))
-                          ) : (
-                            <span className="text-slate-600 font-mono text-[10px]">—</span>
-                          )}
-                        </div>
-                      </td>
-                    )}
-
-                    <td className="py-2.5 px-3 text-right">
-                      {isQualified ? (
-                        <span className="text-[10px] font-bold uppercase text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 rounded-full">
-                          Top 2
-                        </span>
-                      ) : (
-                        <span className="text-[10px] text-slate-500 font-mono">—</span>
-                      )}
                     </td>
                   </tr>
                 );

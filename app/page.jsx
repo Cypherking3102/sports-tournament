@@ -22,6 +22,7 @@ import {
   removeClientTournament,
   clearClientTournaments
 } from "@/lib/clientStorage";
+import { formatDateDMY } from "@/lib/utils/timeUtils";
 
 export default function HomePage() {
   const [tournaments, setTournaments] = useState([]);
@@ -274,9 +275,6 @@ export default function HomePage() {
                         {t.title}
                       </h3>
                     </Link>
-                    <p className="text-slate-400 text-xs mt-1 line-clamp-2 leading-relaxed">
-                      {t.description}
-                    </p>
                   </div>
 
                   {/* Details stats */}
@@ -284,7 +282,9 @@ export default function HomePage() {
                     <div className="flex items-center justify-between">
                       <span className="flex items-center space-x-1.5">
                         <Users className="w-3.5 h-3.5 text-slate-500" />
-                        <span>{t.teams?.length || 0} Players</span>
+                        <span>
+                          {t.teams?.length || 0} {t.participantType === "TEAM" ? "Teams" : "Players"}
+                        </span>
                       </span>
                       <span className="font-mono text-slate-500">
                         {t.matches?.length || 0} Matches
@@ -298,7 +298,7 @@ export default function HomePage() {
 
                     <div className="flex items-center space-x-1.5">
                       <Calendar className="w-3.5 h-3.5 text-slate-500" />
-                      <span>{t.startDate}</span>
+                      <span>{formatDateDMY(t.startDate)}</span>
                     </div>
                   </div>
 

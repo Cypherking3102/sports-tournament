@@ -43,6 +43,7 @@ import {
   removeClientTournament,
   syncTournamentsToServer
 } from "@/lib/clientStorage";
+import { formatDateDMY } from "@/lib/utils/timeUtils";
 
 export default function TournamentDetailPage({ params }) {
   const routeParams = useParams();
@@ -310,7 +311,7 @@ export default function TournamentDetailPage({ params }) {
               </span>
               <span className="flex items-center space-x-1">
                 <Calendar className="w-3.5 h-3.5 text-blue-400" />
-                <span>{tournament.startDate}</span>
+                <span>{formatDateDMY(tournament.startDate)}</span>
               </span>
               {tournament.organizer && (
                 <span className="flex items-center space-x-1 text-slate-400">

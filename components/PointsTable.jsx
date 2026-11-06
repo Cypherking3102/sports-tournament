@@ -93,7 +93,7 @@ export default function PointsTable({
               <thead className="text-xs uppercase tracking-wider text-slate-400 bg-slate-950/80 border-b border-slate-800 font-bold font-mono">
                 <tr>
                   <th className="py-3.5 px-4 w-14 text-center">Pos</th>
-                  <th className="py-3.5 px-4">{isIndividual ? "Participant" : "Team & Captain"}</th>
+                  <th className="py-3.5 px-4">{isIndividual ? "Participant" : "Team"}</th>
                   <th className="py-3.5 px-3 text-center" title="Matches Played">
                     P
                   </th>
@@ -109,11 +109,6 @@ export default function PointsTable({
                   <th className="py-3.5 px-4 text-center text-blue-400 font-black" title="Total Points">
                     PTS
                   </th>
-                  {showForm && (
-                    <th className="py-3.5 px-4 text-center" title="Last 5 Matches Form">
-                      Recent Form
-                    </th>
-                  )}
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800/60 font-medium">
@@ -199,31 +194,6 @@ export default function PointsTable({
                       <td className="py-3.5 px-4 text-center font-mono text-base font-black text-blue-400">
                         {row.points}
                       </td>
-
-                      {showForm && (
-                        <td className="py-3.5 px-4 text-center">
-                          <div className="flex items-center justify-center space-x-1">
-                            {row.form && row.form.length > 0 ? (
-                              row.form.map((res, i) => (
-                                <span
-                                  key={i}
-                                  className={`w-5 h-5 rounded text-[10px] font-bold font-mono text-white flex items-center justify-center ${
-                                    res === "W"
-                                      ? "bg-emerald-500 shadow-sm"
-                                      : res === "D"
-                                      ? "bg-amber-500 shadow-sm"
-                                      : "bg-rose-500 shadow-sm"
-                                  }`}
-                                >
-                                  {res}
-                                </span>
-                              ))
-                            ) : (
-                              <span className="text-slate-600 font-mono text-[10px]">—</span>
-                            )}
-                          </div>
-                        </td>
-                      )}
                     </tr>
                   );
                 })}
@@ -245,7 +215,7 @@ export default function PointsTable({
             <span>•</span>
             <span><strong className="text-blue-400">PTS</strong> = Points</span>
           </div>
-          <span className="text-slate-500 text-[11px]">Ranked by Points & Form</span>
+          <span className="text-slate-500 text-[11px]">Ranked by Points</span>
         </div>
       </div>
 
