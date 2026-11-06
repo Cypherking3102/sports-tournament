@@ -43,7 +43,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
   // General details
   const [title, setTitle] = useState(tournament.title || "");
   const [sport, setSport] = useState(tournament.sport || "Football");
-  const [sportIcon, setSportIcon] = useState(tournament.sportIcon || "⚽");
+  const [sportIcon, setSportIcon] = useState(tournament.sportIcon || "");
   const [status, setStatus] = useState(tournament.status || "UPCOMING");
   const [location, setLocation] = useState(tournament.location || "");
   const [startDate, setStartDate] = useState(tournament.startDate || "");
@@ -142,7 +142,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
 
   // Inputs for adding a new team
   const [newTeamName, setNewTeamName] = useState("");
-  const [newTeamLogo, setNewTeamLogo] = useState("🛡️");
+  const [newTeamLogo, setNewTeamLogo] = useState("");
 
   // Inputs for adding an individual player to a specific team
   const [activeAddTeamId, setActiveAddTeamId] = useState(null);
@@ -151,7 +151,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
 
   // Inputs for adding an individual participant (solo sport)
   const [newSoloName, setNewSoloName] = useState("");
-  const [newSoloAvatar, setNewSoloAvatar] = useState("👤");
+  const [newSoloAvatar, setNewSoloAvatar] = useState("");
 
   // Rules list
   const [rules, setRules] = useState(tournament.rules || []);
@@ -188,7 +188,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
       id: `tm-${Date.now()}`,
       name: newTeamName.trim(),
       shortName: newTeamName.trim().substring(0, 3).toUpperCase(),
-      logo: newTeamLogo || "🛡️",
+      logo: "",
       players: [],
       seed: teams.length + 1,
       groupId: newTeamGroup || groups[0]?.id || "grp-a"
@@ -204,7 +204,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
       id: `tm-${Date.now()}`,
       name: newSoloName.trim(),
       shortName: newSoloName.trim().substring(0, 3).toUpperCase(),
-      logo: newSoloAvatar || "👤",
+      logo: "",
       players: [],
       seed: teams.length + 1,
       groupId: groups[0]?.id || "grp-a"
@@ -663,7 +663,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                       onChange={(e) => setNewSoloAvatar(e.target.value)}
                       className="w-14 bg-slate-900 border border-slate-700 rounded-xl p-2 text-base text-center text-white focus:outline-none"
                     >
-                      {["👤", "🏃", "🥇", "⚡", "🛡️", "🔥", "🌟", "👑", "🎯"].map((a) => (
+                      {["", "", "", "", "️", "", "", "", ""].map((a) => (
                         <option key={a} value={a}>
                           {a}
                         </option>
@@ -694,7 +694,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                       >
                         <div className="flex items-center space-x-3">
                           <span className="font-mono text-slate-500 text-[10px]">#{idx + 1}</span>
-                          <span className="text-xl">{t.logo || "👤"}</span>
+                          <span className="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center text-xs font-bold font-mono">{(t.name || "P")[0]?.toUpperCase()}</span>
                           <input
                             type="text"
                             value={t.name}
@@ -745,7 +745,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                         onChange={(e) => setNewTeamLogo(e.target.value)}
                         className="w-14 bg-slate-900 border border-slate-700 rounded-xl p-2 text-base text-center text-white focus:outline-none"
                       >
-                        {["🛡️", "🐉", "🦅", "🐺", "⚡", "⚔️", "🔥", "🐍", "🦁", "🌟", "👑", "🚀"].map(
+                        {["️", "", "", "", "", "️", "", "", "", "", "", ""].map(
                           (l) => (
                             <option key={l} value={l}>
                               {l}
@@ -801,7 +801,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                               <span className="font-mono text-slate-500 text-[10px]">
                                 #{idx + 1}
                               </span>
-                              <span className="text-2xl">{t.logo || "🛡️"}</span>
+                              <span className="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center text-xs font-bold font-mono">{(t.name || "T")[0]?.toUpperCase()}</span>
                               <div className="flex items-center space-x-2 flex-1 min-w-0">
                                 <input
                                   type="text"
@@ -863,7 +863,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                                 Squad Roster ({players.length} Players)
                               </span>
                               <span className="text-slate-500">
-                                Click ⭐ to assign Captain (C) or Vice-Captain (VC)
+                                Assign Captain (C) or Vice-Captain (VC)
                               </span>
                             </div>
 
@@ -965,7 +965,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                                   className="bg-slate-900 border border-slate-800 rounded-xl px-2.5 py-1.5 text-xs text-slate-300 focus:outline-none"
                                 >
                                   <option value="PLAYER">Player</option>
-                                  <option value="CAPTAIN">⭐ Captain (C)</option>
+                                  <option value="CAPTAIN">Captain (C)</option>
                                   <option value="VICE_CAPTAIN">Vice-Captain (VC)</option>
                                 </select>
 
@@ -1229,7 +1229,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                     onChange={(e) => setSportIcon(e.target.value)}
                     className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
                   >
-                    {["⚽", "🏀", "🏏", "🏐", "🏸", "🏓", "🎾", "🏆", "🎯", "⚡", "🔥"].map((em) => (
+                    {["", "", "", "", "", "", "", "", "", "", ""].map((em) => (
                       <option key={em} value={em}>
                         {em} Icon
                       </option>
@@ -1387,7 +1387,7 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
                       onChange={(e) => setShowForm(e.target.checked)}
                       className="w-4 h-4 rounded text-blue-600 bg-slate-900 border-slate-700 focus:ring-0"
                     />
-                    <span>Show Team Form Guide (Last 5: 🟢 W, 🟡 D, 🔴 L)</span>
+                    <span>Show Team Form Guide (Last 5: W, D, L)</span>
                   </label>
 
                   <label className="flex items-center space-x-2 text-xs text-slate-300 cursor-pointer">

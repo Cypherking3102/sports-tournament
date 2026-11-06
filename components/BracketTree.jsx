@@ -121,7 +121,7 @@ export default function BracketTree({ tournament, onEditMatch, onTournamentUpdat
 
       {/* Mobile Swipe Hint */}
       <div className="flex items-center justify-between text-xs text-slate-400 px-1 md:hidden">
-        <span>👈 Swipe horizontally to view full bracket 👉</span>
+        <span>Swipe horizontally to view full bracket</span>
         {isAdmin && <span className="text-blue-400 font-medium">Tap match to edit</span>}
       </div>
 
@@ -196,8 +196,8 @@ export default function BracketTree({ tournament, onEditMatch, onTournamentUpdat
                         }`}
                       >
                         <div className="flex items-center space-x-2.5 min-w-0 pr-2">
-                          <span className="text-base flex-shrink-0">
-                            {teamA?.logo || "🛡️"}
+                          <span className="w-5 h-5 rounded-md bg-slate-800 text-slate-300 flex items-center justify-center text-[10px] font-bold font-mono flex-shrink-0">
+                            {(teamA?.name || match.placeholderA || "T")[0]?.toUpperCase()}
                           </span>
                           <span
                             className={`truncate text-xs ${
@@ -231,8 +231,8 @@ export default function BracketTree({ tournament, onEditMatch, onTournamentUpdat
                         }`}
                       >
                         <div className="flex items-center space-x-2.5 min-w-0 pr-2">
-                          <span className="text-base flex-shrink-0">
-                            {teamB?.logo || "🛡️"}
+                          <span className="w-5 h-5 rounded-md bg-slate-800 text-slate-300 flex items-center justify-center text-[10px] font-bold font-mono flex-shrink-0">
+                            {(teamB?.name || match.placeholderB || "T")[0]?.toUpperCase()}
                           </span>
                           <span
                             className={`truncate text-xs ${

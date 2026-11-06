@@ -21,11 +21,11 @@ import {
 import { getCaptain } from "@/lib/tournamentEngine";
 
 export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isAdmin }) {
-  const { matches = [], teams = [], scoreUnit = "Score", participantType = "TEAM" } = tournament;
+  const { matches = [], teams = [], scoreUnit = "Score", participantType = "INDIVIDUAL" } = tournament;
   const [filterStage, setFilterStage] = useState("ALL");
   const [playerSearch, setPlayerSearch] = useState("");
   const [selectedPlayer, setSelectedPlayer] = useState("");
-  const isIndividual = participantType === "INDIVIDUAL";
+  const isIndividual = participantType === "INDIVIDUAL" || teams.length > 0;
 
   const teamMap = useMemo(() => {
     const map = {};
@@ -44,11 +44,18 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
     return Array.from(sSet);
   }, [matches]);
 
-  // Unique players in this tournament
+  // Unique players in this tournament, sorted strictly A-Z
   const tournamentPlayers = useMemo(() => {
-    const list = teams.map((t) => t.name);
+    const list = teams.map((t) => t.name).filter(Boolean);
     return Array.from(new Set(list)).sort((a, b) => a.localeCompare(b));
   }, [teams]);
+
+  // Visible players matching search query
+  const visiblePlayers = useMemo(() => {
+    if (!playerSearch.trim()) return tournamentPlayers;
+    const q = playerSearch.trim().toLowerCase();
+    return tournamentPlayers.filter((p) => p.toLowerCase().includes(q));
+  }, [tournamentPlayers, playerSearch]);
 
   // Filtered matches
   const filteredMatches = useMemo(() => {
@@ -70,10 +77,25 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
     });
   }, [matches, filterStage, selectedPlayer, playerSearch, teamMap]);
 
+  const handleSelectPlayer = (pName) => {
+    if (selectedPlayer === pName) {
+      setSelectedPlayer("");
+    } else {
+      setSelectedPlayer(pName);
+      setPlayerSearch("");
+    }
+  };
+
+  const handleClearFilters = () => {
+    setSelectedPlayer("");
+    setPlayerSearch("");
+    setFilterStage("ALL");
+  };
+
   return (
     <div className="space-y-6">
-      {/* Top Controls: Stage Filter, Player Filter & Admin Add Match Button */}
-      <div className="bg-slate-900/90 border border-slate-800 p-4 sm:p-5 rounded-3xl space-y-3.5 shadow-xl">
+      {/* Top Controls: Stage Filter, Player Search & Alphabetical Pills */}
+      <div className="bg-slate-900/90 border border-slate-800 p-4 sm:p-5 rounded-3xl space-y-4 shadow-xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center space-x-2">
             <Calendar className="w-5 h-5 text-blue-400" />
@@ -94,58 +116,60 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
           )}
         </div>
 
-        {/* Filters row: Stage Selector + Player Selector / Search */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-2 border-t border-slate-800">
+        {/* Filters Row: Stage Selector & Search Input */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-800">
           {/* Stage Dropdown */}
           <div>
-            <label className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
+            <label className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1.5">
               Filter by Stage / Group
             </label>
-            <select
-              value={filterStage}
-              onChange={(e) => setFilterStage(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs font-semibold focus:outline-none focus:border-blue-500"
-            >
-              <option value="ALL">All Stages ({matches.length} Matches)</option>
+            <div className="flex flex-wrap gap-1.5">
+              <button
+                type="button"
+                onClick={() => setFilterStage("ALL")}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                  filterStage === "ALL"
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+                    : "bg-slate-950 border border-slate-800 text-slate-300 hover:text-white"
+                }`}
+              >
+                All Stages
+              </button>
               {uniqueStages.map((s) => (
-                <option key={s} value={s}>
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => setFilterStage(s)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                    filterStage === s
+                      ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+                      : "bg-slate-950 border border-slate-800 text-slate-300 hover:text-white"
+                  }`}
+                >
                   {s}
-                </option>
+                </button>
               ))}
-            </select>
-          </div>
-
-          {/* Player Dropdown */}
-          <div>
-            <label className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
-              Filter by Player Name
-            </label>
-            <select
-              value={selectedPlayer}
-              onChange={(e) => {
-                setSelectedPlayer(e.target.value);
-                setPlayerSearch("");
-              }}
-              className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs font-semibold focus:outline-none focus:border-blue-500"
-            >
-              <option value="">-- All {tournamentPlayers.length} Participants --</option>
-              {tournamentPlayers.map((pName) => (
-                <option key={pName} value={pName}>
-                  {pName}
-                </option>
-              ))}
-            </select>
+            </div>
           </div>
 
           {/* Quick Search Input */}
-          <div className="sm:col-span-2 lg:col-span-1">
-            <label className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
-              Search by Keyword
+          <div>
+            <label className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1.5 flex items-center justify-between">
+              <span>Search Player Name</span>
+              {(selectedPlayer || playerSearch) && (
+                <button
+                  type="button"
+                  onClick={handleClearFilters}
+                  className="text-xs text-blue-400 hover:text-blue-300 font-bold"
+                >
+                  Clear
+                </button>
+              )}
             </label>
             <div className="relative">
               <input
                 type="text"
-                placeholder="Type any player name..."
+                placeholder="Search player name..."
                 value={playerSearch}
                 onChange={(e) => {
                   setPlayerSearch(e.target.value);
@@ -157,10 +181,7 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
               {(playerSearch || selectedPlayer) && (
                 <button
                   type="button"
-                  onClick={() => {
-                    setPlayerSearch("");
-                    setSelectedPlayer("");
-                  }}
+                  onClick={handleClearFilters}
                   className="absolute right-2.5 top-2 text-slate-400 hover:text-white"
                 >
                   <X className="w-3.5 h-3.5" />
@@ -169,6 +190,36 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
             </div>
           </div>
         </div>
+
+        {/* Alphabetical Player Chips */}
+        {tournamentPlayers.length > 0 && (
+          <div className="space-y-1.5 pt-2 border-t border-slate-800/60">
+            <div className="flex items-center justify-between text-[11px] text-slate-400">
+              <span className="font-semibold">Tap to filter by participant:</span>
+              <span className="font-mono text-slate-500">{tournamentPlayers.length} Players (A-Z)</span>
+            </div>
+            <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto p-1.5 bg-slate-950/60 rounded-xl border border-slate-800/80 scrollbar-thin">
+              {visiblePlayers.map((pName) => {
+                const isSelected = selectedPlayer === pName;
+                return (
+                  <button
+                    key={pName}
+                    type="button"
+                    onClick={() => handleSelectPlayer(pName)}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all flex items-center space-x-1 ${
+                      isSelected
+                        ? "bg-blue-600 text-white shadow-sm ring-1 ring-blue-400"
+                        : "bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white"
+                    }`}
+                  >
+                    {isSelected && <Check className="w-3 h-3 text-white" />}
+                    <span>{pName}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Active Filter Pill indicator if player is selected */}
@@ -181,10 +232,7 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
             </span>
           </div>
           <button
-            onClick={() => {
-              setSelectedPlayer("");
-              setPlayerSearch("");
-            }}
+            onClick={handleClearFilters}
             className="text-xs text-blue-400 hover:text-blue-300 font-bold underline"
           >
             Show All
@@ -201,11 +249,7 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
             Try clearing your player or stage filter to see all scheduled matches.
           </p>
           <button
-            onClick={() => {
-              setFilterStage("ALL");
-              setSelectedPlayer("");
-              setPlayerSearch("");
-            }}
+            onClick={handleClearFilters}
             className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-xl transition-colors"
           >
             Reset Filters
@@ -218,8 +262,8 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
             const teamB = teamMap[m.teamBId];
             const nameA = teamA ? teamA.name : m.placeholderA || "TBD";
             const nameB = teamB ? teamB.name : m.placeholderB || "TBD";
-            const logoA = teamA?.logo || (isIndividual ? "👤" : "🛡️");
-            const logoB = teamB?.logo || (isIndividual ? "👤" : "🛡️");
+            const initialA = (nameA || "P")[0]?.toUpperCase();
+            const initialB = (nameB || "P")[0]?.toUpperCase();
             const isCompleted = m.status === "COMPLETED";
             const isLive = m.status === "LIVE";
             const winnerIsA = isCompleted && m.winnerId === m.teamAId;
@@ -291,7 +335,9 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
                     }`}
                   >
                     <div className="flex items-center space-x-2.5 min-w-0 pr-2">
-                      <span className="text-xl flex-shrink-0">{logoA}</span>
+                      <span className="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center text-xs font-bold font-mono flex-shrink-0">
+                        {initialA}
+                      </span>
                       <span
                         className={`text-sm font-bold truncate ${
                           isHighlightA ? "text-blue-300 underline font-black" : winnerIsA ? "text-emerald-300" : "text-white"
@@ -325,7 +371,9 @@ export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isA
                     }`}
                   >
                     <div className="flex items-center space-x-2.5 min-w-0 pr-2">
-                      <span className="text-xl flex-shrink-0">{logoB}</span>
+                      <span className="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center text-xs font-bold font-mono flex-shrink-0">
+                        {initialB}
+                      </span>
                       <span
                         className={`text-sm font-bold truncate ${
                           isHighlightB ? "text-blue-300 underline font-black" : winnerIsB ? "text-emerald-300" : "text-white"

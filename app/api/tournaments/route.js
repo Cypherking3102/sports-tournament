@@ -72,7 +72,7 @@ export async function POST(request) {
       name: tm.name,
       shortName: tm.shortName || tm.name.substring(0, 3).toUpperCase(),
       seed: tm.seed || idx + 1,
-      logo: tm.logo || (participantType === "INDIVIDUAL" ? "👤" : "🛡️"),
+      logo: tm.logo || "",
       group: tm.group || "Group A",
       players: Array.isArray(tm.players)
         ? tm.players.map((p, pIdx) => ({
@@ -130,7 +130,7 @@ export async function POST(request) {
       id: id || `tourney-${Date.now()}`,
       title,
       sport,
-      sportIcon: sportIcon || "🏅",
+      sportIcon: sportIcon || "",
       scoreUnit: scoreUnit || "Points",
       participantType,
       format,

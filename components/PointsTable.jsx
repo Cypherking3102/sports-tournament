@@ -145,7 +145,9 @@ export default function PointsTable({
 
                       <td className="py-3.5 px-4">
                         <div className="flex items-center space-x-3">
-                          <span className="text-xl flex-shrink-0">{teamObj.logo || "🛡️"}</span>
+                          <span className="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center text-xs font-bold font-mono flex-shrink-0">
+                            {(teamObj.name || "P")[0]?.toUpperCase()}
+                          </span>
                           <div className="min-w-0">
                             <span className="font-bold text-white text-sm block truncate">
                               {teamObj.name}
@@ -328,7 +330,9 @@ export default function PointsTable({
                     }`}
                   >
                     <div className="flex items-center space-x-2.5 min-w-0 pr-2">
-                      <span className="text-xl flex-shrink-0">{teamA?.logo || "🛡️"}</span>
+                      <span className="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center text-xs font-bold font-mono flex-shrink-0">
+                        {(teamA?.name || m.placeholderA || "T")[0]?.toUpperCase()}
+                      </span>
                       <div className="min-w-0">
                         <span
                           className={`block truncate text-sm font-bold ${
@@ -364,7 +368,9 @@ export default function PointsTable({
                     }`}
                   >
                     <div className="flex items-center space-x-2.5 min-w-0 pr-2">
-                      <span className="text-xl flex-shrink-0">{teamB?.logo || "🛡️"}</span>
+                      <span className="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center text-xs font-bold font-mono flex-shrink-0">
+                        {(teamB?.name || m.placeholderB || "T")[0]?.toUpperCase()}
+                      </span>
                       <div className="min-w-0">
                         <span
                           className={`block truncate text-sm font-bold ${

@@ -36,15 +36,15 @@ import {
 import { saveClientTournament } from "@/lib/clientStorage";
 
 const PRESET_SPORTS = [
-  { name: "Football", icon: "⚽", unit: "Goals", format: "GROUP_KNOCKOUT", type: "TEAM", win: 3, draw: 1, loss: 0 },
-  { name: "Basketball", icon: "🏀", unit: "Points", format: "ROUND_ROBIN", type: "TEAM", win: 2, draw: 0, loss: 0 },
-  { name: "Cricket", icon: "🏏", unit: "Runs", format: "KNOCKOUT", type: "TEAM", win: 2, draw: 1, loss: 0 },
-  { name: "Volleyball", icon: "🏐", unit: "Sets", format: "GROUP_KNOCKOUT", type: "TEAM", win: 2, draw: 0, loss: 0 },
-  { name: "Badminton", icon: "🏸", unit: "Points", format: "KNOCKOUT", type: "INDIVIDUAL", win: 2, draw: 0, loss: 0 },
-  { name: "Table Tennis", icon: "🏓", unit: "Points", format: "KNOCKOUT", type: "INDIVIDUAL", win: 2, draw: 0, loss: 0 },
-  { name: "Pickleball", icon: "🎾", unit: "Points", format: "GROUP_KNOCKOUT", type: "INDIVIDUAL", win: 2, draw: 0, loss: 0 },
-  { name: "Carrom", icon: "🎯", unit: "Points", format: "KNOCKOUT", type: "INDIVIDUAL", win: 2, draw: 0, loss: 0 },
-  { name: "Chess", icon: "♟️", unit: "Points", format: "ROUND_ROBIN", type: "INDIVIDUAL", win: 1, draw: 0.5, loss: 0 }
+  { name: "Football", icon: "", unit: "Goals", format: "GROUP_KNOCKOUT", type: "TEAM", win: 3, draw: 1, loss: 0 },
+  { name: "Basketball", icon: "", unit: "Points", format: "ROUND_ROBIN", type: "TEAM", win: 2, draw: 0, loss: 0 },
+  { name: "Cricket", icon: "", unit: "Runs", format: "KNOCKOUT", type: "TEAM", win: 2, draw: 1, loss: 0 },
+  { name: "Volleyball", icon: "", unit: "Sets", format: "GROUP_KNOCKOUT", type: "TEAM", win: 2, draw: 0, loss: 0 },
+  { name: "Badminton", icon: "", unit: "Points", format: "KNOCKOUT", type: "INDIVIDUAL", win: 2, draw: 0, loss: 0 },
+  { name: "Table Tennis", icon: "", unit: "Points", format: "KNOCKOUT", type: "INDIVIDUAL", win: 2, draw: 0, loss: 0 },
+  { name: "Pickleball", icon: "", unit: "Points", format: "GROUP_KNOCKOUT", type: "INDIVIDUAL", win: 2, draw: 0, loss: 0 },
+  { name: "Carrom", icon: "", unit: "Points", format: "KNOCKOUT", type: "INDIVIDUAL", win: 2, draw: 0, loss: 0 },
+  { name: "Chess", icon: "", unit: "Points", format: "ROUND_ROBIN", type: "INDIVIDUAL", win: 1, draw: 0.5, loss: 0 }
 ];
 
 export default function TournamentWizard() {
@@ -54,7 +54,7 @@ export default function TournamentWizard() {
   const [selectedSportPreset, setSelectedSportPreset] = useState("Football");
   const [isCustomSport, setIsCustomSport] = useState(false);
   const [customSportName, setCustomSportName] = useState("");
-  const [sportIcon, setSportIcon] = useState("⚽");
+  const [sportIcon, setSportIcon] = useState("");
   const [scoreUnit, setScoreUnit] = useState("Goals");
 
   // Participant Type: "TEAM" (Teams with individual player rosters) or "INDIVIDUAL" (Singles / Solo players)
@@ -86,7 +86,7 @@ export default function TournamentWizard() {
   // Participants (Clean slate: starts empty, no prefilled fake names)
   const [teams, setTeams] = useState([]);
   const [newTeamName, setNewTeamName] = useState("");
-  const [newTeamLogo, setNewTeamLogo] = useState("🛡️");
+  const [newTeamLogo, setNewTeamLogo] = useState("");
 
   // For adding individual players into a team
   const [selectedTeamIndex, setSelectedTeamIndex] = useState(0);
@@ -95,7 +95,7 @@ export default function TournamentWizard() {
 
   // Quick individual participant input (for INDIVIDUAL tournaments)
   const [newSoloName, setNewSoloName] = useState("");
-  const [newSoloAvatar, setNewSoloAvatar] = useState("👤");
+  const [newSoloAvatar, setNewSoloAvatar] = useState("");
 
   const [teamInputMode, setTeamInputMode] = useState("list"); // "list" or "bulk"
   const [bulkText, setBulkText] = useState("");
@@ -119,7 +119,7 @@ export default function TournamentWizard() {
   const handleSelectCustomSport = () => {
     setIsCustomSport(true);
     setSelectedSportPreset("CUSTOM");
-    setSportIcon("🏆");
+    setSportIcon("");
     setScoreUnit("Points");
     setWinPoints(3);
     setDrawPoints(1);
@@ -173,7 +173,7 @@ export default function TournamentWizard() {
 
     const newTeam = {
       name: newTeamName.trim(),
-      logo: newTeamLogo || "🛡️",
+      logo: "",
       seed: nextSeed,
       group: defaultGroup,
       players: [] // Array of { id, name, role }
@@ -195,7 +195,7 @@ export default function TournamentWizard() {
 
     const newPlayer = {
       name: newSoloName.trim(),
-      logo: newSoloAvatar || "👤",
+      logo: "",
       seed: nextSeed,
       group: defaultGroup,
       players: []
@@ -327,7 +327,7 @@ export default function TournamentWizard() {
         name: line,
         seed: idx + 1,
         group: groupsList[idx % gCount] || "Group A",
-        logo: "👤",
+        logo: "",
         players: []
       }));
       setTeams(parsed);
@@ -344,7 +344,7 @@ export default function TournamentWizard() {
           players: playerObjects,
           seed: idx + 1,
           group: groupsList[idx % gCount] || "Group A",
-          logo: ["🛡️", "⚡", "🦅", "🐺", "🔥", "⚔️", "🌟", "👑", "🚀", "🎯"][idx % 10]
+          logo: ""
         };
       });
       setTeams(parsedTeams);
@@ -409,7 +409,7 @@ export default function TournamentWizard() {
           name: t.name,
           shortName: t.name.substring(0, 3).toUpperCase(),
           seed: t.seed,
-          logo: t.logo || (participantType === "INDIVIDUAL" ? "👤" : "🛡️"),
+          logo: t.logo || "",
           captain: captainObj ? captainObj.name : null,
           players: playersList,
           playersString: formatRosterString(playersList),
@@ -604,7 +604,7 @@ export default function TournamentWizard() {
                 : "bg-slate-950 border border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10"
             }`}
           >
-            <span>✨</span>
+            
             <span>+ Custom / Any Sport</span>
           </button>
         </div>
@@ -638,7 +638,7 @@ export default function TournamentWizard() {
                 onChange={(e) => setSportIcon(e.target.value)}
                 className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-400"
               >
-                {["🏆", "🤾", "🏃", "🥇", "🎯", "⚡", "🔥", "🛡️", "⚔️", "🏸", "🏓", "🎾", "🎳"].map(
+                {["", "", "", "", "", "", "", "️", "️", "", "", "", ""].map(
                   (em) => (
                     <option key={em} value={em}>
                       {em} Icon
@@ -1020,7 +1020,7 @@ export default function TournamentWizard() {
               onChange={(e) => setShowFormGuide(e.target.checked)}
               className="w-4 h-4 rounded text-blue-600 bg-slate-900 border-slate-700 focus:ring-0"
             />
-            <span>Show Form Guide (Last 5: 🟢 W, 🟡 D, 🔴 L)</span>
+            <span>Show Form Guide (Last 5: W, D, L)</span>
           </label>
 
           <label className="flex items-center space-x-2 text-xs text-slate-300 cursor-pointer">
@@ -1155,7 +1155,7 @@ export default function TournamentWizard() {
                 onChange={(e) => setNewSoloAvatar(e.target.value)}
                 className="w-14 bg-slate-900 border border-slate-700 rounded-xl p-2 text-base text-center text-white focus:outline-none"
               >
-                {["👤", "🏃", "🥇", "⚡", "🛡️", "🔥", "🌟", "👑", "🎯"].map((a) => (
+                {["", "", "", "", "️", "", "", "", ""].map((a) => (
                   <option key={a} value={a}>
                     {a}
                   </option>
@@ -1272,7 +1272,7 @@ export default function TournamentWizard() {
                   onChange={(e) => setNewTeamLogo(e.target.value)}
                   className="w-14 bg-slate-900 border border-slate-700 rounded-xl p-2 text-base text-center text-white focus:outline-none"
                 >
-                  {["🛡️", "⚡", "🦅", "🐺", "🔥", "⚔️", "🌟", "👑", "🚀", "🎯", "🦁", "🐉"].map(
+                  {["️", "", "", "", "", "️", "", "", "", "", "", ""].map(
                     (l) => (
                       <option key={l} value={l}>
                         {l}
@@ -1408,7 +1408,7 @@ export default function TournamentWizard() {
                             Squad Roster ({players.length})
                           </span>
                           <span className="text-slate-500">
-                            Click ⭐ to designate Captain or VC
+                            Designate Captain or VC
                           </span>
                         </div>
 
@@ -1522,7 +1522,7 @@ export default function TournamentWizard() {
                               className="bg-slate-900 border border-slate-800 rounded-xl px-2.5 py-1.5 text-xs text-slate-300 focus:outline-none"
                             >
                               <option value="PLAYER">Player</option>
-                              <option value="CAPTAIN">⭐ Captain (C)</option>
+                              <option value="CAPTAIN">Captain (C)</option>
                               <option value="VICE_CAPTAIN">Vice-Captain (VC)</option>
                             </select>
 

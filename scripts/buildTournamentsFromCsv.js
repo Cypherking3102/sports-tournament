@@ -146,19 +146,18 @@ function makePlayerId(name) {
   return "p-" + name.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-");
 }
 
-// Player avatars
-const avatars = ["👤", "🎯", "🏅", "⚡", "🌟", "🛡️", "🔥", "🚀"];
-function getAvatar(idx) {
-  return avatars[idx % avatars.length];
+// Clean avatars without emojis
+function getAvatar(name) {
+  return "";
 }
 
-// 1. Build Participant Objects
+// 1. Build Participant Objects (NO EMOJIS)
 const tournamentsConfig = [
   {
     id: "dmc-carrom-2026",
     title: "Divine Mercy Parish Carrom Tournament 2026",
     sport: "Carrom",
-    sportIcon: "🎯",
+    sportIcon: "",
     scoreUnit: "Points",
     format: "GROUP_KNOCKOUT",
     status: "UPCOMING",
@@ -185,7 +184,7 @@ const tournamentsConfig = [
     id: "dmc-chess-2026",
     title: "Divine Mercy Parish Chess Tournament 2026",
     sport: "Chess",
-    sportIcon: "♟️",
+    sportIcon: "",
     scoreUnit: "Points",
     format: "ROUND_ROBIN",
     status: "UPCOMING",
@@ -208,7 +207,7 @@ const tournamentsConfig = [
     id: "dmc-table-tennis-2026",
     title: "Divine Mercy Parish Table Tennis Tournament 2026",
     sport: "Table Tennis",
-    sportIcon: "🏓",
+    sportIcon: "",
     scoreUnit: "Sets",
     format: "GROUP_KNOCKOUT",
     status: "UPCOMING",
@@ -247,7 +246,7 @@ tournamentsConfig.forEach((cfg) => {
         name: name,
         shortName: name.split(" ")[0].substring(0, 4).toUpperCase(),
         seed: idx + 1,
-        logo: getAvatar(globalPlayerIndex),
+        logo: "",
         group: groupName.startsWith("Group") ? groupName : "Group A",
         players: [
           {

@@ -2,7 +2,19 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Trophy, Shield, PlusCircle, Compass, Menu, X, LogOut, Lock, Calendar } from "lucide-react";
+import {
+  Trophy,
+  Shield,
+  PlusCircle,
+  Compass,
+  Menu,
+  X,
+  LogOut,
+  Lock,
+  Calendar,
+  Sun,
+  Moon
+} from "lucide-react";
 
 export default function Navbar() {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -10,10 +22,23 @@ export default function Navbar() {
   const [showPinModal, setShowPinModal] = useState(false);
   const [passkey, setPasskey] = useState("");
   const [authError, setAuthError] = useState("");
+  const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
+    // Check initial admin token
     const token = localStorage.getItem("sports_admin_token");
     if (token) setIsAdmin(true);
+
+    // Check stored theme
+    const storedTheme = localStorage.getItem("dmc_theme") || "dark";
+    setTheme(storedTheme);
+    if (storedTheme === "light") {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
+    } else {
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+    }
 
     const handleStorageChange = () => {
       setIsAdmin(!!localStorage.getItem("sports_admin_token"));
@@ -21,6 +46,19 @@ export default function Navbar() {
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    localStorage.setItem("dmc_theme", nextTheme);
+    if (nextTheme === "light") {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
+    } else {
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+    }
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -72,7 +110,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+          <nav className="hidden md:flex items-center space-x-5 text-sm font-medium">
             <Link
               href="/"
               className="flex items-center space-x-1.5 text-slate-300 hover:text-white transition-colors"
@@ -124,13 +162,41 @@ export default function Navbar() {
                 <span>Admin Login</span>
               </button>
             )}
+
+            {/* Theme Toggle Button (Dark / Light) */}
+            <button
+              onClick={toggleTheme}
+              className="p-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition-all"
+              title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <Sun className="w-4 h-4 text-amber-400" />
+              ) : (
+                <Moon className="w-4 h-4 text-blue-500" />
+              )}
+            </button>
           </nav>
 
-          {/* Mobile menu toggle */}
+          {/* Mobile Right Controls: Theme Toggle + Menu */}
           <div className="flex items-center md:hidden space-x-2">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all"
+              title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <Sun className="w-4 h-4 text-amber-400" />
+              ) : (
+                <Moon className="w-4 h-4 text-blue-500" />
+              )}
+            </button>
+
             {isAdmin && (
               <span className="w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-emerald-500/20"></span>
             )}
+
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white"

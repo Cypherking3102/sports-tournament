@@ -3,7 +3,7 @@
     "id": "dmc-carrom-2026",
     "title": "Divine Mercy Parish Carrom Tournament 2026",
     "sport": "Carrom",
-    "sportIcon": "🎯",
+    "sportIcon": "",
     "scoreUnit": "Points",
     "format": "GROUP_KNOCKOUT",
     "status": "UPCOMING",
@@ -50,7 +50,7 @@
             "name": "Lawrence Rodrigues",
             "shortName": "LAWR",
             "seed": 1,
-            "logo": "🎯",
+            "logo": "",
             "group": "Group A",
             "players": [
               {
@@ -65,7 +65,7 @@
             "name": "Colet Coelho",
             "shortName": "COLE",
             "seed": 2,
-            "logo": "🏅",
+            "logo": "",
             "group": "Group A",
             "players": [
               {
@@ -80,7 +80,7 @@
             "name": "Amal lancelot",
             "shortName": "AMAL",
             "seed": 3,
-            "logo": "⚡",
+            "logo": "",
             "group": "Group A",
             "players": [
               {
@@ -95,7 +95,7 @@
             "name": "Nelson Fernandes",
             "shortName": "NELS",
             "seed": 4,
-            "logo": "🌟",
+            "logo": "",
             "group": "Group A",
             "players": [
               {
@@ -110,7 +110,7 @@
             "name": "Anthony Aranha",
             "shortName": "ANTH",
             "seed": 5,
-            "logo": "🛡️",
+            "logo": "",
             "group": "Group A",
             "players": [
               {
@@ -125,7 +125,7 @@
             "name": "Alphonso Menezes",
             "shortName": "ALPH",
             "seed": 6,
-            "logo": "🔥",
+            "logo": "",
             "group": "Group A",
             "players": [
               {
@@ -146,7 +146,7 @@
             "name": "Jim D'souza",
             "shortName": "JIM",
             "seed": 1,
-            "logo": "🚀",
+            "logo": "",
             "group": "Group B",
             "players": [
               {
@@ -161,7 +161,7 @@
             "name": "Sunborn Perrira",
             "shortName": "SUNB",
             "seed": 2,
-            "logo": "👤",
+            "logo": "",
             "group": "Group B",
             "players": [
               {
@@ -176,7 +176,7 @@
             "name": "James Louis",
             "shortName": "JAME",
             "seed": 3,
-            "logo": "🎯",
+            "logo": "",
             "group": "Group B",
             "players": [
               {
@@ -191,7 +191,7 @@
             "name": "Rosslin Louis",
             "shortName": "ROSS",
             "seed": 4,
-            "logo": "🏅",
+            "logo": "",
             "group": "Group B",
             "players": [
               {
@@ -206,7 +206,7 @@
             "name": "Gerald Rodrigues",
             "shortName": "GERA",
             "seed": 5,
-            "logo": "⚡",
+            "logo": "",
             "group": "Group B",
             "players": [
               {
@@ -221,7 +221,7 @@
             "name": "Charlette Sequera",
             "shortName": "CHAR",
             "seed": 6,
-            "logo": "🌟",
+            "logo": "",
             "group": "Group B",
             "players": [
               {
@@ -242,7 +242,7 @@
             "name": "Emmanuel Menezes",
             "shortName": "EMMA",
             "seed": 1,
-            "logo": "🛡️",
+            "logo": "",
             "group": "Group C",
             "players": [
               {
@@ -257,7 +257,7 @@
             "name": "Dean D'souza",
             "shortName": "DEAN",
             "seed": 2,
-            "logo": "🔥",
+            "logo": "",
             "group": "Group C",
             "players": [
               {
@@ -272,7 +272,7 @@
             "name": "Patrick Menezes",
             "shortName": "PATR",
             "seed": 3,
-            "logo": "🚀",
+            "logo": "",
             "group": "Group C",
             "players": [
               {
@@ -287,7 +287,7 @@
             "name": "Daniel Danthi",
             "shortName": "DANI",
             "seed": 4,
-            "logo": "👤",
+            "logo": "",
             "group": "Group C",
             "players": [
               {
@@ -302,7 +302,7 @@
             "name": "Joseph Rodrigues",
             "shortName": "JOSE",
             "seed": 5,
-            "logo": "🎯",
+            "logo": "",
             "group": "Group C",
             "players": [
               {
@@ -317,7 +317,7 @@
             "name": "Florine Fernandes",
             "shortName": "FLOR",
             "seed": 6,
-            "logo": "🏅",
+            "logo": "",
             "group": "Group C",
             "players": [
               {
@@ -336,7 +336,7 @@
         "name": "Lawrence Rodrigues",
         "shortName": "LAWR",
         "seed": 1,
-        "logo": "🎯",
+        "logo": "",
         "group": "Group A",
         "players": [
           {
@@ -351,7 +351,7 @@
         "name": "Colet Coelho",
         "shortName": "COLE",
         "seed": 2,
-        "logo": "🏅",
+        "logo": "",
         "group": "Group A",
         "players": [
           {
@@ -366,7 +366,7 @@
         "name": "Amal lancelot",
         "shortName": "AMAL",
         "seed": 3,
-        "logo": "⚡",
+        "logo": "",
         "group": "Group A",
         "players": [
           {
@@ -381,7 +381,7 @@
         "name": "Nelson Fernandes",
         "shortName": "NELS",
         "seed": 4,
-        "logo": "🌟",
+        "logo": "",
         "group": "Group A",
         "players": [
           {
@@ -396,7 +396,7 @@
         "name": "Anthony Aranha",
         "shortName": "ANTH",
         "seed": 5,
-        "logo": "🛡️",
+        "logo": "",
         "group": "Group A",
         "players": [
           {
@@ -411,7 +411,7 @@
         "name": "Alphonso Menezes",
         "shortName": "ALPH",
         "seed": 6,
-        "logo": "🔥",
+        "logo": "",
         "group": "Group A",
         "players": [
           {
@@ -426,7 +426,7 @@
         "name": "Jim D'souza",
         "shortName": "JIM",
         "seed": 1,
-        "logo": "🚀",
+        "logo": "",
         "group": "Group B",
         "players": [
           {
@@ -441,7 +441,7 @@
         "name": "Sunborn Perrira",
         "shortName": "SUNB",
         "seed": 2,
-        "logo": "👤",
+        "logo": "",
         "group": "Group B",
         "players": [
           {
@@ -456,7 +456,7 @@
         "name": "James Louis",
         "shortName": "JAME",
         "seed": 3,
-        "logo": "🎯",
+        "logo": "",
         "group": "Group B",
         "players": [
           {
@@ -471,7 +471,7 @@
         "name": "Rosslin Louis",
         "shortName": "ROSS",
         "seed": 4,
-        "logo": "🏅",
+        "logo": "",
         "group": "Group B",
         "players": [
           {
@@ -486,7 +486,7 @@
         "name": "Gerald Rodrigues",
         "shortName": "GERA",
         "seed": 5,
-        "logo": "⚡",
+        "logo": "",
         "group": "Group B",
         "players": [
           {
@@ -501,7 +501,7 @@
         "name": "Charlette Sequera",
         "shortName": "CHAR",
         "seed": 6,
-        "logo": "🌟",
+        "logo": "",
         "group": "Group B",
         "players": [
           {
@@ -516,7 +516,7 @@
         "name": "Emmanuel Menezes",
         "shortName": "EMMA",
         "seed": 1,
-        "logo": "🛡️",
+        "logo": "",
         "group": "Group C",
         "players": [
           {
@@ -531,7 +531,7 @@
         "name": "Dean D'souza",
         "shortName": "DEAN",
         "seed": 2,
-        "logo": "🔥",
+        "logo": "",
         "group": "Group C",
         "players": [
           {
@@ -546,7 +546,7 @@
         "name": "Patrick Menezes",
         "shortName": "PATR",
         "seed": 3,
-        "logo": "🚀",
+        "logo": "",
         "group": "Group C",
         "players": [
           {
@@ -561,7 +561,7 @@
         "name": "Daniel Danthi",
         "shortName": "DANI",
         "seed": 4,
-        "logo": "👤",
+        "logo": "",
         "group": "Group C",
         "players": [
           {
@@ -576,7 +576,7 @@
         "name": "Joseph Rodrigues",
         "shortName": "JOSE",
         "seed": 5,
-        "logo": "🎯",
+        "logo": "",
         "group": "Group C",
         "players": [
           {
@@ -591,7 +591,7 @@
         "name": "Florine Fernandes",
         "shortName": "FLOR",
         "seed": 6,
-        "logo": "🏅",
+        "logo": "",
         "group": "Group C",
         "players": [
           {
@@ -1709,7 +1709,7 @@
     "id": "dmc-chess-2026",
     "title": "Divine Mercy Parish Chess Tournament 2026",
     "sport": "Chess",
-    "sportIcon": "♟️",
+    "sportIcon": "",
     "scoreUnit": "Points",
     "format": "ROUND_ROBIN",
     "status": "UPCOMING",
@@ -1753,7 +1753,7 @@
         "name": "Mario Chettiar",
         "shortName": "MARI",
         "seed": 1,
-        "logo": "⚡",
+        "logo": "",
         "group": "Group A",
         "players": [
           {
@@ -1768,7 +1768,7 @@
         "name": "Frank Mathias",
         "shortName": "FRAN",
         "seed": 2,
-        "logo": "🌟",
+        "logo": "",
         "group": "Group A",
         "players": [
           {
@@ -1783,7 +1783,7 @@
         "name": "Shibu Jacob",
         "shortName": "SHIB",
         "seed": 3,
-        "logo": "🛡️",
+        "logo": "",
         "group": "Group A",
         "players": [
           {
@@ -1798,7 +1798,7 @@
         "name": "Joel Britto",
         "shortName": "JOEL",
         "seed": 4,
-        "logo": "🔥",
+        "logo": "",
         "group": "Group A",
         "players": [
           {
@@ -1813,7 +1813,7 @@
         "name": "Christine",
         "shortName": "CHRI",
         "seed": 5,
-        "logo": "🚀",
+        "logo": "",
         "group": "Group A",
         "players": [
           {
@@ -1828,7 +1828,7 @@
         "name": "Don Danthi",
         "shortName": "DON",
         "seed": 6,
-        "logo": "👤",
+        "logo": "",
         "group": "Group A",
         "players": [
           {
@@ -2198,7 +2198,7 @@
     "id": "dmc-table-tennis-2026",
     "title": "Divine Mercy Parish Table Tennis Tournament 2026",
     "sport": "Table Tennis",
-    "sportIcon": "🏓",
+    "sportIcon": "",
     "scoreUnit": "Sets",
     "format": "GROUP_KNOCKOUT",
     "status": "UPCOMING",
@@ -2245,7 +2245,7 @@
             "name": "Fr. Kenneth Pinto",
             "shortName": "FR.",
             "seed": 1,
-            "logo": "🎯",
+            "logo": "",
             "group": "Group A",
             "players": [
               {
@@ -2260,7 +2260,7 @@
             "name": "Sunborn Perrira",
             "shortName": "SUNB",
             "seed": 2,
-            "logo": "🏅",
+            "logo": "",
             "group": "Group A",
             "players": [
               {
@@ -2275,7 +2275,7 @@
             "name": "James Louis",
             "shortName": "JAME",
             "seed": 3,
-            "logo": "⚡",
+            "logo": "",
             "group": "Group A",
             "players": [
               {
@@ -2290,7 +2290,7 @@
             "name": "Gerald Rodrigues",
             "shortName": "GERA",
             "seed": 4,
-            "logo": "🌟",
+            "logo": "",
             "group": "Group A",
             "players": [
               {
@@ -2311,7 +2311,7 @@
             "name": "Malcolm Corria",
             "shortName": "MALC",
             "seed": 1,
-            "logo": "🛡️",
+            "logo": "",
             "group": "Group B",
             "players": [
               {
@@ -2326,7 +2326,7 @@
             "name": "Vincent Chettiar",
             "shortName": "VINC",
             "seed": 2,
-            "logo": "🔥",
+            "logo": "",
             "group": "Group B",
             "players": [
               {
@@ -2341,7 +2341,7 @@
             "name": "Anthony Aranha",
             "shortName": "ANTH",
             "seed": 3,
-            "logo": "🚀",
+            "logo": "",
             "group": "Group B",
             "players": [
               {
@@ -2356,7 +2356,7 @@
             "name": "Nigel Moriera",
             "shortName": "NIGE",
             "seed": 4,
-            "logo": "👤",
+            "logo": "",
             "group": "Group B",
             "players": [
               {
@@ -2375,7 +2375,7 @@
         "name": "Fr. Kenneth Pinto",
         "shortName": "FR.",
         "seed": 1,
-        "logo": "🎯",
+        "logo": "",
         "group": "Group A",
         "players": [
           {
@@ -2390,7 +2390,7 @@
         "name": "Sunborn Perrira",
         "shortName": "SUNB",
         "seed": 2,
-        "logo": "🏅",
+        "logo": "",
         "group": "Group A",
         "players": [
           {
@@ -2405,7 +2405,7 @@
         "name": "James Louis",
         "shortName": "JAME",
         "seed": 3,
-        "logo": "⚡",
+        "logo": "",
         "group": "Group A",
         "players": [
           {
@@ -2420,7 +2420,7 @@
         "name": "Gerald Rodrigues",
         "shortName": "GERA",
         "seed": 4,
-        "logo": "🌟",
+        "logo": "",
         "group": "Group A",
         "players": [
           {
@@ -2435,7 +2435,7 @@
         "name": "Malcolm Corria",
         "shortName": "MALC",
         "seed": 1,
-        "logo": "🛡️",
+        "logo": "",
         "group": "Group B",
         "players": [
           {
@@ -2450,7 +2450,7 @@
         "name": "Vincent Chettiar",
         "shortName": "VINC",
         "seed": 2,
-        "logo": "🔥",
+        "logo": "",
         "group": "Group B",
         "players": [
           {
@@ -2465,7 +2465,7 @@
         "name": "Anthony Aranha",
         "shortName": "ANTH",
         "seed": 3,
-        "logo": "🚀",
+        "logo": "",
         "group": "Group B",
         "players": [
           {
@@ -2480,7 +2480,7 @@
         "name": "Nigel Moriera",
         "shortName": "NIGE",
         "seed": 4,
-        "logo": "👤",
+        "logo": "",
         "group": "Group B",
         "players": [
           {

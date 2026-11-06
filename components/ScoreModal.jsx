@@ -218,7 +218,9 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
               <div className="grid grid-cols-2 gap-3">
                 {/* Team A */}
                 <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 text-center space-y-3">
-                  <span className="text-2xl block">{teamA?.logo || "🛡️"}</span>
+                  <span className="w-10 h-10 rounded-xl bg-slate-800 text-slate-300 flex items-center justify-center text-sm font-black font-mono mx-auto">
+                    {(teamA?.name || match.placeholderA || "T")[0]?.toUpperCase()}
+                  </span>
                   <span className="font-bold text-white text-xs block truncate">
                     {teamA ? teamA.name : match.placeholderA || "TBD"}
                   </span>
@@ -265,7 +267,9 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
 
                 {/* Team B */}
                 <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 text-center space-y-3">
-                  <span className="text-2xl block">{teamB?.logo || "🛡️"}</span>
+                  <span className="w-10 h-10 rounded-xl bg-slate-800 text-slate-300 flex items-center justify-center text-sm font-black font-mono mx-auto">
+                    {(teamB?.name || match.placeholderB || "T")[0]?.toUpperCase()}
+                  </span>
                   <span className="font-bold text-white text-xs block truncate">
                     {teamB ? teamB.name : match.placeholderB || "TBD"}
                   </span>
