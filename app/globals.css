@@ -46,81 +46,124 @@ html.light body {
   color: #0f172a !important;
 }
 
+/* Gradients in light mode: replace dark gradients with clean crisp white/slate cards */
+html.light .bg-gradient-to-r,
+html.light .bg-gradient-to-br,
+html.light .bg-gradient-to-b,
+html.light .bg-gradient-to-tr {
+  background-image: none !important;
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Headers & Footers */
 html.light header {
-  background-color: rgba(255, 255, 255, 0.92) !important;
+  background-color: rgba(255, 255, 255, 0.96) !important;
   border-bottom-color: #e2e8f0 !important;
 }
 
-html.light .bg-slate-950 {
+html.light footer {
+  background-color: #ffffff !important;
+  border-top-color: #e2e8f0 !important;
+}
+
+/* Base slate backgrounds */
+html.light .bg-slate-950,
+html.light [class*="bg-slate-950"] {
   background-color: #ffffff !important;
 }
 
-html.light .bg-slate-950\/90,
-html.light .bg-slate-950\/80,
-html.light .bg-slate-950\/70,
-html.light .bg-slate-950\/60,
-html.light .bg-slate-950\/40 {
-  background-color: rgba(255, 255, 255, 0.95) !important;
-}
-
-html.light .bg-slate-900 {
-  background-color: #f1f5f9 !important;
-}
-
-html.light .bg-slate-900\/90,
-html.light .bg-slate-900\/80,
-html.light .bg-slate-900\/70,
-html.light .bg-slate-900\/60,
-html.light .bg-slate-900\/50,
-html.light .bg-slate-900\/40 {
+html.light .bg-slate-900,
+html.light [class*="bg-slate-900"] {
   background-color: #f8fafc !important;
 }
 
-html.light .bg-slate-800 {
-  background-color: #e2e8f0 !important;
-}
-
-html.light .bg-slate-800\/80,
-html.light .bg-slate-800\/60,
-html.light .bg-slate-800\/40 {
+html.light .bg-slate-800,
+html.light [class*="bg-slate-800"] {
   background-color: #f1f5f9 !important;
 }
 
+/* Borders */
 html.light .border-slate-800,
-html.light .border-slate-800\/80,
-html.light .border-slate-800\/60,
-html.light .border-slate-800\/40,
+html.light [class*="border-slate-800"],
 html.light .border-slate-700,
-html.light .border-slate-700\/60,
-html.light .border-slate-900 {
-  border-color: #cbd5e1 !important;
+html.light [class*="border-slate-700"],
+html.light .border-slate-900,
+html.light [class*="border-slate-900"] {
+  border-color: #e2e8f0 !important;
 }
 
-html.light .text-white {
-  color: #0f172a !important;
-}
-
-html.light .text-slate-100 {
-  color: #0f172a !important;
-}
-
-html.light .text-slate-200 {
+/* General Typography in light mode */
+html.light .text-slate-100,
+html.light .text-slate-200,
+html.light .text-slate-300 {
   color: #1e293b !important;
 }
 
-html.light .text-slate-300 {
-  color: #334155 !important;
-}
-
-html.light .text-slate-400 {
-  color: #64748b !important;
-}
-
+html.light .text-slate-400,
 html.light .text-slate-500 {
   color: #64748b !important;
 }
 
-/* Form inputs in light mode */
+html.light h1,
+html.light h2,
+html.light h3,
+html.light h4,
+html.light h5,
+html.light .font-black,
+html.light .font-extrabold {
+  color: #0f172a !important;
+}
+
+/* Text white in general content becomes dark in light mode */
+html.light .text-white {
+  color: #0f172a !important;
+}
+
+/* CRITICAL: Elements & buttons with solid colored backgrounds MUST have pure white text */
+html.light .bg-blue-600,
+html.light .bg-blue-500,
+html.light .bg-emerald-600,
+html.light .bg-emerald-500,
+html.light .bg-red-500,
+html.light .bg-red-600,
+html.light button.bg-blue-600,
+html.light button.bg-blue-500,
+html.light a.bg-blue-600,
+html.light a.bg-blue-500 {
+  color: #ffffff !important;
+}
+
+html.light .bg-blue-600 *,
+html.light .bg-blue-500 *,
+html.light .bg-emerald-600 *,
+html.light .bg-emerald-500 *,
+html.light .bg-red-500 *,
+html.light .bg-red-600 * {
+  color: #ffffff !important;
+}
+
+/* Accent text colors */
+html.light .text-blue-400 {
+  color: #2563eb !important;
+}
+html.light .text-blue-300 {
+  color: #1d4ed8 !important;
+}
+html.light .text-emerald-400 {
+  color: #059669 !important;
+}
+html.light .text-emerald-300 {
+  color: #047857 !important;
+}
+html.light .text-amber-400 {
+  color: #d97706 !important;
+}
+html.light .text-rose-400 {
+  color: #e11d48 !important;
+}
+
+/* Inputs & Form Controls */
 html.light input,
 html.light select,
 html.light textarea {
@@ -128,29 +171,32 @@ html.light textarea {
   color: #0f172a !important;
   border-color: #cbd5e1 !important;
 }
-
 html.light input::placeholder {
   color: #94a3b8 !important;
 }
 
-/* Modals & Popovers in light mode */
+/* Modals & Dropdown Popovers */
 html.light .fixed.inset-0 {
-  background-color: rgba(15, 23, 42, 0.6) !important;
+  background-color: rgba(15, 23, 42, 0.5) !important;
 }
 
-html.light footer {
-  background-color: #f8fafc !important;
-  border-top-color: #e2e8f0 !important;
+html.light .absolute.z-50 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
 }
 
+html.light .hover\:bg-slate-800:hover {
+  background-color: #f1f5f9 !important;
+}
+
+/* Scrollbars in light mode */
 html.light ::-webkit-scrollbar-track {
   background: #f8fafc;
 }
-
 html.light ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
 }
-
 html.light ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }

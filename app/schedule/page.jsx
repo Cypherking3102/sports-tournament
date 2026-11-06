@@ -6,7 +6,6 @@ import {
   Calendar,
   Clock,
   MapPin,
-  Search,
   User,
   Users,
   Trophy,
@@ -19,12 +18,12 @@ import {
   Edit3
 } from "lucide-react";
 import ScoreModal from "@/components/ScoreModal";
+import CustomPlayerDropdown from "@/components/CustomPlayerDropdown";
 import { getClientTournaments, saveClientTournament } from "@/lib/clientStorage";
 
 export default function GlobalSchedulePage() {
   const [tournaments, setTournaments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
   const [selectedPlayer, setSelectedPlayer] = useState("");
   const [selectedSport, setSelectedSport] = useState("ALL");
   const [selectedFloor, setSelectedFloor] = useState("ALL");
@@ -65,7 +64,7 @@ export default function GlobalSchedulePage() {
     }
   };
 
-  // Compile unique players across all tournaments, sorted strictly A-Z (clean names, no emojis, no extra tags)
+  // Compile unique players across all tournaments, sorted strictly A-Z (clean names, no emojis)
   const allPlayers = useMemo(() => {
     const namesSet = new Set();
     tournaments.forEach((tourney) => {
@@ -117,13 +116,6 @@ export default function GlobalSchedulePage() {
     return list;
   }, [tournaments]);
 
-  // Visible players based on search query
-  const visiblePlayerNames = useMemo(() => {
-    if (!searchQuery.trim()) return allPlayers;
-    const q = searchQuery.trim().toLowerCase();
-    return allPlayers.filter((p) => p.toLowerCase().includes(q));
-  }, [allPlayers, searchQuery]);
-
   // Filtered matches
   const filteredMatches = useMemo(() => {
     return allEnrichedMatches.filter((m) => {
@@ -136,22 +128,21 @@ export default function GlobalSchedulePage() {
       if (selectedFloor === "4th" && !m.venue?.includes("4th Floor")) return false;
       if (selectedFloor === "Ground" && !m.venue?.includes("Ground Floor")) return false;
 
-      // 3. Player filter (from selected chip or typed search query)
-      const activeFilterName = selectedPlayer || searchQuery.trim().toLowerCase();
-      if (activeFilterName) {
+      // 3. Player filter from custom dropdown
+      if (selectedPlayer) {
         const p1 = (m.player1 || "").toLowerCase();
         const p2 = (m.player2 || "").toLowerCase();
-        const query = activeFilterName.toLowerCase();
+        const query = selectedPlayer.trim().toLowerCase();
         return p1.includes(query) || p2.includes(query);
       }
 
       return true;
     });
-  }, [allEnrichedMatches, selectedSport, selectedFloor, selectedPlayer, searchQuery]);
+  }, [allEnrichedMatches, selectedSport, selectedFloor, selectedPlayer]);
 
   // Player summary stats when a specific player is selected
   const playerStats = useMemo(() => {
-    const target = (selectedPlayer || searchQuery).trim().toLowerCase();
+    const target = selectedPlayer.trim().toLowerCase();
     if (!target) return null;
 
     const playerMatches = allEnrichedMatches.filter(
@@ -169,7 +160,7 @@ export default function GlobalSchedulePage() {
       playerMatches[playerMatches.length - 1]?.timeStr;
 
     return {
-      name: selectedPlayer || searchQuery,
+      name: selectedPlayer,
       totalMatches: playerMatches.length,
       sportsInvolved,
       completed,
@@ -177,7 +168,7 @@ export default function GlobalSchedulePage() {
       firstMatch,
       lastMatch
     };
-  }, [selectedPlayer, searchQuery, allEnrichedMatches]);
+  }, [selectedPlayer, allEnrichedMatches]);
 
   const handleMatchSaved = (updatedTournament) => {
     saveClientTournament(updatedTournament);
@@ -186,18 +177,8 @@ export default function GlobalSchedulePage() {
     );
   };
 
-  const handleSelectPlayer = (name) => {
-    if (selectedPlayer === name) {
-      setSelectedPlayer("");
-    } else {
-      setSelectedPlayer(name);
-      setSearchQuery("");
-    }
-  };
-
   const handleClearFilters = () => {
     setSelectedPlayer("");
-    setSearchQuery("");
     setSelectedSport("ALL");
     setSelectedFloor("ALL");
   };
@@ -217,85 +198,38 @@ export default function GlobalSchedulePage() {
           </h1>
 
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Search or tap your name below to view all your scheduled match times across Carrom, Chess, and Table Tennis.
+            Select your name from the dropdown below to view your scheduled match times across Carrom, Chess, and Table Tennis.
           </p>
         </div>
       </div>
 
-      {/* Custom Clean Player Search & Filter Section */}
+      {/* Custom Player Dropdown & Filter Card (No clutter, purely custom dropdown) */}
       <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-4">
-        {/* Search Input Bar */}
         <div>
           <label className="text-xs text-slate-400 font-bold uppercase tracking-wider block mb-2 flex items-center justify-between">
             <span className="flex items-center space-x-1.5">
-              <Search className="w-3.5 h-3.5 text-blue-400" />
-              <span>Search Player Name</span>
+              <User className="w-3.5 h-3.5 text-blue-400" />
+              <span>Select Your Name (Parishioner)</span>
             </span>
-            {(selectedPlayer || searchQuery) && (
+            {selectedPlayer && (
               <button
                 type="button"
                 onClick={handleClearFilters}
                 className="text-xs text-blue-400 hover:text-blue-300 font-bold flex items-center space-x-1"
               >
                 <X className="w-3.5 h-3.5" />
-                <span>Clear Selection</span>
+                <span>Show All Players</span>
               </button>
             )}
           </label>
 
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search player name..."
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setSelectedPlayer("");
-              }}
-              className="w-full bg-slate-950 border border-slate-700 rounded-2xl pl-10 pr-10 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors shadow-inner"
+          <div className="max-w-md">
+            <CustomPlayerDropdown
+              players={allPlayers}
+              selectedPlayer={selectedPlayer}
+              onSelectPlayer={setSelectedPlayer}
+              placeholder={`Choose Player (${allPlayers.length} Participants)`}
             />
-            <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
-            {(searchQuery || selectedPlayer) && (
-              <button
-                type="button"
-                onClick={handleClearFilters}
-                className="absolute right-3.5 top-3 p-1 text-slate-400 hover:text-white"
-                title="Clear"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Alphabetical Player Chips (Clean names only, no emojis, no extra tags) */}
-        <div className="space-y-1.5">
-          <div className="flex items-center justify-between text-xs text-slate-400">
-            <span className="font-semibold">
-              Participants ({visiblePlayerNames.length} of {allPlayers.length})
-            </span>
-            <span className="text-[11px] text-slate-500 font-mono">Alphabetical (A-Z)</span>
-          </div>
-
-          <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto p-2 bg-slate-950/60 rounded-2xl border border-slate-800/80 scrollbar-thin">
-            {visiblePlayerNames.map((name) => {
-              const isSelected = selectedPlayer === name;
-              return (
-                <button
-                  key={name}
-                  type="button"
-                  onClick={() => handleSelectPlayer(name)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center space-x-1.5 ${
-                    isSelected
-                      ? "bg-blue-600 text-white shadow-md shadow-blue-500/30 ring-1 ring-blue-400"
-                      : "bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white"
-                  }`}
-                >
-                  {isSelected && <Check className="w-3 h-3 text-white" />}
-                  <span>{name}</span>
-                </button>
-              );
-            })}
           </div>
         </div>
 
@@ -385,8 +319,8 @@ export default function GlobalSchedulePage() {
         <h2 className="text-sm sm:text-base font-extrabold text-white tracking-tight flex items-center space-x-2">
           <Clock className="w-4 h-4 text-blue-400" />
           <span>
-            {selectedPlayer || searchQuery
-              ? `Matches for "${selectedPlayer || searchQuery}"`
+            {selectedPlayer
+              ? `Matches for "${selectedPlayer}"`
               : "All Fixtures (In Order of Time)"}
           </span>
         </h2>
@@ -406,7 +340,7 @@ export default function GlobalSchedulePage() {
           <User className="w-10 h-10 text-slate-600 mx-auto" />
           <h3 className="text-base font-bold text-white">No matches found</h3>
           <p className="text-xs text-slate-400 max-w-sm mx-auto">
-            Try picking another player name from the list or resetting your filters.
+            Try picking another player name from the dropdown or resetting your filters.
           </p>
           <button
             type="button"
@@ -421,7 +355,7 @@ export default function GlobalSchedulePage() {
           {filteredMatches.map((m) => {
             const isCompleted = m.status === "COMPLETED";
             const isLive = m.status === "LIVE";
-            const target = (selectedPlayer || searchQuery).trim().toLowerCase();
+            const target = selectedPlayer.trim().toLowerCase();
             const isTargetP1 = target && m.player1.toLowerCase().includes(target);
             const isTargetP2 = target && m.player2.toLowerCase().includes(target);
 
