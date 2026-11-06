@@ -15,20 +15,8 @@ import {
   X
 } from "lucide-react";
 import { normalizePlayers, getCaptain } from "@/lib/tournamentEngine";
-
-function parseTimeToMinutes(t) {
-  if (!t) return 0;
-  const str = String(t).trim().toUpperCase();
-  const isPM = str.includes("PM");
-  const isAM = str.includes("AM");
-  const clean = str.replace(/[AP]M/, "").trim();
-  const parts = clean.split(":");
-  let h = parseInt(parts[0], 10) || 0;
-  const m = parseInt(parts[1], 10) || 0;
-  if (isPM && h < 12) h += 12;
-  if (isAM && h === 12) h = 0;
-  return h * 60 + m;
-}
+import { parseTimeToMinutes } from "@/lib/utils/timeUtils";
+import GroupMatchCard from "./GroupMatchCard";
 
 export default function GroupStageView({ tournament, onEditMatch, onAddMatch, isAdmin }) {
   const {
@@ -98,156 +86,15 @@ export default function GroupStageView({ tournament, onEditMatch, onAddMatch, is
     return list;
   }, [matches, selectedGroupId, groups]);
 
-  const renderMatchCard = (m) => {
-    const teamA = teamMap[m.teamAId];
-    const teamB = teamMap[m.teamBId];
-    const captA = getCaptain(teamA);
-    const captB = getCaptain(teamB);
-    const isCompleted = m.status === "COMPLETED";
-    const isLive = m.status === "LIVE";
-
-    const winnerIsA = isCompleted && m.winnerId === m.teamAId;
-    const winnerIsB = isCompleted && m.winnerId === m.teamBId;
-
-    const initialA = (teamA?.name || m.placeholderA || "T")[0]?.toUpperCase();
-    const initialB = (teamB?.name || m.placeholderB || "T")[0]?.toUpperCase();
-
-    return (
-      <div
-        key={m.id}
-        onClick={() => isAdmin && onEditMatch && onEditMatch(m)}
-        className={`p-4 rounded-2xl border transition-all ${
-          isAdmin ? "cursor-pointer hover:border-blue-400 hover:shadow-lg" : ""
-        } ${
-          isLive
-            ? "border-red-500/50 bg-red-950/15 shadow-md"
-            : "border-slate-800 bg-slate-950/70 hover:border-slate-700"
-        }`}
-      >
-        <div className="flex items-center justify-between text-xs text-slate-400 mb-2.5 border-b border-slate-800/60 pb-2">
-          <div className="flex items-center space-x-2">
-            <span className="font-bold text-slate-200">{m.roundName}</span>
-            {m.groupName && (
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/15 text-blue-400 font-bold border border-blue-500/20">
-                {m.groupName}
-              </span>
-            )}
-          </div>
-          <div className="flex items-center space-x-2">
-            {isLive && (
-              <span className="flex items-center space-x-1 text-red-400 font-bold animate-pulse text-xs">
-                <Flame className="w-3.5 h-3.5" />
-                <span>LIVE</span>
-              </span>
-            )}
-            {isCompleted && (
-              <span className="text-emerald-400 font-bold text-[11px] uppercase">
-                Final
-              </span>
-            )}
-            {m.status === "SCHEDULED" && (
-              <span className="text-slate-300 flex items-center space-x-1 text-xs font-mono font-semibold">
-                <Clock className="w-3.5 h-3.5 text-blue-400" />
-                <span>{m.startTime || m.scheduledAt || "Scheduled"}</span>
-              </span>
-            )}
-            {isAdmin && <Edit3 className="w-3.5 h-3.5 text-blue-400" />}
-          </div>
-        </div>
-
-        {/* Teams & Scores */}
-        <div className="space-y-2">
-          <div
-            className={`flex items-center justify-between p-2 rounded-xl text-xs sm:text-sm ${
-              winnerIsA ? "bg-emerald-500/10 font-bold" : "bg-slate-900/60"
-            }`}
-          >
-            <span className="flex items-center space-x-2 font-medium text-white truncate min-w-0 pr-2">
-              <span className="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center text-xs font-bold font-mono">
-                {initialA}
-              </span>
-              <span className={`truncate font-bold ${winnerIsA ? "text-emerald-300" : "text-white"}`}>
-                {teamA?.name || m.placeholderA || "TBD"}
-              </span>
-              {captA && !isIndividual && (
-                <span className="text-[10px] text-amber-400 font-medium">
-                  (C: {captA})
-                </span>
-              )}
-            </span>
-            <span
-              className={`font-mono font-black px-2.5 py-0.5 rounded-lg text-sm ${
-                winnerIsA
-                  ? "bg-emerald-500 text-slate-950 font-bold"
-                  : "bg-slate-800 text-slate-200"
-              }`}
-            >
-              {isCompleted || isLive ? m.scoreA : "—"}
-            </span>
-          </div>
-
-          <div
-            className={`flex items-center justify-between p-2 rounded-xl text-xs sm:text-sm ${
-              winnerIsB ? "bg-emerald-500/10 font-bold" : "bg-slate-900/60"
-            }`}
-          >
-            <span className="flex items-center space-x-2 font-medium text-white truncate min-w-0 pr-2">
-              <span className="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center text-xs font-bold font-mono">
-                {initialB}
-              </span>
-              <span className={`truncate font-bold ${winnerIsB ? "text-emerald-300" : "text-white"}`}>
-                {teamB?.name || m.placeholderB || "TBD"}
-              </span>
-              {captB && !isIndividual && (
-                <span className="text-[10px] text-amber-400 font-medium">
-                  (C: {captB})
-                </span>
-              )}
-            </span>
-            <span
-              className={`font-mono font-black px-2.5 py-0.5 rounded-lg text-sm ${
-                winnerIsB
-                  ? "bg-emerald-500 text-slate-950 font-bold"
-                  : "bg-slate-800 text-slate-200"
-              }`}
-            >
-              {isCompleted || isLive ? m.scoreB : "—"}
-            </span>
-          </div>
-        </div>
-
-        {/* Venue, Court / Table */}
-        {(m.venue || m.court) && (
-          <div className="mt-2.5 pt-2 border-t border-slate-800/60 flex flex-wrap items-center justify-between text-[11px] text-slate-400 gap-1.5 font-mono">
-            <div className="flex items-center space-x-2 truncate">
-              {m.venue && (
-                <span className="flex items-center space-x-1">
-                  <MapPin className="w-3 h-3 text-slate-500" />
-                  <span>{m.venue}</span>
-                </span>
-              )}
-              {m.court && (
-                <span className="text-[10px] text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 font-bold">
-                  {m.court}
-                </span>
-              )}
-            </div>
-
-            {isAdmin && (
-              <button
-                type="button"
-                onClick={() => onEditMatch && onEditMatch(m)}
-                className="flex items-center space-x-1 text-xs text-blue-400 hover:text-blue-300 font-bold ml-auto font-sans"
-              >
-                <Edit3 className="w-3.5 h-3.5" />
-                <span>Update Score</span>
-              </button>
-            )}
-          </div>
-        )}
-      </div>
-    );
-  };
+  const renderMatchCard = (m) => (
+    <GroupMatchCard
+      key={m.id}
+      match={m}
+      teamMap={teamMap}
+      isAdmin={isAdmin}
+      onEditMatch={onEditMatch}
+    />
+  );
 
   const renderStandingsTable = (group) => {
     const groupData = groupStandings[group.id] || {};

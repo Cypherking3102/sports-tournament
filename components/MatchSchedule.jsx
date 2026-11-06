@@ -14,20 +14,7 @@ import {
   X
 } from "lucide-react";
 import CustomPlayerDropdown from "./CustomPlayerDropdown";
-
-function parseTimeToMinutes(t) {
-  if (!t) return 0;
-  const str = String(t).trim().toUpperCase();
-  const isPM = str.includes("PM");
-  const isAM = str.includes("AM");
-  const clean = str.replace(/[AP]M/, "").trim();
-  const parts = clean.split(":");
-  let h = parseInt(parts[0], 10) || 0;
-  const m = parseInt(parts[1], 10) || 0;
-  if (isPM && h < 12) h += 12;
-  if (isAM && h === 12) h = 0;
-  return h * 60 + m;
-}
+import { parseTimeToMinutes } from "@/lib/utils/timeUtils";
 
 export default function MatchSchedule({ tournament, onEditMatch, onAddMatch, isAdmin }) {
   const { matches = [], teams = [], participantType = "INDIVIDUAL" } = tournament;

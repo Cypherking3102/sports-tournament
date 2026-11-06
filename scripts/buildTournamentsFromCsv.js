@@ -645,15 +645,46 @@ tournamentsConfig.forEach((t) => {
 });
 console.log(`Total fixtures across all tournaments: ${totalFixtures}`);
 
-// Write to seedData.js
+// Write modular tournament files into lib/data/
+const libDataDir = path.join(__dirname, '../lib/data');
+if (!fs.existsSync(libDataDir)) {
+  fs.mkdirSync(libDataDir, { recursive: true });
+}
+
+const moduleMapping = [
+  { sport: "Carrom", file: "carromData.js", exp: "carromTournament" },
+  { sport: "Chess", file: "chessData.js", exp: "chessTournament" },
+  { sport: "Table Tennis", file: "tableTennisData.js", exp: "tableTennisTournament" },
+  { sport: "Cricket", file: "cricketData.js", exp: "cricketTournament" },
+  { sport: "Throwball", file: "throwballData.js", exp: "throwballTournament" }
+];
+
+moduleMapping.forEach(({ sport, file, exp }) => {
+  const t = tournamentsConfig.find((x) => x.sport === sport);
+  const code = `export const ${exp} = ${JSON.stringify(t, null, 2)};\n`;
+  fs.writeFileSync(path.join(libDataDir, file), code, 'utf-8');
+});
+
+// Write lean lib/seedData.js
 const seedContent = `/**
  * Official Divine Mercy Parish Sports Tournament Seed Data
  * Schedule Date: 7th November 2026
- * Sports: Carrom, Chess, Table Tennis, Cricket, Throwball
- * Total Fixtures: ${totalFixtures} Matches
+ * Modularized by sport for maximum maintainability and fast compilation.
  */
 
-export const initialTournaments = ${JSON.stringify(tournamentsConfig, null, 2)};
+import { carromTournament } from "./data/carromData.js";
+import { chessTournament } from "./data/chessData.js";
+import { tableTennisTournament } from "./data/tableTennisData.js";
+import { cricketTournament } from "./data/cricketData.js";
+import { throwballTournament } from "./data/throwballData.js";
+
+export const initialTournaments = [
+  carromTournament,
+  chessTournament,
+  tableTennisTournament,
+  cricketTournament,
+  throwballTournament
+];
 `;
 
 fs.writeFileSync(path.join(__dirname, '../lib/seedData.js'), seedContent, 'utf-8');
@@ -665,4 +696,4 @@ if (!fs.existsSync(dataDir)) {
 }
 fs.writeFileSync(path.join(dataDir, 'tournaments.json'), JSON.stringify(tournamentsConfig, null, 2), 'utf-8');
 
-console.log("Successfully updated lib/seedData.js and data/tournaments.json!");
+console.log("Successfully updated modular data files, lib/seedData.js and data/tournaments.json!");

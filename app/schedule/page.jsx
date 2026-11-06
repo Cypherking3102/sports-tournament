@@ -2,38 +2,13 @@
 
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
-import {
-  Calendar,
-  Clock,
-  MapPin,
-  User,
-  Users,
-  Trophy,
-  Flame,
-  CheckCircle,
-  ArrowRight,
-  Filter,
-  Check,
-  X,
-  Edit3
-} from "lucide-react";
+import { ArrowLeft, Clock, Calendar, User } from "lucide-react";
 import ScoreModal from "@/components/ScoreModal";
-import CustomPlayerDropdown from "@/components/CustomPlayerDropdown";
+import ScheduleFilters from "@/components/ScheduleFilters";
+import SchedulePlayerBanner from "@/components/SchedulePlayerBanner";
+import ScheduleMatchCard from "@/components/ScheduleMatchCard";
 import { getClientTournaments, saveClientTournament } from "@/lib/clientStorage";
-
-function parseTimeToMinutes(t) {
-  if (!t) return 0;
-  const str = String(t).trim().toUpperCase();
-  const isPM = str.includes("PM");
-  const isAM = str.includes("AM");
-  const clean = str.replace(/[AP]M/, "").trim();
-  const parts = clean.split(":");
-  let h = parseInt(parts[0], 10) || 0;
-  const m = parseInt(parts[1], 10) || 0;
-  if (isPM && h < 12) h += 12;
-  if (isAM && h === 12) h = 0;
-  return h * 60 + m;
-}
+import { parseTimeToMinutes } from "@/lib/utils/timeUtils";
 
 export default function GlobalSchedulePage() {
   const [tournaments, setTournaments] = useState([]);
@@ -61,15 +36,12 @@ export default function GlobalSchedulePage() {
     try {
       setLoading(true);
       const res = await fetch("/api/tournaments");
-      const serverData = res.ok ? await res.json() : [];
-      const localData = getClientTournaments();
-
-      // Merge server and local
-      const map = new Map();
-      (Array.isArray(serverData) ? serverData : []).forEach((t) => map.set(t.id, t));
-      localData.forEach((t) => map.set(t.id, t));
-
-      setTournaments(Array.from(map.values()));
+      if (res.ok) {
+        const data = await res.json();
+        setTournaments(Array.isArray(data) ? data : []);
+      } else {
+        setTournaments(getClientTournaments());
+      }
     } catch (err) {
       console.error(err);
       setTournaments(getClientTournaments());
@@ -78,7 +50,7 @@ export default function GlobalSchedulePage() {
     }
   };
 
-  // Compile unique players across all tournaments, sorted strictly A-Z (clean names, no emojis)
+  // Compile unique players across all tournaments, sorted strictly A-Z
   const allPlayers = useMemo(() => {
     const namesSet = new Set();
     tournaments.forEach((tourney) => {
@@ -88,7 +60,6 @@ export default function GlobalSchedulePage() {
         }
       });
     });
-
     return Array.from(namesSet).sort((a, b) => a.localeCompare(b));
   }, [tournaments]);
 
@@ -106,8 +77,6 @@ export default function GlobalSchedulePage() {
         const teamB = teamLookup[m.teamBId];
         const player1 = teamA ? teamA.name : m.placeholderA || "TBD";
         const player2 = teamB ? teamB.name : m.placeholderB || "TBD";
-
-        // Parse start time for chronological sorting
         const timeStr = m.startTime || (m.scheduledAt ? m.scheduledAt.split(" ")[1] : "00:00");
 
         list.push({
@@ -125,7 +94,6 @@ export default function GlobalSchedulePage() {
       });
     });
 
-    // Chronological Sort: strictly by minutes from midnight ascending
     list.sort((a, b) => parseTimeToMinutes(a.timeStr) - parseTimeToMinutes(b.timeStr));
     return list;
   }, [tournaments]);
@@ -133,25 +101,20 @@ export default function GlobalSchedulePage() {
   // Filtered matches
   const filteredMatches = useMemo(() => {
     return allEnrichedMatches.filter((m) => {
-      // 1. Sport filter
       if (selectedSport !== "ALL" && m.sport.toLowerCase() !== selectedSport.toLowerCase()) {
         return false;
       }
-
-      // 2. Floor / Area filter
       if (selectedFloor === "4th" && !m.venue?.includes("4th Floor")) return false;
       if (selectedFloor === "Ground" && !m.venue?.includes("Ground Floor")) return false;
       if (selectedFloor === "Hall" && !m.venue?.includes("Church Hall") && !m.venue?.includes("Hall")) return false;
       if (selectedFloor === "Grotto" && !m.venue?.includes("Grotto")) return false;
 
-      // 3. Player filter from custom dropdown
       if (selectedPlayer) {
         const p1 = (m.player1 || "").toLowerCase();
         const p2 = (m.player2 || "").toLowerCase();
         const query = selectedPlayer.trim().toLowerCase();
         return p1.includes(query) || p2.includes(query);
       }
-
       return true;
     });
   }, [allEnrichedMatches, selectedSport, selectedFloor, selectedPlayer]);
@@ -165,33 +128,22 @@ export default function GlobalSchedulePage() {
       (m) => m.player1.toLowerCase().includes(target) || m.player2.toLowerCase().includes(target)
     );
 
-    if (playerMatches.length === 0) return null;
-
     const sportsInvolved = Array.from(new Set(playerMatches.map((m) => m.sport)));
+    const firstMatch = playerMatches[0]?.startTime || playerMatches[0]?.timeStr || "TBD";
+    const lastMatch = playerMatches[playerMatches.length - 1]?.endTime || playerMatches[playerMatches.length - 1]?.timeStr || "TBD";
     const completed = playerMatches.filter((m) => m.status === "COMPLETED").length;
     const upcoming = playerMatches.filter((m) => m.status === "SCHEDULED").length;
-    const firstMatch = playerMatches[0]?.timeStr;
-    const lastMatch =
-      playerMatches[playerMatches.length - 1]?.endTime ||
-      playerMatches[playerMatches.length - 1]?.timeStr;
 
     return {
       name: selectedPlayer,
       totalMatches: playerMatches.length,
-      sportsInvolved,
       completed,
       upcoming,
+      sportsInvolved,
       firstMatch,
       lastMatch
     };
-  }, [selectedPlayer, allEnrichedMatches]);
-
-  const handleMatchSaved = (updatedTournament) => {
-    saveClientTournament(updatedTournament);
-    setTournaments((prev) =>
-      prev.map((t) => (t.id === updatedTournament.id ? updatedTournament : t))
-    );
-  };
+  }, [allEnrichedMatches, selectedPlayer]);
 
   const handleClearFilters = () => {
     setSelectedPlayer("");
@@ -199,138 +151,61 @@ export default function GlobalSchedulePage() {
     setSelectedFloor("ALL");
   };
 
+  const handleMatchSaved = (updatedTourney) => {
+    saveClientTournament(updatedTourney);
+    setTournaments((prev) =>
+      prev.map((t) => (t.id === updatedTourney.id ? updatedTourney : t))
+    );
+    setSelectedMatch(null);
+    setSelectedMatchTournament(null);
+  };
+
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-      {/* Header Banner - Compact & Clean */}
-      <div className="bg-gradient-to-r from-slate-900 via-blue-950/40 to-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-xl relative overflow-hidden">
-        <div className="relative z-10 space-y-1.5 max-w-2xl">
-          <div className="inline-flex items-center space-x-2 px-3 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider">
-            <Calendar className="w-3.5 h-3.5" />
-            <span>Divine Mercy Sports Day • Saturday 7th Nov 2026</span>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 pb-16 space-y-6">
+      {/* Top Breadcrumb & Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <Link
+          href="/"
+          className="inline-flex items-center space-x-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Back to Tournaments</span>
+        </Link>
+        <span className="text-xs text-slate-400 font-mono">
+          Saturday 7th November 2026 • Live Match Timeline
+        </span>
+      </div>
+
+      {/* Header Banner */}
+      <div className="rounded-3xl bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 border border-blue-500/30 p-6 shadow-2xl relative overflow-hidden">
+        <div className="relative z-10 space-y-1.5">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 font-bold text-xs border border-blue-500/30">
+            <Calendar className="w-3.5 h-3.5 text-blue-400" />
+            <span>Master Parish Tournament Schedule</span>
           </div>
-
-          <h1 className="text-xl sm:text-3xl font-black text-white tracking-tight">
-            Find Your Match <span className="text-blue-400">Schedule</span>
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            Know Your <span className="text-blue-400">Match Schedule</span>
           </h1>
-
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Select your name or team from the dropdown below to view your scheduled match times across Carrom, Chess, Table Tennis, Cricket, and Throwball.
+          <p className="text-xs sm:text-sm text-slate-300 max-w-2xl">
+            Select your name below to view all your scheduled fixtures in order of time across Carrom, Chess, Table Tennis, Cricket & Throwball.
           </p>
         </div>
       </div>
 
-      {/* Custom Player Dropdown & Filter Card (No clutter, purely custom dropdown) */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-4">
-        <div>
-          <label className="text-xs text-slate-400 font-bold uppercase tracking-wider block mb-2 flex items-center justify-between">
-            <span className="flex items-center space-x-1.5">
-              <User className="w-3.5 h-3.5 text-blue-400" />
-              <span>Select Your Name or Team</span>
-            </span>
-            {selectedPlayer && (
-              <button
-                type="button"
-                onClick={handleClearFilters}
-                className="text-xs text-blue-400 hover:text-blue-300 font-bold flex items-center space-x-1"
-              >
-                <X className="w-3.5 h-3.5" />
-                <span>Show All Participants</span>
-              </button>
-            )}
-          </label>
-
-          <div className="max-w-md">
-            <CustomPlayerDropdown
-              players={allPlayers}
-              selectedPlayer={selectedPlayer}
-              onSelectPlayer={setSelectedPlayer}
-              placeholder={`Choose Player or Team (${allPlayers.length} Participants)`}
-            />
-          </div>
-        </div>
-
-        {/* Filter Pills: Sport & Floor */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-800">
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-xs text-slate-500 font-mono mr-1">Sport:</span>
-            {["ALL", "Carrom", "Chess", "Table Tennis", "Cricket", "Throwball"].map((sp) => (
-              <button
-                key={sp}
-                type="button"
-                onClick={() => setSelectedSport(sp)}
-                className={`px-3 py-1 rounded-xl text-xs font-semibold transition-all ${
-                  selectedSport === sp
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
-                    : "bg-slate-950 border border-slate-800 text-slate-400 hover:text-white"
-                }`}
-              >
-                {sp === "ALL" ? "All Sports" : sp}
-              </button>
-            ))}
-          </div>
-
-          <div className="flex items-center space-x-1.5 overflow-x-auto">
-            <span className="text-xs text-slate-500 font-mono">Venue:</span>
-            {[
-              { id: "ALL", label: "All Areas" },
-              { id: "Hall", label: "Church Hall" },
-              { id: "Grotto", label: "Grotto Area" },
-              { id: "4th", label: "4th Floor" },
-              { id: "Ground", label: "Ground Floor" }
-            ].map(({ id, label }) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setSelectedFloor(id)}
-                className={`px-3 py-1 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ${
-                  selectedFloor === id
-                    ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
-                    : "bg-slate-950 border border-slate-800 text-slate-400 hover:text-white"
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* Filters Module */}
+      <ScheduleFilters
+        allPlayers={allPlayers}
+        selectedPlayer={selectedPlayer}
+        onSelectPlayer={setSelectedPlayer}
+        selectedSport={selectedSport}
+        onSelectSport={setSelectedSport}
+        selectedFloor={selectedFloor}
+        onSelectFloor={setSelectedFloor}
+        onClearFilters={handleClearFilters}
+      />
 
       {/* Selected Player Personalized Summary Banner */}
-      {playerStats && (
-        <div className="bg-gradient-to-r from-blue-900/40 via-indigo-950/40 to-slate-900 border border-blue-500/40 rounded-3xl p-5 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center space-x-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-base font-black text-blue-400 font-mono shadow-inner">
-              {playerStats.name[0]?.toUpperCase()}
-            </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <h3 className="font-extrabold text-white text-base sm:text-lg">{playerStats.name}</h3>
-                <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[10px] border border-emerald-500/30">
-                  {playerStats.sportsInvolved.join(" & ")}
-                </span>
-              </div>
-              <p className="text-xs text-slate-400 mt-0.5">
-                First game at <strong className="text-white">{playerStats.firstMatch}</strong> • Last game concludes ~<strong className="text-white">{playerStats.lastMatch}</strong>
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-3 text-xs font-mono">
-            <div className="bg-slate-950/80 border border-slate-800 px-3.5 py-2 rounded-xl text-center">
-              <span className="text-slate-400 block text-[10px]">TOTAL</span>
-              <span className="font-extrabold text-white text-sm">{playerStats.totalMatches}</span>
-            </div>
-            <div className="bg-slate-950/80 border border-slate-800 px-3.5 py-2 rounded-xl text-center">
-              <span className="text-emerald-400 block text-[10px]">PLAYED</span>
-              <span className="font-extrabold text-emerald-400 text-sm">{playerStats.completed}</span>
-            </div>
-            <div className="bg-slate-950/80 border border-slate-800 px-3.5 py-2 rounded-xl text-center">
-              <span className="text-blue-400 block text-[10px]">UPCOMING</span>
-              <span className="font-extrabold text-blue-400 text-sm">{playerStats.upcoming}</span>
-            </div>
-          </div>
-        </div>
-      )}
+      <SchedulePlayerBanner playerStats={playerStats} />
 
       {/* Match Results Counter */}
       <div className="flex items-center justify-between px-1">
@@ -370,155 +245,27 @@ export default function GlobalSchedulePage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-          {filteredMatches.map((m) => {
-            const isCompleted = m.status === "COMPLETED";
-            const isLive = m.status === "LIVE";
-            const target = selectedPlayer.trim().toLowerCase();
-            const isTargetP1 = target && m.player1.toLowerCase().includes(target);
-            const isTargetP2 = target && m.player2.toLowerCase().includes(target);
-
-            const winnerIsA = isCompleted && m.winnerId === m.teamAId;
-            const winnerIsB = isCompleted && m.winnerId === m.teamBId;
-
-            return (
-              <div
-                key={m.id}
-                onClick={() => {
-                  if (isAdmin) {
-                    setSelectedMatch(m);
-                    setSelectedMatchTournament(m.rawTournament);
-                  }
-                }}
-                className={`p-4 rounded-2xl border transition-all ${
-                  isAdmin ? "cursor-pointer hover:border-blue-400 hover:shadow-lg" : ""
-                } ${
-                  isLive
-                    ? "border-red-500/50 bg-red-950/20 shadow-md"
-                    : isCompleted
-                    ? "border-slate-800/90 bg-slate-900/80"
-                    : "border-slate-800 bg-slate-950/90 hover:border-slate-700 shadow"
-                }`}
-              >
-                {/* Top Badge: Time, Sport, Status */}
-                <div className="flex items-center justify-between text-xs text-slate-400 mb-2.5 border-b border-slate-800/80 pb-2">
-                  <div className="flex items-center space-x-2">
-                    <span className="px-2.5 py-0.5 rounded-lg bg-blue-600/15 border border-blue-500/30 text-blue-300 font-mono font-bold text-xs flex items-center space-x-1">
-                      <Clock className="w-3 h-3 text-blue-400" />
-                      <span>{m.startTime ? `${m.startTime} - ${m.endTime}` : m.timeStr}</span>
-                    </span>
-                    <span className="font-extrabold text-white text-xs px-2 py-0.5 rounded bg-slate-800">
-                      {m.sport}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center space-x-2">
-                    {isLive && (
-                      <span className="flex items-center space-x-1 text-red-400 font-bold animate-pulse text-[11px]">
-                        <Flame className="w-3 h-3" />
-                        <span>LIVE</span>
-                      </span>
-                    )}
-                    {isCompleted && (
-                      <span className="text-emerald-400 font-bold text-[11px] uppercase">
-                        Final
-                      </span>
-                    )}
-                    {m.status === "SCHEDULED" && (
-                      <span className="text-slate-400 text-[11px] font-mono">Upcoming</span>
-                    )}
-                    {isAdmin && <Edit3 className="w-3.5 h-3.5 text-blue-400" />}
-                  </div>
-                </div>
-
-                {/* Matchup Line */}
-                <div className="space-y-2">
-                  {/* Player 1 */}
-                  <div
-                    className={`flex items-center justify-between p-2 rounded-xl transition-all ${
-                      isTargetP1
-                        ? "bg-blue-600/20 border border-blue-500/40"
-                        : winnerIsA
-                        ? "bg-emerald-500/10 font-bold"
-                        : "bg-slate-900/60"
-                    }`}
-                  >
-                    <div className="flex items-center space-x-2.5 min-w-0 pr-2">
-                      <span className="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center text-xs font-bold font-mono flex-shrink-0">
-                        {m.initialA}
-                      </span>
-                      <span
-                        className={`text-sm truncate font-bold ${
-                          isTargetP1 ? "text-blue-300 underline font-black" : winnerIsA ? "text-emerald-300" : "text-white"
-                        }`}
-                      >
-                        {m.player1}
-                      </span>
-                    </div>
-                    <span className="font-mono text-sm font-black px-2.5 py-0.5 rounded-lg bg-slate-800 text-white">
-                      {isCompleted || isLive ? m.scoreA : "—"}
-                    </span>
-                  </div>
-
-                  {/* Player 2 */}
-                  <div
-                    className={`flex items-center justify-between p-2 rounded-xl transition-all ${
-                      isTargetP2
-                        ? "bg-blue-600/20 border border-blue-500/40"
-                        : winnerIsB
-                        ? "bg-emerald-500/10 font-bold"
-                        : "bg-slate-900/60"
-                    }`}
-                  >
-                    <div className="flex items-center space-x-2.5 min-w-0 pr-2">
-                      <span className="w-6 h-6 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center text-xs font-bold font-mono flex-shrink-0">
-                        {m.initialB}
-                      </span>
-                      <span
-                        className={`text-sm truncate font-bold ${
-                          isTargetP2 ? "text-blue-300 underline font-black" : winnerIsB ? "text-emerald-300" : "text-white"
-                        }`}
-                      >
-                        {m.player2}
-                      </span>
-                    </div>
-                    <span className="font-mono text-sm font-black px-2.5 py-0.5 rounded-lg bg-slate-800 text-white">
-                      {isCompleted || isLive ? m.scoreB : "—"}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Bottom Details: Stage, Board/Court, Venue Link */}
-                <div className="flex flex-wrap items-center justify-between gap-2 mt-2.5 pt-2 border-t border-slate-800/60 text-xs text-slate-400 font-mono">
-                  <div className="flex items-center space-x-2">
-                    <span className="font-semibold text-slate-300">{m.stageName}</span>
-                    <span>•</span>
-                    <span className="text-amber-400 font-bold flex items-center space-x-1">
-                      <MapPin className="w-3 h-3 text-amber-400" />
-                      <span>{m.court || m.venue}</span>
-                    </span>
-                    <span>({m.venue})</span>
-                  </div>
-
-                  <Link
-                    href={`/tournaments/${m.tournamentId}`}
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-blue-400 hover:text-blue-300 font-bold flex items-center space-x-1 hover:underline text-[11px]"
-                  >
-                    <span>Standings</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </div>
-              </div>
-            );
-          })}
+          {filteredMatches.map((m) => (
+            <ScheduleMatchCard
+              key={m.id}
+              match={m}
+              selectedPlayer={selectedPlayer}
+              isAdmin={isAdmin}
+              onEditMatch={(matchItem) => {
+                setSelectedMatch(matchItem);
+                setSelectedMatchTournament(matchItem.rawTournament);
+              }}
+            />
+          ))}
         </div>
       )}
 
-      {/* Admin Score Modal */}
-      {selectedMatch && selectedMatchTournament && (
+      {/* Admin Score / Match Editor Modal */}
+      {isAdmin && selectedMatch && selectedMatchTournament && (
         <ScoreModal
           match={selectedMatch}
           tournament={selectedMatchTournament}
+          isOpen={true}
           onClose={() => {
             setSelectedMatch(null);
             setSelectedMatchTournament(null);
