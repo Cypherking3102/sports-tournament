@@ -204,7 +204,7 @@ const tournamentsConfig = [
     location: "Parish Hall - 4th Floor (Boards 1-5)",
     organizer: "Divine Mercy Church",
     description: "Official Parish Carrom Championship 2026. 3 Groups with 18 players competing across 5 boards, followed by Quarterfinals, Semifinals and Grand Final.",
-    bannerUrl: "https://images.unsplash.com/photo-1611195974226-a6a9be9dd763?auto=format&fit=crop&w=1200&q=80",
+    bannerUrl: "https://images.unsplash.com/photo-1617300067484-314ed2cfd9a6?auto=format&fit=crop&w=1200&q=80",
     pointsConfig: { win: 2, draw: 1, loss: 0, showForm: true },
     rules: [
       { id: "cr-1", title: "Match Duration", category: "Rules", content: "Each game is 7 minutes of active play. Standard carrom scoring applies." },
@@ -280,7 +280,7 @@ const tournamentsConfig = [
     location: "Church Hall",
     organizer: "Divine Mercy Church",
     description: "Official Parish Cricket Championship 2026. 5 teams: Divine United, Yellow Palthans, Game Changers, Pink Panthers, and Green Goblin. Top 2 contest the Grand Final.",
-    bannerUrl: "https://images.unsplash.com/photo-1531415074868-036b107e7752?auto=format&fit=crop&w=1200&q=80",
+    bannerUrl: "https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=1200&q=80",
     pointsConfig: { win: 2, draw: 1, loss: 0, showForm: true },
     rules: [
       { id: "cr-1", title: "Match Format", category: "Rules", content: "Rapid 5 overs per side. Rotational bowling with standard cricket rules." },
@@ -303,7 +303,7 @@ const tournamentsConfig = [
     location: "Grotto Area",
     organizer: "Divine Mercy Church",
     description: "Official Parish Throwball Championship 2026. 5 teams: Divine United, Yellow Palthans, Game Changers, Pink Panthers, and Green Goblin. Top 2 contest the Grand Final.",
-    bannerUrl: "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=1200&q=80",
+    bannerUrl: "https://images.unsplash.com/photo-1666901356149-93f2eb3ba5a2?auto=format&fit=crop&w=1200&q=80",
     pointsConfig: { win: 2, draw: 1, loss: 0, showForm: true },
     rules: [
       { id: "tb-1", title: "Match Format", category: "Rules", content: "Best of 3 sets format. Standard rotational catching and throwing rules apply." },
