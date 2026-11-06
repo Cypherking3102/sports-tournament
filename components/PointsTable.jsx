@@ -393,15 +393,14 @@ export default function PointsTable({
                     </span>
                   </div>
 
-                  {/* Bottom info: venue, time, referee (only if exists) */}
+                  {/* Bottom info: venue, time, court */}
                   <div className="flex flex-wrap items-center justify-between gap-2 mt-3 pt-2 border-t border-slate-800/50 text-[11px] text-slate-400 font-mono">
                     <div className="flex items-center space-x-2">
-                      {m.scheduledAt && (
-                        <span className="flex items-center space-x-1">
-                          <Clock className="w-3 h-3 text-slate-500" />
-                          <span>{m.scheduledAt}</span>
-                        </span>
-                      )}
+                      <span className="flex items-center space-x-1">
+                        <Clock className="w-3 h-3 text-slate-500" />
+                        <span>{m.startTime ? `${m.startTime} - ${m.endTime}` : m.scheduledAt}</span>
+                      </span>
+                      <span>•</span>
                       {m.venue && (
                         <span className="flex items-center space-x-1">
                           <MapPin className="w-3 h-3 text-slate-500" />
@@ -409,9 +408,9 @@ export default function PointsTable({
                         </span>
                       )}
                     </div>
-                    {m.official && (
-                      <span className="text-[10px] text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
-                        Ref: {m.official}
+                    {m.court && (
+                      <span className="text-[10px] text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 font-bold">
+                        {m.court}
                       </span>
                     )}
                   </div>

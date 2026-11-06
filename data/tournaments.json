@@ -1,128 +1,136 @@
 [
   {
-    "id": "dm-football-cup-2026",
-    "title": "Divine Mercy Annual Football Cup 2026",
-    "sport": "Football",
-    "sportIcon": "⚽",
-    "scoreUnit": "Goals",
-    "bannerUrl": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80",
+    "id": "dmc-carrom-2026",
+    "title": "Divine Mercy Parish Carrom Tournament 2026",
+    "sport": "Carrom",
+    "sportIcon": "🎯",
+    "scoreUnit": "Points",
     "format": "GROUP_KNOCKOUT",
-    "participantType": "TEAM",
-    "status": "LIVE",
-    "startDate": "2026-11-08",
-    "endDate": "2026-11-22",
-    "location": "Divine Mercy Parish Grounds & Turf",
+    "status": "UPCOMING",
+    "participantType": "INDIVIDUAL",
+    "startDate": "2026-11-07",
+    "endDate": "2026-11-07",
+    "location": "Parish Hall - 4th Floor (Boards 1-5)",
     "organizer": "Divine Mercy Church",
-    "description": "8 teams compete across Group A and Group B, with the top 2 teams in each group advancing to the Knockout Semi-Finals and Championship Final.",
+    "description": "Official Parish Carrom Championship 2026. 3 Groups with 18 players competing across 5 boards, followed by preliminaries, semifinals and grand final.",
+    "bannerUrl": "https://images.unsplash.com/photo-1611195974226-a6a9be9dd763?auto=format&fit=crop&w=1200&q=80",
     "pointsConfig": {
-      "win": 3,
+      "win": 2,
       "draw": 1,
       "loss": 0,
-      "showForm": true,
-      "showGoalDiff": true,
-      "customRules": []
+      "showForm": true
     },
+    "rules": [
+      {
+        "id": "cr-1",
+        "title": "Match Duration",
+        "category": "Rules",
+        "content": "Each game is 7 minutes of active play. Standard carrom scoring applies."
+      },
+      {
+        "id": "cr-2",
+        "title": "Playoff Qualification",
+        "category": "Format",
+        "content": "Top 3 Group Winners advance directly or through preliminaries into semifinals."
+      },
+      {
+        "id": "cr-3",
+        "title": "Fellowship & Fair Play",
+        "category": "Conduct",
+        "content": "Opening prayer at 08:00 AM. Mutual respect for opponents and table marshals."
+      }
+    ],
     "groups": [
       {
         "id": "grp-a",
         "name": "Group A",
         "teams": [
           {
-            "id": "tm-a1",
-            "name": "Red Dragons",
-            "shortName": "RDG",
+            "id": "p-lawrence-rodrigues",
+            "name": "Lawrence Rodrigues",
+            "shortName": "LAWR",
             "seed": 1,
-            "logo": "🐉",
-            "captain": "Mark Fernandes",
+            "logo": "🎯",
+            "group": "Group A",
             "players": [
               {
-                "id": "p-a1-1",
-                "name": "Mark Fernandes",
-                "role": "CAPTAIN"
-              },
-              {
-                "id": "p-a1-2",
-                "name": "John Alex",
-                "role": "VICE_CAPTAIN"
-              },
-              {
-                "id": "p-a1-3",
-                "name": "Luke D'Souza",
-                "role": "PLAYER"
-              },
-              {
-                "id": "p-a1-4",
-                "name": "Peter Paul",
+                "id": "p-lawrence-rodrigues",
+                "name": "Lawrence Rodrigues",
                 "role": "PLAYER"
               }
             ]
           },
           {
-            "id": "tm-a2",
-            "name": "Apex Thunder",
-            "shortName": "ATD",
+            "id": "p-colet-coelho",
+            "name": "Colet Coelho",
+            "shortName": "COLE",
             "seed": 2,
-            "logo": "⚡",
-            "captain": "Daniel Cruz",
+            "logo": "🏅",
+            "group": "Group A",
             "players": [
               {
-                "id": "p-a2-1",
-                "name": "Daniel Cruz",
-                "role": "CAPTAIN"
-              },
-              {
-                "id": "p-a2-2",
-                "name": "Sam Wilson",
-                "role": "VICE_CAPTAIN"
-              },
-              {
-                "id": "p-a2-3",
-                "name": "Brian D'Silva",
+                "id": "p-colet-coelho",
+                "name": "Colet Coelho",
                 "role": "PLAYER"
               }
             ]
           },
           {
-            "id": "tm-a3",
-            "name": "Iron Wolves",
-            "shortName": "IWL",
+            "id": "p-amal-lancelot",
+            "name": "Amal lancelot",
+            "shortName": "AMAL",
             "seed": 3,
-            "logo": "🐺",
-            "captain": "Chris Ryan",
+            "logo": "⚡",
+            "group": "Group A",
             "players": [
               {
-                "id": "p-a3-1",
-                "name": "Chris Ryan",
-                "role": "CAPTAIN"
-              },
-              {
-                "id": "p-a3-2",
-                "name": "Kevin Jason",
-                "role": "VICE_CAPTAIN"
-              },
-              {
-                "id": "p-a3-3",
-                "name": "Leo Matthew",
+                "id": "p-amal-lancelot",
+                "name": "Amal lancelot",
                 "role": "PLAYER"
               }
             ]
           },
           {
-            "id": "tm-a4",
-            "name": "Blue Falcons",
-            "shortName": "BFC",
+            "id": "p-nelson-fernandes",
+            "name": "Nelson Fernandes",
+            "shortName": "NELS",
             "seed": 4,
-            "logo": "🦅",
-            "captain": "Simon Peter",
+            "logo": "🌟",
+            "group": "Group A",
             "players": [
               {
-                "id": "p-a4-1",
-                "name": "Simon Peter",
-                "role": "CAPTAIN"
-              },
+                "id": "p-nelson-fernandes",
+                "name": "Nelson Fernandes",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
+            "id": "p-anthony-aranha",
+            "name": "Anthony Aranha",
+            "shortName": "ANTH",
+            "seed": 5,
+            "logo": "🛡️",
+            "group": "Group A",
+            "players": [
               {
-                "id": "p-a4-2",
-                "name": "Andrew James",
+                "id": "p-anthony-aranha",
+                "name": "Anthony Aranha",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
+            "id": "p-alphonso-menezes",
+            "name": "Alphonso Menezes",
+            "shortName": "ALPH",
+            "seed": 6,
+            "logo": "🔥",
+            "group": "Group A",
+            "players": [
+              {
+                "id": "p-alphonso-menezes",
+                "name": "Alphonso Menezes",
                 "role": "PLAYER"
               }
             ]
@@ -134,86 +142,187 @@
         "name": "Group B",
         "teams": [
           {
-            "id": "tm-b1",
-            "name": "Silver Strikers",
-            "shortName": "SST",
+            "id": "p-jim-d-souza",
+            "name": "Jim D'souza",
+            "shortName": "JIM",
             "seed": 1,
-            "logo": "⚔️",
-            "captain": "James Matthew",
+            "logo": "🚀",
+            "group": "Group B",
             "players": [
               {
-                "id": "p-b1-1",
-                "name": "James Matthew",
-                "role": "CAPTAIN"
-              },
-              {
-                "id": "p-b1-2",
-                "name": "Joseph Jude",
-                "role": "VICE_CAPTAIN"
-              },
-              {
-                "id": "p-b1-3",
-                "name": "Francis Xavier",
+                "id": "p-jim-d-souza",
+                "name": "Jim D'souza",
                 "role": "PLAYER"
               }
             ]
           },
           {
-            "id": "tm-b2",
-            "name": "Golden Titans",
-            "shortName": "GTT",
+            "id": "p-sunborn-perrira",
+            "name": "Sunborn Perrira",
+            "shortName": "SUNB",
             "seed": 2,
-            "logo": "🛡️",
-            "captain": "Michael Anthony",
+            "logo": "👤",
+            "group": "Group B",
             "players": [
               {
-                "id": "p-b2-1",
-                "name": "Michael Anthony",
-                "role": "CAPTAIN"
-              },
-              {
-                "id": "p-b2-2",
-                "name": "Dominic Savio",
+                "id": "p-sunborn-perrira",
+                "name": "Sunborn Perrira",
                 "role": "PLAYER"
               }
             ]
           },
           {
-            "id": "tm-b3",
-            "name": "Phoenix United",
-            "shortName": "PHX",
+            "id": "p-james-louis",
+            "name": "James Louis",
+            "shortName": "JAME",
             "seed": 3,
-            "logo": "🔥",
-            "captain": "Gabriel Rapha",
+            "logo": "🎯",
+            "group": "Group B",
             "players": [
               {
-                "id": "p-b3-1",
-                "name": "Gabriel Rapha",
-                "role": "CAPTAIN"
-              },
-              {
-                "id": "p-b3-2",
-                "name": "Aaron Carlos",
+                "id": "p-james-louis",
+                "name": "James Louis",
                 "role": "PLAYER"
               }
             ]
           },
           {
-            "id": "tm-b4",
-            "name": "Shadow Cobras",
-            "shortName": "SCB",
+            "id": "p-rosslin-louis",
+            "name": "Rosslin Louis",
+            "shortName": "ROSS",
             "seed": 4,
-            "logo": "🐍",
-            "captain": "Victor Roy",
+            "logo": "🏅",
+            "group": "Group B",
             "players": [
               {
-                "id": "p-b4-1",
-                "name": "Victor Roy",
-                "role": "CAPTAIN"
-              },
+                "id": "p-rosslin-louis",
+                "name": "Rosslin Louis",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
+            "id": "p-gerald-rodrigues",
+            "name": "Gerald Rodrigues",
+            "shortName": "GERA",
+            "seed": 5,
+            "logo": "⚡",
+            "group": "Group B",
+            "players": [
               {
-                "id": "p-b4-2",
-                "name": "Jason Cole",
+                "id": "p-gerald-rodrigues",
+                "name": "Gerald Rodrigues",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
+            "id": "p-charlette-sequera",
+            "name": "Charlette Sequera",
+            "shortName": "CHAR",
+            "seed": 6,
+            "logo": "🌟",
+            "group": "Group B",
+            "players": [
+              {
+                "id": "p-charlette-sequera",
+                "name": "Charlette Sequera",
+                "role": "PLAYER"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "grp-c",
+        "name": "Group C",
+        "teams": [
+          {
+            "id": "p-emmanuel-menezes",
+            "name": "Emmanuel Menezes",
+            "shortName": "EMMA",
+            "seed": 1,
+            "logo": "🛡️",
+            "group": "Group C",
+            "players": [
+              {
+                "id": "p-emmanuel-menezes",
+                "name": "Emmanuel Menezes",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
+            "id": "p-dean-d-souza",
+            "name": "Dean D'souza",
+            "shortName": "DEAN",
+            "seed": 2,
+            "logo": "🔥",
+            "group": "Group C",
+            "players": [
+              {
+                "id": "p-dean-d-souza",
+                "name": "Dean D'souza",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
+            "id": "p-patrick-menezes",
+            "name": "Patrick Menezes",
+            "shortName": "PATR",
+            "seed": 3,
+            "logo": "🚀",
+            "group": "Group C",
+            "players": [
+              {
+                "id": "p-patrick-menezes",
+                "name": "Patrick Menezes",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
+            "id": "p-daniel-danthi",
+            "name": "Daniel Danthi",
+            "shortName": "DANI",
+            "seed": 4,
+            "logo": "👤",
+            "group": "Group C",
+            "players": [
+              {
+                "id": "p-daniel-danthi",
+                "name": "Daniel Danthi",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
+            "id": "p-joseph-rodrigues",
+            "name": "Joseph Rodrigues",
+            "shortName": "JOSE",
+            "seed": 5,
+            "logo": "🎯",
+            "group": "Group C",
+            "players": [
+              {
+                "id": "p-joseph-rodrigues",
+                "name": "Joseph Rodrigues",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
+            "id": "p-florine-fernandes",
+            "name": "Florine Fernandes",
+            "shortName": "FLOR",
+            "seed": 6,
+            "logo": "🏅",
+            "group": "Group C",
+            "players": [
+              {
+                "id": "p-florine-fernandes",
+                "name": "Florine Fernandes",
                 "role": "PLAYER"
               }
             ]
@@ -223,835 +332,2495 @@
     ],
     "teams": [
       {
-        "id": "tm-a1",
-        "name": "Red Dragons",
-        "shortName": "RDG",
+        "id": "p-lawrence-rodrigues",
+        "name": "Lawrence Rodrigues",
+        "shortName": "LAWR",
         "seed": 1,
-        "logo": "🐉",
-        "groupId": "grp-a",
-        "captain": "Mark Fernandes",
+        "logo": "🎯",
+        "group": "Group A",
         "players": [
           {
-            "id": "p-a1-1",
-            "name": "Mark Fernandes",
-            "role": "CAPTAIN"
-          },
-          {
-            "id": "p-a1-2",
-            "name": "John Alex",
-            "role": "VICE_CAPTAIN"
-          },
-          {
-            "id": "p-a1-3",
-            "name": "Luke D'Souza",
-            "role": "PLAYER"
-          },
-          {
-            "id": "p-a1-4",
-            "name": "Peter Paul",
+            "id": "p-lawrence-rodrigues",
+            "name": "Lawrence Rodrigues",
             "role": "PLAYER"
           }
         ]
       },
       {
-        "id": "tm-a2",
-        "name": "Apex Thunder",
-        "shortName": "ATD",
+        "id": "p-colet-coelho",
+        "name": "Colet Coelho",
+        "shortName": "COLE",
         "seed": 2,
+        "logo": "🏅",
+        "group": "Group A",
+        "players": [
+          {
+            "id": "p-colet-coelho",
+            "name": "Colet Coelho",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-amal-lancelot",
+        "name": "Amal lancelot",
+        "shortName": "AMAL",
+        "seed": 3,
         "logo": "⚡",
-        "groupId": "grp-a",
-        "captain": "Daniel Cruz",
+        "group": "Group A",
         "players": [
           {
-            "id": "p-a2-1",
-            "name": "Daniel Cruz",
-            "role": "CAPTAIN"
-          },
-          {
-            "id": "p-a2-2",
-            "name": "Sam Wilson",
-            "role": "VICE_CAPTAIN"
-          },
-          {
-            "id": "p-a2-3",
-            "name": "Brian D'Silva",
+            "id": "p-amal-lancelot",
+            "name": "Amal lancelot",
             "role": "PLAYER"
           }
         ]
       },
       {
-        "id": "tm-a3",
-        "name": "Iron Wolves",
-        "shortName": "IWL",
-        "seed": 3,
-        "logo": "🐺",
-        "groupId": "grp-a",
-        "captain": "Chris Ryan",
-        "players": [
-          {
-            "id": "p-a3-1",
-            "name": "Chris Ryan",
-            "role": "CAPTAIN"
-          },
-          {
-            "id": "p-a3-2",
-            "name": "Kevin Jason",
-            "role": "VICE_CAPTAIN"
-          },
-          {
-            "id": "p-a3-3",
-            "name": "Leo Matthew",
-            "role": "PLAYER"
-          }
-        ]
-      },
-      {
-        "id": "tm-a4",
-        "name": "Blue Falcons",
-        "shortName": "BFC",
+        "id": "p-nelson-fernandes",
+        "name": "Nelson Fernandes",
+        "shortName": "NELS",
         "seed": 4,
-        "logo": "🦅",
-        "groupId": "grp-a",
-        "captain": "Simon Peter",
+        "logo": "🌟",
+        "group": "Group A",
         "players": [
           {
-            "id": "p-a4-1",
-            "name": "Simon Peter",
-            "role": "CAPTAIN"
-          },
-          {
-            "id": "p-a4-2",
-            "name": "Andrew James",
+            "id": "p-nelson-fernandes",
+            "name": "Nelson Fernandes",
             "role": "PLAYER"
           }
         ]
       },
       {
-        "id": "tm-b1",
-        "name": "Silver Strikers",
-        "shortName": "SST",
-        "seed": 1,
-        "logo": "⚔️",
-        "groupId": "grp-b",
-        "captain": "James Matthew",
-        "players": [
-          {
-            "id": "p-b1-1",
-            "name": "James Matthew",
-            "role": "CAPTAIN"
-          },
-          {
-            "id": "p-b1-2",
-            "name": "Joseph Jude",
-            "role": "VICE_CAPTAIN"
-          },
-          {
-            "id": "p-b1-3",
-            "name": "Francis Xavier",
-            "role": "PLAYER"
-          }
-        ]
-      },
-      {
-        "id": "tm-b2",
-        "name": "Golden Titans",
-        "shortName": "GTT",
-        "seed": 2,
+        "id": "p-anthony-aranha",
+        "name": "Anthony Aranha",
+        "shortName": "ANTH",
+        "seed": 5,
         "logo": "🛡️",
-        "groupId": "grp-b",
-        "captain": "Michael Anthony",
+        "group": "Group A",
         "players": [
           {
-            "id": "p-b2-1",
-            "name": "Michael Anthony",
-            "role": "CAPTAIN"
-          },
-          {
-            "id": "p-b2-2",
-            "name": "Dominic Savio",
+            "id": "p-anthony-aranha",
+            "name": "Anthony Aranha",
             "role": "PLAYER"
           }
         ]
       },
       {
-        "id": "tm-b3",
-        "name": "Phoenix United",
-        "shortName": "PHX",
-        "seed": 3,
+        "id": "p-alphonso-menezes",
+        "name": "Alphonso Menezes",
+        "shortName": "ALPH",
+        "seed": 6,
         "logo": "🔥",
-        "groupId": "grp-b",
-        "captain": "Gabriel Rapha",
+        "group": "Group A",
         "players": [
           {
-            "id": "p-b3-1",
-            "name": "Gabriel Rapha",
-            "role": "CAPTAIN"
-          },
-          {
-            "id": "p-b3-2",
-            "name": "Aaron Carlos",
+            "id": "p-alphonso-menezes",
+            "name": "Alphonso Menezes",
             "role": "PLAYER"
           }
         ]
       },
       {
-        "id": "tm-b4",
-        "name": "Shadow Cobras",
-        "shortName": "SCB",
+        "id": "p-jim-d-souza",
+        "name": "Jim D'souza",
+        "shortName": "JIM",
+        "seed": 1,
+        "logo": "🚀",
+        "group": "Group B",
+        "players": [
+          {
+            "id": "p-jim-d-souza",
+            "name": "Jim D'souza",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-sunborn-perrira",
+        "name": "Sunborn Perrira",
+        "shortName": "SUNB",
+        "seed": 2,
+        "logo": "👤",
+        "group": "Group B",
+        "players": [
+          {
+            "id": "p-sunborn-perrira",
+            "name": "Sunborn Perrira",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-james-louis",
+        "name": "James Louis",
+        "shortName": "JAME",
+        "seed": 3,
+        "logo": "🎯",
+        "group": "Group B",
+        "players": [
+          {
+            "id": "p-james-louis",
+            "name": "James Louis",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-rosslin-louis",
+        "name": "Rosslin Louis",
+        "shortName": "ROSS",
         "seed": 4,
-        "logo": "🐍",
-        "groupId": "grp-b",
-        "captain": "Victor Roy",
+        "logo": "🏅",
+        "group": "Group B",
         "players": [
           {
-            "id": "p-b4-1",
-            "name": "Victor Roy",
-            "role": "CAPTAIN"
-          },
-          {
-            "id": "p-b4-2",
-            "name": "Jason Cole",
+            "id": "p-rosslin-louis",
+            "name": "Rosslin Louis",
             "role": "PLAYER"
           }
         ]
-      }
-    ],
-    "rules": [
-      {
-        "id": "dm-rule-1",
-        "title": "Fair Play & Mutual Respect",
-        "category": "Code of Conduct",
-        "content": "Matches begin with a joint team prayer. Respectful behavior towards officials, opponents, and spectators is required at all times."
       },
       {
-        "id": "dm-rule-2",
-        "title": "Group Stage Points & Tie-Breakers",
-        "category": "Tournament Format",
-        "content": "Win = 3 points, Draw = 1 point, Loss = 0 points. Top 2 teams from Group A and Group B advance to the Semi-Finals. Tie-breakers: 1) Head-to-Head, 2) Goal Difference, 3) Higher Goals Scored."
+        "id": "p-gerald-rodrigues",
+        "name": "Gerald Rodrigues",
+        "shortName": "GERA",
+        "seed": 5,
+        "logo": "⚡",
+        "group": "Group B",
+        "players": [
+          {
+            "id": "p-gerald-rodrigues",
+            "name": "Gerald Rodrigues",
+            "role": "PLAYER"
+          }
+        ]
       },
       {
-        "id": "dm-rule-3",
-        "title": "Playoff Semi-Finals & Final",
-        "category": "Knockout Rules",
-        "content": "Semi-Final 1: Winner Group A vs Runner-up Group B. Semi-Final 2: Winner Group B vs Runner-up Group A. Direct penalty shootout applies if scores are level at full time."
+        "id": "p-charlette-sequera",
+        "name": "Charlette Sequera",
+        "shortName": "CHAR",
+        "seed": 6,
+        "logo": "🌟",
+        "group": "Group B",
+        "players": [
+          {
+            "id": "p-charlette-sequera",
+            "name": "Charlette Sequera",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-emmanuel-menezes",
+        "name": "Emmanuel Menezes",
+        "shortName": "EMMA",
+        "seed": 1,
+        "logo": "🛡️",
+        "group": "Group C",
+        "players": [
+          {
+            "id": "p-emmanuel-menezes",
+            "name": "Emmanuel Menezes",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-dean-d-souza",
+        "name": "Dean D'souza",
+        "shortName": "DEAN",
+        "seed": 2,
+        "logo": "🔥",
+        "group": "Group C",
+        "players": [
+          {
+            "id": "p-dean-d-souza",
+            "name": "Dean D'souza",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-patrick-menezes",
+        "name": "Patrick Menezes",
+        "shortName": "PATR",
+        "seed": 3,
+        "logo": "🚀",
+        "group": "Group C",
+        "players": [
+          {
+            "id": "p-patrick-menezes",
+            "name": "Patrick Menezes",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-daniel-danthi",
+        "name": "Daniel Danthi",
+        "shortName": "DANI",
+        "seed": 4,
+        "logo": "👤",
+        "group": "Group C",
+        "players": [
+          {
+            "id": "p-daniel-danthi",
+            "name": "Daniel Danthi",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-joseph-rodrigues",
+        "name": "Joseph Rodrigues",
+        "shortName": "JOSE",
+        "seed": 5,
+        "logo": "🎯",
+        "group": "Group C",
+        "players": [
+          {
+            "id": "p-joseph-rodrigues",
+            "name": "Joseph Rodrigues",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-florine-fernandes",
+        "name": "Florine Fernandes",
+        "shortName": "FLOR",
+        "seed": 6,
+        "logo": "🏅",
+        "group": "Group C",
+        "players": [
+          {
+            "id": "p-florine-fernandes",
+            "name": "Florine Fernandes",
+            "role": "PLAYER"
+          }
+        ]
       }
     ],
     "matches": [
       {
-        "id": "ga-m-1",
+        "id": "CR-A-R1-M1",
         "round": 1,
-        "roundName": "Group A - Match 1",
-        "stageName": "Group A",
+        "roundName": "Group A Round 1",
+        "stageName": "Group A Round 1",
         "groupId": "grp-a",
-        "teamAId": "tm-a1",
-        "teamBId": "tm-a2",
-        "scoreA": 3,
-        "scoreB": 1,
-        "status": "COMPLETED",
-        "winnerId": "tm-a1",
-        "scheduledAt": "2026-11-08 15:30",
-        "venue": "Parish Turf"
-      },
-      {
-        "id": "ga-m-2",
-        "round": 1,
-        "roundName": "Group A - Match 1",
-        "stageName": "Group A",
-        "groupId": "grp-a",
-        "teamAId": "tm-a3",
-        "teamBId": "tm-a4",
-        "scoreA": 1,
-        "scoreB": 1,
-        "status": "COMPLETED",
+        "groupName": "Group A",
+        "teamAId": "p-lawrence-rodrigues",
+        "teamBId": "p-alphonso-menezes",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
         "winnerId": null,
-        "scheduledAt": "2026-11-08 17:00",
-        "venue": "Parish Turf"
+        "scheduledAt": "2026-11-07 08:00",
+        "startTime": "08:00",
+        "endTime": "08:07",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "7 mins"
       },
       {
-        "id": "ga-m-3",
+        "id": "CR-A-R1-M2",
+        "round": 1,
+        "roundName": "Group A Round 1",
+        "stageName": "Group A Round 1",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-colet-coelho",
+        "teamBId": "p-anthony-aranha",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:00",
+        "startTime": "08:00",
+        "endTime": "08:07",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-A-R1-M3",
+        "round": 1,
+        "roundName": "Group A Round 1",
+        "stageName": "Group A Round 1",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-amal-lancelot",
+        "teamBId": "p-nelson-fernandes",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:00",
+        "startTime": "08:00",
+        "endTime": "08:07",
+        "venue": "4th Floor",
+        "court": "Board 3",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-B-R1-M1",
+        "round": 1,
+        "roundName": "Group B Round 1",
+        "stageName": "Group B Round 1",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-jim-d-souza",
+        "teamBId": "p-charlette-sequera",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:00",
+        "startTime": "08:00",
+        "endTime": "08:07",
+        "venue": "4th Floor",
+        "court": "Board 4",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-B-R1-M2",
+        "round": 1,
+        "roundName": "Group B Round 1",
+        "stageName": "Group B Round 1",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-sunborn-perrira",
+        "teamBId": "p-gerald-rodrigues",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:00",
+        "startTime": "08:00",
+        "endTime": "08:07",
+        "venue": "4th Floor",
+        "court": "Board 5",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-A-R2-M1",
         "round": 2,
-        "roundName": "Group A - Match 2",
-        "stageName": "Group A",
+        "roundName": "Group A Round 2",
+        "stageName": "Group A Round 2",
         "groupId": "grp-a",
-        "teamAId": "tm-a1",
-        "teamBId": "tm-a3",
-        "scoreA": 2,
+        "groupName": "Group A",
+        "teamAId": "p-lawrence-rodrigues",
+        "teamBId": "p-anthony-aranha",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
         "scoreB": 0,
-        "status": "COMPLETED",
-        "winnerId": "tm-a1",
-        "scheduledAt": "2026-11-12 15:30",
-        "venue": "Parish Turf"
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:09",
+        "startTime": "08:09",
+        "endTime": "08:16",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "7 mins"
       },
       {
-        "id": "ga-m-4",
+        "id": "CR-A-R2-M2",
         "round": 2,
-        "roundName": "Group A - Match 2",
-        "stageName": "Group A",
+        "roundName": "Group A Round 2",
+        "stageName": "Group A Round 2",
         "groupId": "grp-a",
-        "teamAId": "tm-a4",
-        "teamBId": "tm-a2",
-        "scoreA": 2,
-        "scoreB": 2,
-        "status": "LIVE",
-        "winnerId": null,
-        "scheduledAt": "2026-11-12 17:00",
-        "venue": "Parish Turf"
-      },
-      {
-        "id": "ga-m-5",
-        "round": 3,
-        "roundName": "Group A - Match 3",
-        "stageName": "Group A",
-        "groupId": "grp-a",
-        "teamAId": "tm-a1",
-        "teamBId": "tm-a4",
+        "groupName": "Group A",
+        "teamAId": "p-alphonso-menezes",
+        "teamBId": "p-nelson-fernandes",
+        "placeholderA": null,
+        "placeholderB": null,
         "scoreA": 0,
         "scoreB": 0,
         "status": "SCHEDULED",
         "winnerId": null,
-        "scheduledAt": "2026-11-15 15:30",
-        "venue": "Parish Turf"
+        "scheduledAt": "2026-11-07 08:09",
+        "startTime": "08:09",
+        "endTime": "08:16",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "7 mins"
       },
       {
-        "id": "ga-m-6",
-        "round": 3,
-        "roundName": "Group A - Match 3",
-        "stageName": "Group A",
-        "groupId": "grp-a",
-        "teamAId": "tm-a2",
-        "teamBId": "tm-a3",
-        "scoreA": 0,
-        "scoreB": 0,
-        "status": "SCHEDULED",
-        "winnerId": null,
-        "scheduledAt": "2026-11-15 17:00",
-        "venue": "Parish Turf"
-      },
-      {
-        "id": "gb-m-1",
-        "round": 1,
-        "roundName": "Group B - Match 1",
-        "stageName": "Group B",
-        "groupId": "grp-b",
-        "teamAId": "tm-b1",
-        "teamBId": "tm-b2",
-        "scoreA": 2,
-        "scoreB": 1,
-        "status": "COMPLETED",
-        "winnerId": "tm-b1",
-        "scheduledAt": "2026-11-09 15:30",
-        "venue": "Parish Turf"
-      },
-      {
-        "id": "gb-m-2",
-        "round": 1,
-        "roundName": "Group B - Match 1",
-        "stageName": "Group B",
-        "groupId": "grp-b",
-        "teamAId": "tm-b3",
-        "teamBId": "tm-b4",
-        "scoreA": 1,
-        "scoreB": 3,
-        "status": "COMPLETED",
-        "winnerId": "tm-b4",
-        "scheduledAt": "2026-11-09 17:00",
-        "venue": "Parish Turf"
-      },
-      {
-        "id": "gb-m-3",
+        "id": "CR-A-R2-M3",
         "round": 2,
-        "roundName": "Group B - Match 2",
-        "stageName": "Group B",
-        "groupId": "grp-b",
-        "teamAId": "tm-b1",
-        "teamBId": "tm-b3",
-        "scoreA": 4,
-        "scoreB": 1,
-        "status": "COMPLETED",
-        "winnerId": "tm-b1",
-        "scheduledAt": "2026-11-13 15:30",
-        "venue": "Parish Turf"
+        "roundName": "Group A Round 2",
+        "stageName": "Group A Round 2",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-colet-coelho",
+        "teamBId": "p-amal-lancelot",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:09",
+        "startTime": "08:09",
+        "endTime": "08:16",
+        "venue": "4th Floor",
+        "court": "Board 3",
+        "duration": "7 mins"
       },
       {
-        "id": "gb-m-4",
+        "id": "CR-B-R2-M1",
         "round": 2,
-        "roundName": "Group B - Match 2",
-        "stageName": "Group B",
+        "roundName": "Group B Round 2",
+        "stageName": "Group B Round 2",
         "groupId": "grp-b",
-        "teamAId": "tm-b4",
-        "teamBId": "tm-b2",
+        "groupName": "Group B",
+        "teamAId": "p-jim-d-souza",
+        "teamBId": "p-gerald-rodrigues",
+        "placeholderA": null,
+        "placeholderB": null,
         "scoreA": 0,
         "scoreB": 0,
         "status": "SCHEDULED",
         "winnerId": null,
-        "scheduledAt": "2026-11-13 17:00",
-        "venue": "Parish Turf"
+        "scheduledAt": "2026-11-07 08:09",
+        "startTime": "08:09",
+        "endTime": "08:16",
+        "venue": "4th Floor",
+        "court": "Board 4",
+        "duration": "7 mins"
       },
       {
-        "id": "gb-m-5",
+        "id": "CR-B-R2-M2",
+        "round": 2,
+        "roundName": "Group B Round 2",
+        "stageName": "Group B Round 2",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-charlette-sequera",
+        "teamBId": "p-rosslin-louis",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:09",
+        "startTime": "08:09",
+        "endTime": "08:16",
+        "venue": "4th Floor",
+        "court": "Board 5",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-A-R3-M1",
         "round": 3,
-        "roundName": "Group B - Match 3",
-        "stageName": "Group B",
-        "groupId": "grp-b",
-        "teamAId": "tm-b1",
-        "teamBId": "tm-b4",
+        "roundName": "Group A Round 3",
+        "stageName": "Group A Round 3",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-lawrence-rodrigues",
+        "teamBId": "p-nelson-fernandes",
+        "placeholderA": null,
+        "placeholderB": null,
         "scoreA": 0,
         "scoreB": 0,
         "status": "SCHEDULED",
         "winnerId": null,
-        "scheduledAt": "2026-11-16 15:30",
-        "venue": "Parish Turf"
+        "scheduledAt": "2026-11-07 08:18",
+        "startTime": "08:18",
+        "endTime": "08:25",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "7 mins"
       },
       {
-        "id": "gb-m-6",
+        "id": "CR-A-R3-M2",
         "round": 3,
-        "roundName": "Group B - Match 3",
-        "stageName": "Group B",
-        "groupId": "grp-b",
-        "teamAId": "tm-b2",
-        "teamBId": "tm-b3",
+        "roundName": "Group A Round 3",
+        "stageName": "Group A Round 3",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-anthony-aranha",
+        "teamBId": "p-amal-lancelot",
+        "placeholderA": null,
+        "placeholderB": null,
         "scoreA": 0,
         "scoreB": 0,
         "status": "SCHEDULED",
         "winnerId": null,
-        "scheduledAt": "2026-11-16 17:00",
-        "venue": "Parish Turf"
+        "scheduledAt": "2026-11-07 08:18",
+        "startTime": "08:18",
+        "endTime": "08:25",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "7 mins"
       },
       {
-        "id": "dm-po-sf1",
+        "id": "CR-A-R3-M3",
+        "round": 3,
+        "roundName": "Group A Round 3",
+        "stageName": "Group A Round 3",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-alphonso-menezes",
+        "teamBId": "p-colet-coelho",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:18",
+        "startTime": "08:18",
+        "endTime": "08:25",
+        "venue": "4th Floor",
+        "court": "Board 3",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-B-R1-M3",
         "round": 1,
-        "roundName": "Semi-Final 1",
-        "stageName": "Playoff Semi-Finals",
+        "roundName": "Group B Round 1",
+        "stageName": "Group B Round 1",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-james-louis",
+        "teamBId": "p-rosslin-louis",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:18",
+        "startTime": "08:18",
+        "endTime": "08:25",
+        "venue": "4th Floor",
+        "court": "Board 4",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-B-R3-M3",
+        "round": 3,
+        "roundName": "Group B Round 3",
+        "stageName": "Group B Round 3",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-charlette-sequera",
+        "teamBId": "p-sunborn-perrira",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:18",
+        "startTime": "08:18",
+        "endTime": "08:25",
+        "venue": "4th Floor",
+        "court": "Board 5",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-A-R4-M1",
+        "round": 4,
+        "roundName": "Group A Round 4",
+        "stageName": "Group A Round 4",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-lawrence-rodrigues",
+        "teamBId": "p-amal-lancelot",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:27",
+        "startTime": "08:27",
+        "endTime": "08:34",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-A-R4-M2",
+        "round": 4,
+        "roundName": "Group A Round 4",
+        "stageName": "Group A Round 4",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-nelson-fernandes",
+        "teamBId": "p-colet-coelho",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:27",
+        "startTime": "08:27",
+        "endTime": "08:34",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-A-R4-M3",
+        "round": 4,
+        "roundName": "Group A Round 4",
+        "stageName": "Group A Round 4",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-anthony-aranha",
+        "teamBId": "p-alphonso-menezes",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:27",
+        "startTime": "08:27",
+        "endTime": "08:34",
+        "venue": "4th Floor",
+        "court": "Board 3",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-B-R2-M3",
+        "round": 2,
+        "roundName": "Group B Round 2",
+        "stageName": "Group B Round 2",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-sunborn-perrira",
+        "teamBId": "p-james-louis",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:27",
+        "startTime": "08:27",
+        "endTime": "08:34",
+        "venue": "4th Floor",
+        "court": "Board 4",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-B-R3-M1",
+        "round": 3,
+        "roundName": "Group B Round 3",
+        "stageName": "Group B Round 3",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-jim-d-souza",
+        "teamBId": "p-rosslin-louis",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:27",
+        "startTime": "08:27",
+        "endTime": "08:34",
+        "venue": "4th Floor",
+        "court": "Board 5",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-A-R5-M1",
+        "round": 5,
+        "roundName": "Group A Round 5",
+        "stageName": "Group A Round 5",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-lawrence-rodrigues",
+        "teamBId": "p-colet-coelho",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:36",
+        "startTime": "08:36",
+        "endTime": "08:43",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-A-R5-M2",
+        "round": 5,
+        "roundName": "Group A Round 5",
+        "stageName": "Group A Round 5",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-amal-lancelot",
+        "teamBId": "p-alphonso-menezes",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:36",
+        "startTime": "08:36",
+        "endTime": "08:43",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-A-R5-M3",
+        "round": 5,
+        "roundName": "Group A Round 5",
+        "stageName": "Group A Round 5",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-nelson-fernandes",
+        "teamBId": "p-anthony-aranha",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:36",
+        "startTime": "08:36",
+        "endTime": "08:43",
+        "venue": "4th Floor",
+        "court": "Board 3",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-B-R4-M1",
+        "round": 4,
+        "roundName": "Group B Round 4",
+        "stageName": "Group B Round 4",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-jim-d-souza",
+        "teamBId": "p-james-louis",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:36",
+        "startTime": "08:36",
+        "endTime": "08:43",
+        "venue": "4th Floor",
+        "court": "Board 4",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-B-R4-M2",
+        "round": 4,
+        "roundName": "Group B Round 4",
+        "stageName": "Group B Round 4",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-rosslin-louis",
+        "teamBId": "p-sunborn-perrira",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:36",
+        "startTime": "08:36",
+        "endTime": "08:43",
+        "venue": "4th Floor",
+        "court": "Board 5",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-B-R5-M1",
+        "round": 5,
+        "roundName": "Group B Round 5",
+        "stageName": "Group B Round 5",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-jim-d-souza",
+        "teamBId": "p-sunborn-perrira",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:45",
+        "startTime": "08:45",
+        "endTime": "08:52",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-B-R5-M2",
+        "round": 5,
+        "roundName": "Group B Round 5",
+        "stageName": "Group B Round 5",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-james-louis",
+        "teamBId": "p-charlette-sequera",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:45",
+        "startTime": "08:45",
+        "endTime": "08:52",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-C-R1-M1",
+        "round": 1,
+        "roundName": "Group C Round 1",
+        "stageName": "Group C Round 1",
+        "groupId": "grp-c",
+        "groupName": "Group C",
+        "teamAId": "p-emmanuel-menezes",
+        "teamBId": "p-florine-fernandes",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:45",
+        "startTime": "08:45",
+        "endTime": "08:52",
+        "venue": "4th Floor",
+        "court": "Board 3",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-C-R1-M2",
+        "round": 1,
+        "roundName": "Group C Round 1",
+        "stageName": "Group C Round 1",
+        "groupId": "grp-c",
+        "groupName": "Group C",
+        "teamAId": "p-dean-d-souza",
+        "teamBId": "p-joseph-rodrigues",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:45",
+        "startTime": "08:45",
+        "endTime": "08:52",
+        "venue": "4th Floor",
+        "court": "Board 4",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-C-R1-M3",
+        "round": 1,
+        "roundName": "Group C Round 1",
+        "stageName": "Group C Round 1",
+        "groupId": "grp-c",
+        "groupName": "Group C",
+        "teamAId": "p-patrick-menezes",
+        "teamBId": "p-daniel-danthi",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:45",
+        "startTime": "08:45",
+        "endTime": "08:52",
+        "venue": "4th Floor",
+        "court": "Board 5",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-B-R3-M2",
+        "round": 3,
+        "roundName": "Group B Round 3",
+        "stageName": "Group B Round 3",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-gerald-rodrigues",
+        "teamBId": "p-james-louis",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:54",
+        "startTime": "08:54",
+        "endTime": "09:01",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-C-R2-M1",
+        "round": 2,
+        "roundName": "Group C Round 2",
+        "stageName": "Group C Round 2",
+        "groupId": "grp-c",
+        "groupName": "Group C",
+        "teamAId": "p-emmanuel-menezes",
+        "teamBId": "p-joseph-rodrigues",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:54",
+        "startTime": "08:54",
+        "endTime": "09:01",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-C-R2-M2",
+        "round": 2,
+        "roundName": "Group C Round 2",
+        "stageName": "Group C Round 2",
+        "groupId": "grp-c",
+        "groupName": "Group C",
+        "teamAId": "p-florine-fernandes",
+        "teamBId": "p-daniel-danthi",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:54",
+        "startTime": "08:54",
+        "endTime": "09:01",
+        "venue": "4th Floor",
+        "court": "Board 3",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-C-R2-M3",
+        "round": 2,
+        "roundName": "Group C Round 2",
+        "stageName": "Group C Round 2",
+        "groupId": "grp-c",
+        "groupName": "Group C",
+        "teamAId": "p-dean-d-souza",
+        "teamBId": "p-patrick-menezes",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:54",
+        "startTime": "08:54",
+        "endTime": "09:01",
+        "venue": "4th Floor",
+        "court": "Board 4",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-B-R4-M3",
+        "round": 4,
+        "roundName": "Group B Round 4",
+        "stageName": "Group B Round 4",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-gerald-rodrigues",
+        "teamBId": "p-charlette-sequera",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:03",
+        "startTime": "09:03",
+        "endTime": "09:10",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-C-R3-M1",
+        "round": 3,
+        "roundName": "Group C Round 3",
+        "stageName": "Group C Round 3",
+        "groupId": "grp-c",
+        "groupName": "Group C",
+        "teamAId": "p-emmanuel-menezes",
+        "teamBId": "p-daniel-danthi",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:03",
+        "startTime": "09:03",
+        "endTime": "09:10",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-C-R3-M2",
+        "round": 3,
+        "roundName": "Group C Round 3",
+        "stageName": "Group C Round 3",
+        "groupId": "grp-c",
+        "groupName": "Group C",
+        "teamAId": "p-joseph-rodrigues",
+        "teamBId": "p-patrick-menezes",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:03",
+        "startTime": "09:03",
+        "endTime": "09:10",
+        "venue": "4th Floor",
+        "court": "Board 3",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-C-R3-M3",
+        "round": 3,
+        "roundName": "Group C Round 3",
+        "stageName": "Group C Round 3",
+        "groupId": "grp-c",
+        "groupName": "Group C",
+        "teamAId": "p-florine-fernandes",
+        "teamBId": "p-dean-d-souza",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:03",
+        "startTime": "09:03",
+        "endTime": "09:10",
+        "venue": "4th Floor",
+        "court": "Board 4",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-B-R5-M3",
+        "round": 5,
+        "roundName": "Group B Round 5",
+        "stageName": "Group B Round 5",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-rosslin-louis",
+        "teamBId": "p-gerald-rodrigues",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:12",
+        "startTime": "09:12",
+        "endTime": "09:19",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-C-R4-M1",
+        "round": 4,
+        "roundName": "Group C Round 4",
+        "stageName": "Group C Round 4",
+        "groupId": "grp-c",
+        "groupName": "Group C",
+        "teamAId": "p-emmanuel-menezes",
+        "teamBId": "p-patrick-menezes",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:12",
+        "startTime": "09:12",
+        "endTime": "09:19",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-C-R4-M2",
+        "round": 4,
+        "roundName": "Group C Round 4",
+        "stageName": "Group C Round 4",
+        "groupId": "grp-c",
+        "groupName": "Group C",
+        "teamAId": "p-daniel-danthi",
+        "teamBId": "p-dean-d-souza",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:12",
+        "startTime": "09:12",
+        "endTime": "09:19",
+        "venue": "4th Floor",
+        "court": "Board 3",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-C-R4-M3",
+        "round": 4,
+        "roundName": "Group C Round 4",
+        "stageName": "Group C Round 4",
+        "groupId": "grp-c",
+        "groupName": "Group C",
+        "teamAId": "p-joseph-rodrigues",
+        "teamBId": "p-florine-fernandes",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:12",
+        "startTime": "09:12",
+        "endTime": "09:19",
+        "venue": "4th Floor",
+        "court": "Board 4",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-C-R5-M1",
+        "round": 5,
+        "roundName": "Group C Round 5",
+        "stageName": "Group C Round 5",
+        "groupId": "grp-c",
+        "groupName": "Group C",
+        "teamAId": "p-emmanuel-menezes",
+        "teamBId": "p-dean-d-souza",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:21",
+        "startTime": "09:21",
+        "endTime": "09:28",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-C-R5-M2",
+        "round": 5,
+        "roundName": "Group C Round 5",
+        "stageName": "Group C Round 5",
+        "groupId": "grp-c",
+        "groupName": "Group C",
+        "teamAId": "p-patrick-menezes",
+        "teamBId": "p-florine-fernandes",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:21",
+        "startTime": "09:21",
+        "endTime": "09:28",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-C-R5-M3",
+        "round": 5,
+        "roundName": "Group C Round 5",
+        "stageName": "Group C Round 5",
+        "groupId": "grp-c",
+        "groupName": "Group C",
+        "teamAId": "p-daniel-danthi",
+        "teamBId": "p-joseph-rodrigues",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:21",
+        "startTime": "09:21",
+        "endTime": "09:28",
+        "venue": "4th Floor",
+        "court": "Board 3",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-Prelim1",
+        "round": 1,
+        "roundName": "Preliminary",
+        "stageName": "Preliminary",
         "groupId": "PLAYOFFS",
-        "teamAId": "tm-a1",
-        "teamBId": "tm-b4",
+        "groupName": "Knockout Playoffs",
+        "teamAId": null,
+        "teamBId": null,
+        "placeholderA": "3rd Group Winner",
+        "placeholderB": "Runner-up Group A",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:30",
+        "startTime": "09:30",
+        "endTime": "09:37",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-Prelim2",
+        "round": 1,
+        "roundName": "Preliminary",
+        "stageName": "Preliminary",
+        "groupId": "PLAYOFFS",
+        "groupName": "Knockout Playoffs",
+        "teamAId": null,
+        "teamBId": null,
+        "placeholderA": "Runner-up Group B",
+        "placeholderB": "Runner-up Group C",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:30",
+        "startTime": "09:30",
+        "endTime": "09:37",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-Semi1",
+        "round": 2,
+        "roundName": "Semifinal",
+        "stageName": "Semifinal",
+        "groupId": "PLAYOFFS",
+        "groupName": "Knockout Playoffs",
+        "teamAId": null,
+        "teamBId": null,
+        "placeholderA": "Top Group Winner",
+        "placeholderB": "Winner Preliminary 1",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:39",
+        "startTime": "09:39",
+        "endTime": "09:46",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-Semi2",
+        "round": 2,
+        "roundName": "Semifinal",
+        "stageName": "Semifinal",
+        "groupId": "PLAYOFFS",
+        "groupName": "Knockout Playoffs",
+        "teamAId": null,
+        "teamBId": null,
+        "placeholderA": "2nd Group Winner",
+        "placeholderB": "Winner Preliminary 2",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:39",
+        "startTime": "09:39",
+        "endTime": "09:46",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "7 mins"
+      },
+      {
+        "id": "CR-Final",
+        "round": 3,
+        "roundName": "Final",
+        "stageName": "Final",
+        "groupId": "PLAYOFFS",
+        "groupName": "Knockout Playoffs",
+        "teamAId": null,
+        "teamBId": null,
+        "placeholderA": "Winner Semi 1",
+        "placeholderB": "Winner Semi 2",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:48",
+        "startTime": "09:48",
+        "endTime": "09:55",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "7 mins"
+      }
+    ]
+  },
+  {
+    "id": "dmc-chess-2026",
+    "title": "Divine Mercy Parish Chess Tournament 2026",
+    "sport": "Chess",
+    "sportIcon": "♟️",
+    "scoreUnit": "Points",
+    "format": "ROUND_ROBIN",
+    "status": "UPCOMING",
+    "participantType": "INDIVIDUAL",
+    "startDate": "2026-11-07",
+    "endDate": "2026-11-07",
+    "location": "Parish Hall - 4th Floor (Boards 1-3)",
+    "organizer": "Divine Mercy Church",
+    "description": "Official Parish Chess Championship 2026. 6 players in a 5-round round-robin battle followed by the Grand Championship Final.",
+    "bannerUrl": "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?auto=format&fit=crop&w=1200&q=80",
+    "pointsConfig": {
+      "win": 2,
+      "draw": 1,
+      "loss": 0,
+      "showForm": true
+    },
+    "rules": [
+      {
+        "id": "ch-1",
+        "title": "Game Time",
+        "category": "Rules",
+        "content": "10 minutes rapid play per game with 3 minutes equipment reset."
+      },
+      {
+        "id": "ch-2",
+        "title": "Final Match",
+        "category": "Format",
+        "content": "Top 2 players from the round-robin standings contest the Championship Final."
+      },
+      {
+        "id": "ch-3",
+        "title": "Fair Play",
+        "category": "Conduct",
+        "content": "Respectful silence during play and shake hands before/after every match."
+      }
+    ],
+    "groups": [],
+    "teams": [
+      {
+        "id": "p-mario-chettiar",
+        "name": "Mario Chettiar",
+        "shortName": "MARI",
+        "seed": 1,
+        "logo": "⚡",
+        "group": "Group A",
+        "players": [
+          {
+            "id": "p-mario-chettiar",
+            "name": "Mario Chettiar",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-frank-mathias",
+        "name": "Frank Mathias",
+        "shortName": "FRAN",
+        "seed": 2,
+        "logo": "🌟",
+        "group": "Group A",
+        "players": [
+          {
+            "id": "p-frank-mathias",
+            "name": "Frank Mathias",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-shibu-jacob",
+        "name": "Shibu Jacob",
+        "shortName": "SHIB",
+        "seed": 3,
+        "logo": "🛡️",
+        "group": "Group A",
+        "players": [
+          {
+            "id": "p-shibu-jacob",
+            "name": "Shibu Jacob",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-joel-britto",
+        "name": "Joel Britto",
+        "shortName": "JOEL",
+        "seed": 4,
+        "logo": "🔥",
+        "group": "Group A",
+        "players": [
+          {
+            "id": "p-joel-britto",
+            "name": "Joel Britto",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-christine",
+        "name": "Christine",
+        "shortName": "CHRI",
+        "seed": 5,
+        "logo": "🚀",
+        "group": "Group A",
+        "players": [
+          {
+            "id": "p-christine",
+            "name": "Christine",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-don-danthi",
+        "name": "Don Danthi",
+        "shortName": "DON",
+        "seed": 6,
+        "logo": "👤",
+        "group": "Group A",
+        "players": [
+          {
+            "id": "p-don-danthi",
+            "name": "Don Danthi",
+            "role": "PLAYER"
+          }
+        ]
+      }
+    ],
+    "matches": [
+      {
+        "id": "CH-R1-M1",
+        "round": 1,
+        "roundName": "Group Round 1",
+        "stageName": "Group Round 1",
+        "groupId": "ALL",
+        "groupName": "Group Stage",
+        "teamAId": "p-mario-chettiar",
+        "teamBId": "p-don-danthi",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:00",
+        "startTime": "08:00",
+        "endTime": "08:10",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "10 mins"
+      },
+      {
+        "id": "CH-R1-M2",
+        "round": 1,
+        "roundName": "Group Round 1",
+        "stageName": "Group Round 1",
+        "groupId": "ALL",
+        "groupName": "Group Stage",
+        "teamAId": "p-frank-mathias",
+        "teamBId": "p-christine",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:00",
+        "startTime": "08:00",
+        "endTime": "08:10",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "10 mins"
+      },
+      {
+        "id": "CH-R1-M3",
+        "round": 1,
+        "roundName": "Group Round 1",
+        "stageName": "Group Round 1",
+        "groupId": "ALL",
+        "groupName": "Group Stage",
+        "teamAId": "p-shibu-jacob",
+        "teamBId": "p-joel-britto",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:00",
+        "startTime": "08:00",
+        "endTime": "08:10",
+        "venue": "4th Floor",
+        "court": "Board 3",
+        "duration": "10 mins"
+      },
+      {
+        "id": "CH-R2-M1",
+        "round": 2,
+        "roundName": "Group Round 2",
+        "stageName": "Group Round 2",
+        "groupId": "ALL",
+        "groupName": "Group Stage",
+        "teamAId": "p-mario-chettiar",
+        "teamBId": "p-christine",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:13",
+        "startTime": "08:13",
+        "endTime": "08:23",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "10 mins"
+      },
+      {
+        "id": "CH-R2-M2",
+        "round": 2,
+        "roundName": "Group Round 2",
+        "stageName": "Group Round 2",
+        "groupId": "ALL",
+        "groupName": "Group Stage",
+        "teamAId": "p-don-danthi",
+        "teamBId": "p-joel-britto",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:13",
+        "startTime": "08:13",
+        "endTime": "08:23",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "10 mins"
+      },
+      {
+        "id": "CH-R2-M3",
+        "round": 2,
+        "roundName": "Group Round 2",
+        "stageName": "Group Round 2",
+        "groupId": "ALL",
+        "groupName": "Group Stage",
+        "teamAId": "p-frank-mathias",
+        "teamBId": "p-shibu-jacob",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:13",
+        "startTime": "08:13",
+        "endTime": "08:23",
+        "venue": "4th Floor",
+        "court": "Board 3",
+        "duration": "10 mins"
+      },
+      {
+        "id": "CH-R3-M1",
+        "round": 3,
+        "roundName": "Group Round 3",
+        "stageName": "Group Round 3",
+        "groupId": "ALL",
+        "groupName": "Group Stage",
+        "teamAId": "p-mario-chettiar",
+        "teamBId": "p-joel-britto",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:26",
+        "startTime": "08:26",
+        "endTime": "08:36",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "10 mins"
+      },
+      {
+        "id": "CH-R3-M2",
+        "round": 3,
+        "roundName": "Group Round 3",
+        "stageName": "Group Round 3",
+        "groupId": "ALL",
+        "groupName": "Group Stage",
+        "teamAId": "p-christine",
+        "teamBId": "p-shibu-jacob",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:26",
+        "startTime": "08:26",
+        "endTime": "08:36",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "10 mins"
+      },
+      {
+        "id": "CH-R3-M3",
+        "round": 3,
+        "roundName": "Group Round 3",
+        "stageName": "Group Round 3",
+        "groupId": "ALL",
+        "groupName": "Group Stage",
+        "teamAId": "p-don-danthi",
+        "teamBId": "p-frank-mathias",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:26",
+        "startTime": "08:26",
+        "endTime": "08:36",
+        "venue": "4th Floor",
+        "court": "Board 3",
+        "duration": "10 mins"
+      },
+      {
+        "id": "CH-R4-M1",
+        "round": 4,
+        "roundName": "Group Round 4",
+        "stageName": "Group Round 4",
+        "groupId": "ALL",
+        "groupName": "Group Stage",
+        "teamAId": "p-mario-chettiar",
+        "teamBId": "p-shibu-jacob",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:39",
+        "startTime": "08:39",
+        "endTime": "08:49",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "10 mins"
+      },
+      {
+        "id": "CH-R4-M2",
+        "round": 4,
+        "roundName": "Group Round 4",
+        "stageName": "Group Round 4",
+        "groupId": "ALL",
+        "groupName": "Group Stage",
+        "teamAId": "p-joel-britto",
+        "teamBId": "p-frank-mathias",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:39",
+        "startTime": "08:39",
+        "endTime": "08:49",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "10 mins"
+      },
+      {
+        "id": "CH-R4-M3",
+        "round": 4,
+        "roundName": "Group Round 4",
+        "stageName": "Group Round 4",
+        "groupId": "ALL",
+        "groupName": "Group Stage",
+        "teamAId": "p-christine",
+        "teamBId": "p-don-danthi",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:39",
+        "startTime": "08:39",
+        "endTime": "08:49",
+        "venue": "4th Floor",
+        "court": "Board 3",
+        "duration": "10 mins"
+      },
+      {
+        "id": "CH-R5-M1",
+        "round": 5,
+        "roundName": "Group Round 5",
+        "stageName": "Group Round 5",
+        "groupId": "ALL",
+        "groupName": "Group Stage",
+        "teamAId": "p-mario-chettiar",
+        "teamBId": "p-frank-mathias",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:52",
+        "startTime": "08:52",
+        "endTime": "09:02",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "10 mins"
+      },
+      {
+        "id": "CH-R5-M2",
+        "round": 5,
+        "roundName": "Group Round 5",
+        "stageName": "Group Round 5",
+        "groupId": "ALL",
+        "groupName": "Group Stage",
+        "teamAId": "p-shibu-jacob",
+        "teamBId": "p-don-danthi",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:52",
+        "startTime": "08:52",
+        "endTime": "09:02",
+        "venue": "4th Floor",
+        "court": "Board 2",
+        "duration": "10 mins"
+      },
+      {
+        "id": "CH-R5-M3",
+        "round": 5,
+        "roundName": "Group Round 5",
+        "stageName": "Group Round 5",
+        "groupId": "ALL",
+        "groupName": "Group Stage",
+        "teamAId": "p-joel-britto",
+        "teamBId": "p-christine",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:52",
+        "startTime": "08:52",
+        "endTime": "09:02",
+        "venue": "4th Floor",
+        "court": "Board 3",
+        "duration": "10 mins"
+      },
+      {
+        "id": "CH-Final",
+        "round": 3,
+        "roundName": "Final",
+        "stageName": "Final",
+        "groupId": "PLAYOFFS",
+        "groupName": "Knockout Playoffs",
+        "teamAId": null,
+        "teamBId": null,
+        "placeholderA": "Winner Group Stage 1",
+        "placeholderB": "Winner Group Stage 2",
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:05",
+        "startTime": "09:05",
+        "endTime": "09:15",
+        "venue": "4th Floor",
+        "court": "Board 1",
+        "duration": "10 mins"
+      }
+    ]
+  },
+  {
+    "id": "dmc-table-tennis-2026",
+    "title": "Divine Mercy Parish Table Tennis Tournament 2026",
+    "sport": "Table Tennis",
+    "sportIcon": "🏓",
+    "scoreUnit": "Sets",
+    "format": "GROUP_KNOCKOUT",
+    "status": "UPCOMING",
+    "participantType": "INDIVIDUAL",
+    "startDate": "2026-11-07",
+    "endDate": "2026-11-07",
+    "location": "Parish Ground Floor (Table 1)",
+    "organizer": "Divine Mercy Church",
+    "description": "Official Parish Table Tennis Championship 2026. 8 players across Group A & Group B, leading to crossover semifinals and grand final.",
+    "bannerUrl": "https://images.unsplash.com/photo-1534158914592-062992fbe900?auto=format&fit=crop&w=1200&q=80",
+    "pointsConfig": {
+      "win": 2,
+      "draw": 0,
+      "loss": 0,
+      "showForm": true
+    },
+    "rules": [
+      {
+        "id": "tt-1",
+        "title": "Match Format",
+        "category": "Rules",
+        "content": "7 minutes match duration. Best of sets rule applies."
+      },
+      {
+        "id": "tt-2",
+        "title": "Semifinals & Final",
+        "category": "Format",
+        "content": "Winner Group A vs Runner-up Group B, and Winner Group B vs Runner-up Group A."
+      },
+      {
+        "id": "tt-3",
+        "title": "Fellowship",
+        "category": "Conduct",
+        "content": "Good sportsmanship, cheer for all parish players."
+      }
+    ],
+    "groups": [
+      {
+        "id": "grp-a",
+        "name": "Group A",
+        "teams": [
+          {
+            "id": "p-fr-kenneth-pinto",
+            "name": "Fr. Kenneth Pinto",
+            "shortName": "FR.",
+            "seed": 1,
+            "logo": "🎯",
+            "group": "Group A",
+            "players": [
+              {
+                "id": "p-fr-kenneth-pinto",
+                "name": "Fr. Kenneth Pinto",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
+            "id": "p-sunborn-perrira",
+            "name": "Sunborn Perrira",
+            "shortName": "SUNB",
+            "seed": 2,
+            "logo": "🏅",
+            "group": "Group A",
+            "players": [
+              {
+                "id": "p-sunborn-perrira",
+                "name": "Sunborn Perrira",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
+            "id": "p-james-louis",
+            "name": "James Louis",
+            "shortName": "JAME",
+            "seed": 3,
+            "logo": "⚡",
+            "group": "Group A",
+            "players": [
+              {
+                "id": "p-james-louis",
+                "name": "James Louis",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
+            "id": "p-gerald-rodrigues",
+            "name": "Gerald Rodrigues",
+            "shortName": "GERA",
+            "seed": 4,
+            "logo": "🌟",
+            "group": "Group A",
+            "players": [
+              {
+                "id": "p-gerald-rodrigues",
+                "name": "Gerald Rodrigues",
+                "role": "PLAYER"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "grp-b",
+        "name": "Group B",
+        "teams": [
+          {
+            "id": "p-malcolm-corria",
+            "name": "Malcolm Corria",
+            "shortName": "MALC",
+            "seed": 1,
+            "logo": "🛡️",
+            "group": "Group B",
+            "players": [
+              {
+                "id": "p-malcolm-corria",
+                "name": "Malcolm Corria",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
+            "id": "p-vincent-chettiar",
+            "name": "Vincent Chettiar",
+            "shortName": "VINC",
+            "seed": 2,
+            "logo": "🔥",
+            "group": "Group B",
+            "players": [
+              {
+                "id": "p-vincent-chettiar",
+                "name": "Vincent Chettiar",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
+            "id": "p-anthony-aranha",
+            "name": "Anthony Aranha",
+            "shortName": "ANTH",
+            "seed": 3,
+            "logo": "🚀",
+            "group": "Group B",
+            "players": [
+              {
+                "id": "p-anthony-aranha",
+                "name": "Anthony Aranha",
+                "role": "PLAYER"
+              }
+            ]
+          },
+          {
+            "id": "p-nigel-moriera",
+            "name": "Nigel Moriera",
+            "shortName": "NIGE",
+            "seed": 4,
+            "logo": "👤",
+            "group": "Group B",
+            "players": [
+              {
+                "id": "p-nigel-moriera",
+                "name": "Nigel Moriera",
+                "role": "PLAYER"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "teams": [
+      {
+        "id": "p-fr-kenneth-pinto",
+        "name": "Fr. Kenneth Pinto",
+        "shortName": "FR.",
+        "seed": 1,
+        "logo": "🎯",
+        "group": "Group A",
+        "players": [
+          {
+            "id": "p-fr-kenneth-pinto",
+            "name": "Fr. Kenneth Pinto",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-sunborn-perrira",
+        "name": "Sunborn Perrira",
+        "shortName": "SUNB",
+        "seed": 2,
+        "logo": "🏅",
+        "group": "Group A",
+        "players": [
+          {
+            "id": "p-sunborn-perrira",
+            "name": "Sunborn Perrira",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-james-louis",
+        "name": "James Louis",
+        "shortName": "JAME",
+        "seed": 3,
+        "logo": "⚡",
+        "group": "Group A",
+        "players": [
+          {
+            "id": "p-james-louis",
+            "name": "James Louis",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-gerald-rodrigues",
+        "name": "Gerald Rodrigues",
+        "shortName": "GERA",
+        "seed": 4,
+        "logo": "🌟",
+        "group": "Group A",
+        "players": [
+          {
+            "id": "p-gerald-rodrigues",
+            "name": "Gerald Rodrigues",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-malcolm-corria",
+        "name": "Malcolm Corria",
+        "shortName": "MALC",
+        "seed": 1,
+        "logo": "🛡️",
+        "group": "Group B",
+        "players": [
+          {
+            "id": "p-malcolm-corria",
+            "name": "Malcolm Corria",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-vincent-chettiar",
+        "name": "Vincent Chettiar",
+        "shortName": "VINC",
+        "seed": 2,
+        "logo": "🔥",
+        "group": "Group B",
+        "players": [
+          {
+            "id": "p-vincent-chettiar",
+            "name": "Vincent Chettiar",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-anthony-aranha",
+        "name": "Anthony Aranha",
+        "shortName": "ANTH",
+        "seed": 3,
+        "logo": "🚀",
+        "group": "Group B",
+        "players": [
+          {
+            "id": "p-anthony-aranha",
+            "name": "Anthony Aranha",
+            "role": "PLAYER"
+          }
+        ]
+      },
+      {
+        "id": "p-nigel-moriera",
+        "name": "Nigel Moriera",
+        "shortName": "NIGE",
+        "seed": 4,
+        "logo": "👤",
+        "group": "Group B",
+        "players": [
+          {
+            "id": "p-nigel-moriera",
+            "name": "Nigel Moriera",
+            "role": "PLAYER"
+          }
+        ]
+      }
+    ],
+    "matches": [
+      {
+        "id": "TT-A-R2-M1",
+        "round": 2,
+        "roundName": "Group A Round 2",
+        "stageName": "Group A Round 2",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-fr-kenneth-pinto",
+        "teamBId": "p-james-louis",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:00",
+        "startTime": "08:00",
+        "endTime": "08:07",
+        "venue": "Ground Floor",
+        "court": "Table 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "TT-B-R1-M1",
+        "round": 1,
+        "roundName": "Group B Round 1",
+        "stageName": "Group B Round 1",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-malcolm-corria",
+        "teamBId": "p-nigel-moriera",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:08",
+        "startTime": "08:08",
+        "endTime": "08:15",
+        "venue": "Ground Floor",
+        "court": "Table 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "TT-B-R2-M2",
+        "round": 2,
+        "roundName": "Group B Round 2",
+        "stageName": "Group B Round 2",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-nigel-moriera",
+        "teamBId": "p-vincent-chettiar",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:16",
+        "startTime": "08:16",
+        "endTime": "08:23",
+        "venue": "Ground Floor",
+        "court": "Table 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "TT-B-R3-M1",
+        "round": 3,
+        "roundName": "Group B Round 3",
+        "stageName": "Group B Round 3",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-malcolm-corria",
+        "teamBId": "p-vincent-chettiar",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:24",
+        "startTime": "08:24",
+        "endTime": "08:31",
+        "venue": "Ground Floor",
+        "court": "Table 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "TT-A-R1-M1",
+        "round": 1,
+        "roundName": "Group A Round 1",
+        "stageName": "Group A Round 1",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-fr-kenneth-pinto",
+        "teamBId": "p-gerald-rodrigues",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:32",
+        "startTime": "08:32",
+        "endTime": "08:39",
+        "venue": "Ground Floor",
+        "court": "Table 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "TT-B-R1-M2",
+        "round": 1,
+        "roundName": "Group B Round 1",
+        "stageName": "Group B Round 1",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-vincent-chettiar",
+        "teamBId": "p-anthony-aranha",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 08:53",
+        "startTime": "08:53",
+        "endTime": "09:00",
+        "venue": "Ground Floor",
+        "court": "Table 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "TT-B-R2-M1",
+        "round": 2,
+        "roundName": "Group B Round 2",
+        "stageName": "Group B Round 2",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-malcolm-corria",
+        "teamBId": "p-anthony-aranha",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:01",
+        "startTime": "09:01",
+        "endTime": "09:08",
+        "venue": "Ground Floor",
+        "court": "Table 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "TT-A-R3-M1",
+        "round": 3,
+        "roundName": "Group A Round 3",
+        "stageName": "Group A Round 3",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-fr-kenneth-pinto",
+        "teamBId": "p-sunborn-perrira",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:09",
+        "startTime": "09:09",
+        "endTime": "09:16",
+        "venue": "Ground Floor",
+        "court": "Table 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "TT-A-R1-M2",
+        "round": 1,
+        "roundName": "Group A Round 1",
+        "stageName": "Group A Round 1",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-sunborn-perrira",
+        "teamBId": "p-james-louis",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:17",
+        "startTime": "09:17",
+        "endTime": "09:24",
+        "venue": "Ground Floor",
+        "court": "Table 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "TT-B-R3-M2",
+        "round": 3,
+        "roundName": "Group B Round 3",
+        "stageName": "Group B Round 3",
+        "groupId": "grp-b",
+        "groupName": "Group B",
+        "teamAId": "p-anthony-aranha",
+        "teamBId": "p-nigel-moriera",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:25",
+        "startTime": "09:25",
+        "endTime": "09:32",
+        "venue": "Ground Floor",
+        "court": "Table 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "TT-A-R2-M2",
+        "round": 2,
+        "roundName": "Group A Round 2",
+        "stageName": "Group A Round 2",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-gerald-rodrigues",
+        "teamBId": "p-sunborn-perrira",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:33",
+        "startTime": "09:33",
+        "endTime": "09:40",
+        "venue": "Ground Floor",
+        "court": "Table 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "TT-A-R3-M2",
+        "round": 3,
+        "roundName": "Group A Round 3",
+        "stageName": "Group A Round 3",
+        "groupId": "grp-a",
+        "groupName": "Group A",
+        "teamAId": "p-james-louis",
+        "teamBId": "p-gerald-rodrigues",
+        "placeholderA": null,
+        "placeholderB": null,
+        "scoreA": 0,
+        "scoreB": 0,
+        "status": "SCHEDULED",
+        "winnerId": null,
+        "scheduledAt": "2026-11-07 09:41",
+        "startTime": "09:41",
+        "endTime": "09:48",
+        "venue": "Ground Floor",
+        "court": "Table 1",
+        "duration": "7 mins"
+      },
+      {
+        "id": "TT-Semi1",
+        "round": 2,
+        "roundName": "Semifinal",
+        "stageName": "Semifinal",
+        "groupId": "PLAYOFFS",
+        "groupName": "Knockout Playoffs",
+        "teamAId": null,
+        "teamBId": null,
         "placeholderA": "Winner Group A",
         "placeholderB": "Runner-up Group B",
         "scoreA": 0,
         "scoreB": 0,
         "status": "SCHEDULED",
         "winnerId": null,
-        "nextMatchId": "dm-po-final",
-        "nextMatchSlot": "A",
-        "scheduledAt": "2026-11-20 16:00",
-        "venue": "Parish Main Turf"
+        "scheduledAt": "2026-11-07 09:49",
+        "startTime": "09:49",
+        "endTime": "09:56",
+        "venue": "Ground Floor",
+        "court": "Table 1",
+        "duration": "7 mins"
       },
       {
-        "id": "dm-po-sf2",
-        "round": 1,
-        "roundName": "Semi-Final 2",
-        "stageName": "Playoff Semi-Finals",
+        "id": "TT-Semi2",
+        "round": 2,
+        "roundName": "Semifinal",
+        "stageName": "Semifinal",
         "groupId": "PLAYOFFS",
-        "teamAId": "tm-b1",
-        "teamBId": "tm-a4",
+        "groupName": "Knockout Playoffs",
+        "teamAId": null,
+        "teamBId": null,
         "placeholderA": "Winner Group B",
         "placeholderB": "Runner-up Group A",
         "scoreA": 0,
         "scoreB": 0,
         "status": "SCHEDULED",
         "winnerId": null,
-        "nextMatchId": "dm-po-final",
-        "nextMatchSlot": "B",
-        "scheduledAt": "2026-11-20 17:30",
-        "venue": "Parish Main Turf"
+        "scheduledAt": "2026-11-07 09:57",
+        "startTime": "09:57",
+        "endTime": "10:04",
+        "venue": "Ground Floor",
+        "court": "Table 1",
+        "duration": "7 mins"
       },
       {
-        "id": "dm-po-final",
-        "round": 2,
-        "roundName": "Championship Final",
-        "stageName": "Championship Final",
+        "id": "TT-Final",
+        "round": 3,
+        "roundName": "Final",
+        "stageName": "Final",
         "groupId": "PLAYOFFS",
+        "groupName": "Knockout Playoffs",
         "teamAId": null,
         "teamBId": null,
-        "placeholderA": "Winner Semi-Final 1",
-        "placeholderB": "Winner Semi-Final 2",
+        "placeholderA": "Winner Semi 1",
+        "placeholderB": "Winner Semi 2",
         "scoreA": 0,
         "scoreB": 0,
         "status": "SCHEDULED",
         "winnerId": null,
-        "nextMatchId": null,
-        "nextMatchSlot": null,
-        "scheduledAt": "2026-11-22 18:00",
-        "venue": "Parish Main Turf"
-      }
-    ]
-  },
-  {
-    "id": "dm-youth-basketball-2026",
-    "title": "Divine Mercy Youth Basketball Trophy",
-    "sport": "Basketball",
-    "sportIcon": "🏀",
-    "scoreUnit": "Points",
-    "participantType": "TEAM",
-    "bannerUrl": "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80",
-    "format": "ROUND_ROBIN",
-    "status": "LIVE",
-    "startDate": "2026-11-10",
-    "endDate": "2026-11-25",
-    "location": "Parish Indoor Court",
-    "organizer": "Divine Mercy Church",
-    "description": "5 teams compete in a round-robin league format. Top 2 teams advance to the Super Cup.",
-    "pointsConfig": {
-      "win": 2,
-      "draw": 0,
-      "loss": 1,
-      "showForm": true,
-      "showGoalDiff": true,
-      "customRules": [
-        {
-          "id": "ot-win",
-          "title": "Overtime Win",
-          "value": "2 pts"
-        }
-      ]
-    },
-    "teams": [
-      {
-        "id": "bb-1",
-        "name": "Mercy Sparks",
-        "shortName": "MSP",
-        "seed": 1,
-        "logo": "⚡"
-      },
-      {
-        "id": "bb-2",
-        "name": "Divine Dunkers",
-        "shortName": "DDK",
-        "seed": 2,
-        "logo": "🔥"
-      },
-      {
-        "id": "bb-3",
-        "name": "Hoopers Club",
-        "shortName": "HPC",
-        "seed": 3,
-        "logo": "🛡️"
-      },
-      {
-        "id": "bb-4",
-        "name": "Crusaders",
-        "shortName": "CRU",
-        "seed": 4,
-        "logo": "⚔️"
-      },
-      {
-        "id": "bb-5",
-        "name": "Warriors",
-        "shortName": "WAR",
-        "seed": 5,
-        "logo": "🦅"
-      }
-    ],
-    "rules": [
-      {
-        "id": "brule-1",
-        "title": "Match Timing",
-        "category": "Gameplay",
-        "content": "4 quarters of 10 minutes running clock. Clock stops for timeouts and in the last 2 minutes."
-      },
-      {
-        "id": "brule-2",
-        "title": "League Points",
-        "category": "Scoring",
-        "content": "Win = 2 Points, Loss = 1 Point. Head-to-head record breaks ties."
-      }
-    ],
-    "matches": [
-      {
-        "id": "bb-m-1",
-        "round": 1,
-        "roundName": "Week 1",
-        "stageName": "League Stage",
-        "teamAId": "bb-1",
-        "teamBId": "bb-2",
-        "scoreA": 64,
-        "scoreB": 58,
-        "status": "COMPLETED",
-        "winnerId": "bb-1",
-        "scheduledAt": "2026-11-10 17:00",
-        "venue": "Parish Indoor Court"
-      },
-      {
-        "id": "bb-m-2",
-        "round": 1,
-        "roundName": "Week 1",
-        "stageName": "League Stage",
-        "teamAId": "bb-3",
-        "teamBId": "bb-4",
-        "scoreA": 52,
-        "scoreB": 50,
-        "status": "COMPLETED",
-        "winnerId": "bb-3",
-        "scheduledAt": "2026-11-10 18:30",
-        "venue": "Parish Indoor Court"
-      },
-      {
-        "id": "bb-m-3",
-        "round": 2,
-        "roundName": "Week 2",
-        "stageName": "League Stage",
-        "teamAId": "bb-5",
-        "teamBId": "bb-1",
-        "scoreA": 48,
-        "scoreB": 55,
-        "status": "COMPLETED",
-        "winnerId": "bb-1",
-        "scheduledAt": "2026-11-14 17:00",
-        "venue": "Parish Indoor Court"
-      },
-      {
-        "id": "bb-m-4",
-        "round": 2,
-        "roundName": "Week 2",
-        "stageName": "League Stage",
-        "teamAId": "bb-2",
-        "teamBId": "bb-3",
-        "scoreA": 41,
-        "scoreB": 39,
-        "status": "LIVE",
-        "winnerId": null,
-        "scheduledAt": "2026-11-14 18:30",
-        "venue": "Parish Indoor Court"
-      }
-    ]
-  },
-  {
-    "id": "dm-cricket-2026",
-    "title": "Divine Mercy Cricket Trophy",
-    "sport": "Cricket",
-    "sportIcon": "🏏",
-    "scoreUnit": "Runs",
-    "participantType": "TEAM",
-    "bannerUrl": "https://images.unsplash.com/photo-1531415074868-036b107e775a?auto=format&fit=crop&w=1200&q=80",
-    "format": "KNOCKOUT",
-    "status": "UPCOMING",
-    "startDate": "2026-11-28",
-    "endDate": "2026-11-29",
-    "location": "Parish Open Grounds",
-    "organizer": "Divine Mercy Church",
-    "description": "4-team knockout cricket tournament with explosive 8-over matches.",
-    "pointsConfig": {
-      "win": 2,
-      "draw": 1,
-      "loss": 0,
-      "showForm": true,
-      "showGoalDiff": true,
-      "customRules": [
-        {
-          "id": "nrr",
-          "title": "Tie-Breaker",
-          "value": "Super Over"
-        }
-      ]
-    },
-    "teams": [
-      {
-        "id": "cr-1",
-        "name": "Royal Kings",
-        "shortName": "RK",
-        "seed": 1,
-        "logo": "👑"
-      },
-      {
-        "id": "cr-2",
-        "name": "Brave Lions",
-        "shortName": "BL",
-        "seed": 2,
-        "logo": "🦁"
-      },
-      {
-        "id": "cr-3",
-        "name": "Knights",
-        "shortName": "KT",
-        "seed": 3,
-        "logo": "🛡️"
-      },
-      {
-        "id": "cr-4",
-        "name": "Archers",
-        "shortName": "AR",
-        "seed": 4,
-        "logo": "🏹"
-      }
-    ],
-    "rules": [
-      {
-        "id": "crule-1",
-        "title": "Match Format",
-        "category": "Gameplay",
-        "content": "8 overs per side. Maximum 2 overs per bowler. 2 overs powerplay."
-      },
-      {
-        "id": "crule-2",
-        "title": "Super Over",
-        "category": "Tie-Breaker",
-        "content": "1-over shootout (Super Over) applies if scores are tied."
-      }
-    ],
-    "matches": [
-      {
-        "id": "dm-cr-sf1",
-        "round": 1,
-        "roundName": "Semi-Final 1",
-        "stageName": "Semi-Finals",
-        "teamAId": "cr-1",
-        "teamBId": "cr-4",
-        "scoreA": 0,
-        "scoreB": 0,
-        "status": "SCHEDULED",
-        "winnerId": null,
-        "nextMatchId": "dm-cr-fn",
-        "nextMatchSlot": "A",
-        "scheduledAt": "2026-11-28 09:30",
-        "venue": "Pitch 1"
-      },
-      {
-        "id": "dm-cr-sf2",
-        "round": 1,
-        "roundName": "Semi-Final 2",
-        "stageName": "Semi-Finals",
-        "teamAId": "cr-2",
-        "teamBId": "cr-3",
-        "scoreA": 0,
-        "scoreB": 0,
-        "status": "SCHEDULED",
-        "winnerId": null,
-        "nextMatchId": "dm-cr-fn",
-        "nextMatchSlot": "B",
-        "scheduledAt": "2026-11-28 11:30",
-        "venue": "Pitch 1"
-      },
-      {
-        "id": "dm-cr-fn",
-        "round": 2,
-        "roundName": "Grand Final",
-        "stageName": "Final",
-        "teamAId": null,
-        "teamBId": null,
-        "scoreA": 0,
-        "scoreB": 0,
-        "status": "SCHEDULED",
-        "winnerId": null,
-        "nextMatchId": null,
-        "nextMatchSlot": null,
-        "scheduledAt": "2026-11-29 15:00",
-        "venue": "Main Ground"
-      }
-    ]
-  },
-  {
-    "id": "dm-badminton-singles-2026",
-    "title": "Divine Mercy Badminton Singles Championship",
-    "sport": "Badminton",
-    "sportIcon": "🏸",
-    "scoreUnit": "Points",
-    "participantType": "INDIVIDUAL",
-    "bannerUrl": "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1200&q=80",
-    "format": "KNOCKOUT",
-    "status": "UPCOMING",
-    "startDate": "2026-12-05",
-    "endDate": "2026-12-06",
-    "location": "Parish Badminton Indoor Arena",
-    "organizer": "Divine Mercy Church",
-    "description": "Individual parish singles knockout championship. Best of 3 sets to 21 points.",
-    "pointsConfig": {
-      "win": 2,
-      "draw": 0,
-      "loss": 0,
-      "showForm": true,
-      "showGoalDiff": true,
-      "customRules": []
-    },
-    "teams": [
-      {
-        "id": "pl-1",
-        "name": "David Fernandes",
-        "shortName": "DAV",
-        "seed": 1,
-        "logo": "👤",
-        "players": []
-      },
-      {
-        "id": "pl-2",
-        "name": "Kevin D'Souza",
-        "shortName": "KEV",
-        "seed": 2,
-        "logo": "👤",
-        "players": []
-      },
-      {
-        "id": "pl-3",
-        "name": "Luke D'Silva",
-        "shortName": "LUK",
-        "seed": 3,
-        "logo": "👤",
-        "players": []
-      },
-      {
-        "id": "pl-4",
-        "name": "Brian Sequeira",
-        "shortName": "BRI",
-        "seed": 4,
-        "logo": "👤",
-        "players": []
-      }
-    ],
-    "rules": [
-      {
-        "id": "bm-rule-1",
-        "title": "Match Scoring",
-        "category": "Gameplay",
-        "content": "Best of 3 games of 21 points each. Rally point scoring system applies."
-      }
-    ],
-    "matches": [
-      {
-        "id": "dm-bm-sf1",
-        "round": 1,
-        "roundName": "Semi-Final 1",
-        "stageName": "Semi-Finals",
-        "teamAId": "pl-1",
-        "teamBId": "pl-4",
-        "scoreA": 0,
-        "scoreB": 0,
-        "status": "SCHEDULED",
-        "winnerId": null,
-        "nextMatchId": "dm-bm-fn",
-        "nextMatchSlot": "A",
-        "scheduledAt": "2026-12-05 16:00",
-        "venue": "Court 1"
-      },
-      {
-        "id": "dm-bm-sf2",
-        "round": 1,
-        "roundName": "Semi-Final 2",
-        "stageName": "Semi-Finals",
-        "teamAId": "pl-2",
-        "teamBId": "pl-3",
-        "scoreA": 0,
-        "scoreB": 0,
-        "status": "SCHEDULED",
-        "winnerId": null,
-        "nextMatchId": "dm-bm-fn",
-        "nextMatchSlot": "B",
-        "scheduledAt": "2026-12-05 17:00",
-        "venue": "Court 1"
-      },
-      {
-        "id": "dm-bm-fn",
-        "round": 2,
-        "roundName": "Championship Final",
-        "stageName": "Final",
-        "teamAId": null,
-        "teamBId": null,
-        "scoreA": 0,
-        "scoreB": 0,
-        "status": "SCHEDULED",
-        "winnerId": null,
-        "nextMatchId": null,
-        "nextMatchSlot": null,
-        "scheduledAt": "2026-12-06 18:00",
-        "venue": "Court 1"
+        "scheduledAt": "2026-11-07 10:05",
+        "startTime": "10:05",
+        "endTime": "10:12",
+        "venue": "Ground Floor",
+        "court": "Table 1",
+        "duration": "7 mins"
       }
     ]
   }

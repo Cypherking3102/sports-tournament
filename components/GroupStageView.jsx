@@ -408,20 +408,19 @@ export default function GroupStageView({ tournament, onEditMatch, onAddMatch, is
                         </div>
                       </div>
 
-                      {/* Venue, Official & Lineup notes (only if present) */}
-                      {(m.venue || m.official || m.duration) && (
-                        <div className="mt-2.5 pt-2 border-t border-slate-800/60 flex flex-wrap items-center justify-between text-[11px] text-slate-400 gap-1.5">
+                      {/* Venue, Court & Duration (No referee) */}
+                      {(m.venue || m.court || m.duration) && (
+                        <div className="mt-2.5 pt-2 border-t border-slate-800/60 flex flex-wrap items-center justify-between text-[11px] text-slate-400 gap-1.5 font-mono">
                           <div className="flex items-center space-x-2 truncate">
                             {m.venue && (
                               <span className="flex items-center space-x-1">
-                                <MapPin className="w-3 h-3 text-blue-400" />
+                                <MapPin className="w-3 h-3 text-slate-500" />
                                 <span>{m.venue}</span>
                               </span>
                             )}
-                            {m.official && (
-                              <span className="flex items-center space-x-1 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
-                                <Award className="w-3 h-3 text-amber-400" />
-                                <span>Ref: {m.official}</span>
+                            {m.court && (
+                              <span className="text-[10px] text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 font-bold">
+                                {m.court}
                               </span>
                             )}
                           </div>
@@ -429,7 +428,7 @@ export default function GroupStageView({ tournament, onEditMatch, onAddMatch, is
                           {isAdmin && (
                             <button
                               onClick={() => onEditMatch && onEditMatch(m)}
-                              className="flex items-center space-x-1 text-xs text-blue-400 hover:text-blue-300 font-bold ml-auto"
+                              className="flex items-center space-x-1 text-xs text-blue-400 hover:text-blue-300 font-bold ml-auto font-sans"
                             >
                               <Edit3 className="w-3.5 h-3.5" />
                               <span>Update Score</span>
@@ -438,7 +437,7 @@ export default function GroupStageView({ tournament, onEditMatch, onAddMatch, is
                         </div>
                       )}
 
-                      {!m.venue && !m.official && !m.duration && isAdmin && (
+                      {!m.venue && !m.court && !m.duration && isAdmin && (
                         <div className="mt-2.5 pt-2 border-t border-slate-800/60 flex justify-end">
                           <button
                             onClick={() => onEditMatch && onEditMatch(m)}

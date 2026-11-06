@@ -93,50 +93,51 @@ export default function HomePage() {
     }
   };
 
-  const sportsList = ["ALL", "Football", "Basketball", "Cricket"];
+  const sportsList = ["ALL", "Carrom", "Chess", "Table Tennis"];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-8">
-      {/* Clean, Minimal Hero Banner (No bulky top descriptions) */}
+      {/* Clean, Minimal Hero Banner */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900 to-blue-950/40 border border-slate-800 p-6 sm:p-8 shadow-xl">
         <div className="relative z-10 max-w-2xl space-y-3">
           <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider">
             <Award className="w-3.5 h-3.5" />
-            <span>Divine Mercy Sports</span>
+            <span>Divine Mercy Church • Saturday 7th November 2026</span>
           </div>
 
           <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white leading-tight">
-            Parish Tournaments & <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-emerald-400 bg-clip-text text-transparent">Live Brackets</span>
+            Parish Sports Day & <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-emerald-400 bg-clip-text text-transparent">Live Brackets</span>
           </h1>
 
-          <div className="flex flex-wrap items-center gap-3 pt-1">
-            {isAdmin ? (
-              <>
-                <Link
-                  href="/admin/new"
-                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-xs sm:text-sm px-5 py-2.5 rounded-2xl transition-all shadow-md shadow-blue-500/20"
-                >
-                  <PlusCircle className="w-4 h-4" />
-                  <span>Create Tournament</span>
-                </Link>
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-xl">
+            Official tournaments for <strong>Carrom</strong>, <strong>Chess</strong>, and <strong>Table Tennis</strong>. View groups, live scores, championship brackets, or search your individual game times.
+          </p>
 
-                <button
-                  onClick={handleResetData}
-                  className="inline-flex items-center space-x-1.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-slate-200 text-xs px-3.5 py-2.5 rounded-2xl transition-all"
-                  title="Reset sample data"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                  <span>Reset Demos</span>
-                </button>
-              </>
-            ) : (
-              <a
-                href="#active-tournaments"
-                className="inline-flex items-center space-x-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-2xl transition-all shadow-md shadow-blue-500/20"
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <Link
+              href="/schedule"
+              className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white font-extrabold text-xs sm:text-sm px-5 py-2.5 rounded-2xl transition-all shadow-lg shadow-blue-500/25"
+            >
+              <Calendar className="w-4 h-4" />
+              <span>Find Your Match (By Name)</span>
+            </Link>
+
+            <a
+              href="#active-tournaments"
+              className="inline-flex items-center space-x-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-2xl transition-all"
+            >
+              <span>View Tournaments</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+
+            {isAdmin && (
+              <Link
+                href="/admin/new"
+                className="inline-flex items-center space-x-1.5 bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 font-bold text-xs px-3.5 py-2.5 rounded-2xl transition-all"
               >
-                <span>View Live Brackets</span>
-                <ArrowRight className="w-4 h-4" />
-              </a>
+                <PlusCircle className="w-4 h-4" />
+                <span>+ New</span>
+              </Link>
             )}
           </div>
         </div>

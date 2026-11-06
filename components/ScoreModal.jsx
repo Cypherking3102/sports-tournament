@@ -395,22 +395,22 @@ export default function ScoreModal({ match, tournament, onClose, onSave }) {
 
               <div className="grid grid-cols-2 gap-2 pt-1 border-t border-slate-800">
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-1">Referee (Optional)</label>
+                  <label className="text-[11px] text-slate-400 block mb-1">Board / Table / Court</label>
                   <input
                     type="text"
                     value={official}
                     onChange={(e) => setOfficial(e.target.value)}
-                    placeholder="Optional referee"
+                    placeholder="e.g. Board 1 / Table 1"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-400"
                   />
                 </div>
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-1">Duration (Optional)</label>
+                  <label className="text-[11px] text-slate-400 block mb-1">Match Duration</label>
                   <input
                     type="text"
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
-                    placeholder="Optional duration"
+                    placeholder="e.g. 7 mins / 10 mins"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-400"
                   />
                 </div>

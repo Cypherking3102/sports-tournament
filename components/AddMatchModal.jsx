@@ -347,19 +347,19 @@ export default function AddMatchModal({ tournament, onClose, onMatchAdded }) {
           <div className="space-y-3 pt-2 border-t border-slate-800">
             <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center space-x-1.5">
               <Award className="w-3.5 h-3.5 text-blue-400" />
-              <span>Officials & Match Info (Optional)</span>
+              <span>Court / Board & Duration (Optional)</span>
             </span>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="text-[11px] text-slate-400 block mb-1 font-medium">
-                  Referee / Official (Optional)
+                  Board / Table / Court (Optional)
                 </label>
                 <input
                   type="text"
                   value={official}
                   onChange={(e) => setOfficial(e.target.value)}
-                  placeholder="Optional (e.g. Fr. Jude / John D'Souza)"
+                  placeholder="e.g. Board 1, Table 1"
                   className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
                 />
               </div>
@@ -372,7 +372,7 @@ export default function AddMatchModal({ tournament, onClose, onMatchAdded }) {
                   type="text"
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
-                  placeholder="Optional (e.g. 20 mins / 2 halves)"
+                  placeholder="e.g. 7 mins / 10 mins"
                   className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
                 />
               </div>

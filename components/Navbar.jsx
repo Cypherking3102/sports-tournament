@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Trophy, Shield, PlusCircle, Compass, Menu, X, LogOut, Lock } from "lucide-react";
+import { Trophy, Shield, PlusCircle, Compass, Menu, X, LogOut, Lock, Calendar } from "lucide-react";
 
 export default function Navbar() {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -81,6 +81,14 @@ export default function Navbar() {
               <span>Tournaments</span>
             </Link>
 
+            <Link
+              href="/schedule"
+              className="flex items-center space-x-1.5 text-blue-400 hover:text-blue-300 font-semibold transition-colors"
+            >
+              <Calendar className="w-4 h-4 text-blue-400" />
+              <span>Find Your Match</span>
+            </Link>
+
             {/* Admin-only Tournament Creation Link */}
             {isAdmin && (
               <Link
@@ -142,6 +150,15 @@ export default function Navbar() {
             >
               <Compass className="w-4 h-4 text-blue-400" />
               <span>Browse Tournaments</span>
+            </Link>
+
+            <Link
+              href="/schedule"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center space-x-2.5 text-blue-400 py-2 font-semibold"
+            >
+              <Calendar className="w-4 h-4 text-blue-400" />
+              <span>Find Your Match</span>
             </Link>
 
             {/* Admin only option on mobile */}
@@ -210,7 +227,7 @@ export default function Navbar() {
                   type="password"
                   value={passkey}
                   onChange={(e) => setPasskey(e.target.value)}
-                  placeholder="Default: admin123"
+                  placeholder="Enter Admin Passkey"
                   className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-blue-400 text-sm"
                   autoFocus
                 />
@@ -234,7 +251,7 @@ export default function Navbar() {
                 </button>
               </div>
               <p className="text-[11px] text-slate-500 text-center">
-                Default passkey: <span className="font-mono text-slate-300">admin123</span>
+                Authorized Parish Organizers Only
               </p>
             </form>
           </div>

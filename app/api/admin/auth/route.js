@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
   try {
     const { passkey } = await request.json();
-    const ADMIN_PASSKEY = process.env.ADMIN_PASSKEY || "admin123";
+    const ADMIN_PASSKEY = process.env.ADMIN_PASSKEY || "dmcadmin098";
 
     if (passkey === ADMIN_PASSKEY) {
       return NextResponse.json({
@@ -14,7 +14,7 @@ export async function POST(request) {
     }
 
     return NextResponse.json(
-      { authenticated: false, error: "Invalid Admin Passkey. Default is: admin123" },
+      { authenticated: false, error: "Invalid Admin Passkey. Please try again." },
       { status: 401 }
     );
   } catch (error) {
