@@ -120,6 +120,7 @@ export default function PointsTable({
                 {standings.map((row, index) => {
                   const teamObj = row.team;
                   const captain = getCaptain(teamObj);
+                  const captName = typeof captain === "object" ? captain?.name : captain;
                   const playersList = normalizePlayers(teamObj?.players);
 
                   return (
@@ -154,10 +155,10 @@ export default function PointsTable({
                             </span>
                             {!isIndividual && (
                               <div className="flex items-center space-x-2 mt-0.5">
-                                {captain && (
+                                {captName && (
                                   <span className="text-[10px] text-amber-400 font-medium flex items-center space-x-1">
                                     <Star className="w-2.5 h-2.5 fill-amber-400" />
-                                    <span>Capt: {captain}</span>
+                                    <span>Capt: {captName}</span>
                                   </span>
                                 )}
                                 {playersList.length > 0 && (
@@ -167,7 +168,7 @@ export default function PointsTable({
                                       setSelectedTeamRoster({
                                         name: teamObj.name,
                                         logo: teamObj.logo,
-                                        captain,
+                                        captain: captName,
                                         players: playersList
                                       })
                                     }
@@ -280,6 +281,8 @@ export default function PointsTable({
               const teamB = teamMap[m.teamBId];
               const captA = getCaptain(teamA);
               const captB = getCaptain(teamB);
+              const captAName = typeof captA === "object" ? captA?.name : captA;
+              const captBName = typeof captB === "object" ? captB?.name : captB;
               const isCompleted = m.status === "COMPLETED";
               const isLive = m.status === "LIVE";
               const winnerIsA = isCompleted && m.winnerId === m.teamAId;
@@ -341,9 +344,9 @@ export default function PointsTable({
                         >
                           {teamA?.name || m.placeholderA || "TBD"}
                         </span>
-                        {captA && (
+                        {!isIndividual && captAName && (
                           <span className="text-[10px] text-amber-400 font-medium">
-                            Capt: {captA}
+                            Capt: {captAName}
                           </span>
                         )}
                       </div>
@@ -379,9 +382,9 @@ export default function PointsTable({
                         >
                           {teamB?.name || m.placeholderB || "TBD"}
                         </span>
-                        {captB && (
+                        {!isIndividual && captBName && (
                           <span className="text-[10px] text-amber-400 font-medium">
-                            Capt: {captB}
+                            Capt: {captBName}
                           </span>
                         )}
                       </div>

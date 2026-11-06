@@ -8,6 +8,8 @@ export default function GroupMatchCard({ match: m, teamMap, isAdmin, onEditMatch
   const teamB = teamMap[m.teamBId];
   const captA = getCaptain(teamA);
   const captB = getCaptain(teamB);
+  const captNameA = typeof captA === "object" ? captA?.name : captA;
+  const captNameB = typeof captB === "object" ? captB?.name : captB;
   const isCompleted = m.status === "COMPLETED";
   const isLive = m.status === "LIVE";
 
@@ -75,9 +77,9 @@ export default function GroupMatchCard({ match: m, teamMap, isAdmin, onEditMatch
               <span className="text-xs truncate block text-slate-200">
                 {teamA ? teamA.name : m.placeholderA || "TBD"}
               </span>
-              {captA && (
+              {captNameA && (
                 <span className="text-[10px] text-slate-500 block">
-                  Capt: {captA.name}
+                  Capt: {captNameA}
                 </span>
               )}
             </div>
@@ -111,9 +113,9 @@ export default function GroupMatchCard({ match: m, teamMap, isAdmin, onEditMatch
               <span className="text-xs truncate block text-slate-200">
                 {teamB ? teamB.name : m.placeholderB || "TBD"}
               </span>
-              {captB && (
+              {captNameB && (
                 <span className="text-[10px] text-slate-500 block">
-                  Capt: {captB.name}
+                  Capt: {captNameB}
                 </span>
               )}
             </div>

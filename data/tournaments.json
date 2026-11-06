@@ -1851,7 +1851,779 @@
         "court": "Board 1",
         "duration": "7 mins"
       }
-    ]
+    ],
+    "standings": null,
+    "groupStandings": {
+      "grp-a": {
+        "group": {
+          "id": "grp-a",
+          "name": "Group A",
+          "teams": [
+            {
+              "id": "p-nelson-fernandes",
+              "name": "Nelson Fernandes",
+              "shortName": "NELS",
+              "seed": 1,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-nelson-fernandes",
+                  "name": "Nelson Fernandes",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-alphonso-menezes",
+              "name": "Alphonso Menezes",
+              "shortName": "ALPH",
+              "seed": 2,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-alphonso-menezes",
+                  "name": "Alphonso Menezes",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-amal-lancelot",
+              "name": "Amal lancelot",
+              "shortName": "AMAL",
+              "seed": 3,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-amal-lancelot",
+                  "name": "Amal lancelot",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-lawrence-rodrigues",
+              "name": "Lawrence Rodrigues",
+              "shortName": "LAWR",
+              "seed": 4,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-lawrence-rodrigues",
+                  "name": "Lawrence Rodrigues",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-colet-coelho",
+              "name": "Colet Coelho",
+              "shortName": "COLE",
+              "seed": 5,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-colet-coelho",
+                  "name": "Colet Coelho",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-anthony-aranha",
+              "name": "Anthony Aranha",
+              "shortName": "ANTH",
+              "seed": 6,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-anthony-aranha",
+                  "name": "Anthony Aranha",
+                  "role": "PLAYER"
+                }
+              ]
+            }
+          ]
+        },
+        "standings": [
+          {
+            "team": {
+              "id": "p-alphonso-menezes",
+              "name": "Alphonso Menezes",
+              "shortName": "ALPH",
+              "seed": 2,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-alphonso-menezes",
+                  "name": "Alphonso Menezes",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-amal-lancelot",
+              "name": "Amal lancelot",
+              "shortName": "AMAL",
+              "seed": 3,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-amal-lancelot",
+                  "name": "Amal lancelot",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-anthony-aranha",
+              "name": "Anthony Aranha",
+              "shortName": "ANTH",
+              "seed": 6,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-anthony-aranha",
+                  "name": "Anthony Aranha",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-colet-coelho",
+              "name": "Colet Coelho",
+              "shortName": "COLE",
+              "seed": 5,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-colet-coelho",
+                  "name": "Colet Coelho",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-lawrence-rodrigues",
+              "name": "Lawrence Rodrigues",
+              "shortName": "LAWR",
+              "seed": 4,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-lawrence-rodrigues",
+                  "name": "Lawrence Rodrigues",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-nelson-fernandes",
+              "name": "Nelson Fernandes",
+              "shortName": "NELS",
+              "seed": 1,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-nelson-fernandes",
+                  "name": "Nelson Fernandes",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          }
+        ]
+      },
+      "grp-b": {
+        "group": {
+          "id": "grp-b",
+          "name": "Group B",
+          "teams": [
+            {
+              "id": "p-rosslin-louis",
+              "name": "Rosslin Louis",
+              "shortName": "ROSS",
+              "seed": 1,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-rosslin-louis",
+                  "name": "Rosslin Louis",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-gerald-rodrigues",
+              "name": "Gerald Rodrigues",
+              "shortName": "GERA",
+              "seed": 2,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-gerald-rodrigues",
+                  "name": "Gerald Rodrigues",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-sunborn-perrira",
+              "name": "Sunborn Perrira",
+              "shortName": "SUNB",
+              "seed": 3,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-sunborn-perrira",
+                  "name": "Sunborn Perrira",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-charlette-sequera",
+              "name": "Charlette Sequera",
+              "shortName": "CHAR",
+              "seed": 4,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-charlette-sequera",
+                  "name": "Charlette Sequera",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-jim-d-souza",
+              "name": "Jim D'souza",
+              "shortName": "JIM",
+              "seed": 5,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-jim-d-souza",
+                  "name": "Jim D'souza",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-james-louis",
+              "name": "James Louis",
+              "shortName": "JAME",
+              "seed": 6,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-james-louis",
+                  "name": "James Louis",
+                  "role": "PLAYER"
+                }
+              ]
+            }
+          ]
+        },
+        "standings": [
+          {
+            "team": {
+              "id": "p-charlette-sequera",
+              "name": "Charlette Sequera",
+              "shortName": "CHAR",
+              "seed": 4,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-charlette-sequera",
+                  "name": "Charlette Sequera",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-gerald-rodrigues",
+              "name": "Gerald Rodrigues",
+              "shortName": "GERA",
+              "seed": 2,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-gerald-rodrigues",
+                  "name": "Gerald Rodrigues",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-james-louis",
+              "name": "James Louis",
+              "shortName": "JAME",
+              "seed": 6,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-james-louis",
+                  "name": "James Louis",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-jim-d-souza",
+              "name": "Jim D'souza",
+              "shortName": "JIM",
+              "seed": 5,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-jim-d-souza",
+                  "name": "Jim D'souza",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-rosslin-louis",
+              "name": "Rosslin Louis",
+              "shortName": "ROSS",
+              "seed": 1,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-rosslin-louis",
+                  "name": "Rosslin Louis",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-sunborn-perrira",
+              "name": "Sunborn Perrira",
+              "shortName": "SUNB",
+              "seed": 3,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-sunborn-perrira",
+                  "name": "Sunborn Perrira",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          }
+        ]
+      },
+      "grp-c": {
+        "group": {
+          "id": "grp-c",
+          "name": "Group C",
+          "teams": [
+            {
+              "id": "p-joseph-rodrigues",
+              "name": "Joseph Rodrigues",
+              "shortName": "JOSE",
+              "seed": 1,
+              "logo": "",
+              "group": "Group C",
+              "players": [
+                {
+                  "id": "p-joseph-rodrigues",
+                  "name": "Joseph Rodrigues",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-florine-fernandes",
+              "name": "Florine Fernandes",
+              "shortName": "FLOR",
+              "seed": 2,
+              "logo": "",
+              "group": "Group C",
+              "players": [
+                {
+                  "id": "p-florine-fernandes",
+                  "name": "Florine Fernandes",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-daniel-danthi",
+              "name": "Daniel Danthi",
+              "shortName": "DANI",
+              "seed": 3,
+              "logo": "",
+              "group": "Group C",
+              "players": [
+                {
+                  "id": "p-daniel-danthi",
+                  "name": "Daniel Danthi",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-patrick-menezes",
+              "name": "Patrick Menezes",
+              "shortName": "PATR",
+              "seed": 4,
+              "logo": "",
+              "group": "Group C",
+              "players": [
+                {
+                  "id": "p-patrick-menezes",
+                  "name": "Patrick Menezes",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-dean-d-souza",
+              "name": "Dean D'souza",
+              "shortName": "DEAN",
+              "seed": 5,
+              "logo": "",
+              "group": "Group C",
+              "players": [
+                {
+                  "id": "p-dean-d-souza",
+                  "name": "Dean D'souza",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-emmanuel-menezes",
+              "name": "Emmanuel Menezes",
+              "shortName": "EMMA",
+              "seed": 6,
+              "logo": "",
+              "group": "Group C",
+              "players": [
+                {
+                  "id": "p-emmanuel-menezes",
+                  "name": "Emmanuel Menezes",
+                  "role": "PLAYER"
+                }
+              ]
+            }
+          ]
+        },
+        "standings": [
+          {
+            "team": {
+              "id": "p-daniel-danthi",
+              "name": "Daniel Danthi",
+              "shortName": "DANI",
+              "seed": 3,
+              "logo": "",
+              "group": "Group C",
+              "players": [
+                {
+                  "id": "p-daniel-danthi",
+                  "name": "Daniel Danthi",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-dean-d-souza",
+              "name": "Dean D'souza",
+              "shortName": "DEAN",
+              "seed": 5,
+              "logo": "",
+              "group": "Group C",
+              "players": [
+                {
+                  "id": "p-dean-d-souza",
+                  "name": "Dean D'souza",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-emmanuel-menezes",
+              "name": "Emmanuel Menezes",
+              "shortName": "EMMA",
+              "seed": 6,
+              "logo": "",
+              "group": "Group C",
+              "players": [
+                {
+                  "id": "p-emmanuel-menezes",
+                  "name": "Emmanuel Menezes",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-florine-fernandes",
+              "name": "Florine Fernandes",
+              "shortName": "FLOR",
+              "seed": 2,
+              "logo": "",
+              "group": "Group C",
+              "players": [
+                {
+                  "id": "p-florine-fernandes",
+                  "name": "Florine Fernandes",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-joseph-rodrigues",
+              "name": "Joseph Rodrigues",
+              "shortName": "JOSE",
+              "seed": 1,
+              "logo": "",
+              "group": "Group C",
+              "players": [
+                {
+                  "id": "p-joseph-rodrigues",
+                  "name": "Joseph Rodrigues",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-patrick-menezes",
+              "name": "Patrick Menezes",
+              "shortName": "PATR",
+              "seed": 4,
+              "logo": "",
+              "group": "Group C",
+              "players": [
+                {
+                  "id": "p-patrick-menezes",
+                  "name": "Patrick Menezes",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          }
+        ]
+      }
+    },
+    "updatedAt": "2026-11-06T22:47:29.600Z"
   },
   {
     "id": "dmc-chess-2026",
@@ -2372,7 +3144,167 @@
         "court": "Board 1",
         "duration": "10 mins"
       }
-    ]
+    ],
+    "standings": [
+      {
+        "team": {
+          "id": "p-christine",
+          "name": "Christine",
+          "shortName": "CHRI",
+          "seed": 4,
+          "logo": "",
+          "group": "Group Stage",
+          "players": [
+            {
+              "id": "p-christine",
+              "name": "Christine",
+              "role": "PLAYER"
+            }
+          ]
+        },
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "goalDifference": 0,
+        "points": 0,
+        "form": []
+      },
+      {
+        "team": {
+          "id": "p-don-danthi",
+          "name": "Don Danthi",
+          "shortName": "DON",
+          "seed": 2,
+          "logo": "",
+          "group": "Group Stage",
+          "players": [
+            {
+              "id": "p-don-danthi",
+              "name": "Don Danthi",
+              "role": "PLAYER"
+            }
+          ]
+        },
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "goalDifference": 0,
+        "points": 0,
+        "form": []
+      },
+      {
+        "team": {
+          "id": "p-frank-mathias",
+          "name": "Frank Mathias",
+          "shortName": "FRAN",
+          "seed": 6,
+          "logo": "",
+          "group": "Group Stage",
+          "players": [
+            {
+              "id": "p-frank-mathias",
+              "name": "Frank Mathias",
+              "role": "PLAYER"
+            }
+          ]
+        },
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "goalDifference": 0,
+        "points": 0,
+        "form": []
+      },
+      {
+        "team": {
+          "id": "p-joel-britto",
+          "name": "Joel Britto",
+          "shortName": "JOEL",
+          "seed": 1,
+          "logo": "",
+          "group": "Group Stage",
+          "players": [
+            {
+              "id": "p-joel-britto",
+              "name": "Joel Britto",
+              "role": "PLAYER"
+            }
+          ]
+        },
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "goalDifference": 0,
+        "points": 0,
+        "form": []
+      },
+      {
+        "team": {
+          "id": "p-mario-chettiar",
+          "name": "Mario Chettiar",
+          "shortName": "MARI",
+          "seed": 5,
+          "logo": "",
+          "group": "Group Stage",
+          "players": [
+            {
+              "id": "p-mario-chettiar",
+              "name": "Mario Chettiar",
+              "role": "PLAYER"
+            }
+          ]
+        },
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "goalDifference": 0,
+        "points": 0,
+        "form": []
+      },
+      {
+        "team": {
+          "id": "p-shibu-jacob",
+          "name": "Shibu Jacob",
+          "shortName": "SHIB",
+          "seed": 3,
+          "logo": "",
+          "group": "Group Stage",
+          "players": [
+            {
+              "id": "p-shibu-jacob",
+              "name": "Shibu Jacob",
+              "role": "PLAYER"
+            }
+          ]
+        },
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "goalDifference": 0,
+        "points": 0,
+        "form": []
+      }
+    ],
+    "groupStandings": null,
+    "updatedAt": "2026-11-06T22:47:31.727Z"
   },
   {
     "id": "dmc-table-tennis-2026",
@@ -3158,7 +4090,400 @@
         "court": "Table 1",
         "duration": "5 mins"
       }
-    ]
+    ],
+    "standings": null,
+    "groupStandings": {
+      "grp-a": {
+        "group": {
+          "id": "grp-a",
+          "name": "Group A",
+          "teams": [
+            {
+              "id": "p-fr-kenneth-pinto",
+              "name": "Fr. Kenneth Pinto",
+              "shortName": "FR.",
+              "seed": 1,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-fr-kenneth-pinto",
+                  "name": "Fr. Kenneth Pinto",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-gerald-rodrigues",
+              "name": "Gerald Rodrigues",
+              "shortName": "GERA",
+              "seed": 2,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-gerald-rodrigues",
+                  "name": "Gerald Rodrigues",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-sunborn-perrira",
+              "name": "Sunborn Perrira",
+              "shortName": "SUNB",
+              "seed": 3,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-sunborn-perrira",
+                  "name": "Sunborn Perrira",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-james-louis",
+              "name": "James Louis",
+              "shortName": "JAME",
+              "seed": 4,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-james-louis",
+                  "name": "James Louis",
+                  "role": "PLAYER"
+                }
+              ]
+            }
+          ]
+        },
+        "standings": [
+          {
+            "team": {
+              "id": "p-fr-kenneth-pinto",
+              "name": "Fr. Kenneth Pinto",
+              "shortName": "FR.",
+              "seed": 1,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-fr-kenneth-pinto",
+                  "name": "Fr. Kenneth Pinto",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-gerald-rodrigues",
+              "name": "Gerald Rodrigues",
+              "shortName": "GERA",
+              "seed": 2,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-gerald-rodrigues",
+                  "name": "Gerald Rodrigues",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-james-louis",
+              "name": "James Louis",
+              "shortName": "JAME",
+              "seed": 4,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-james-louis",
+                  "name": "James Louis",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-sunborn-perrira",
+              "name": "Sunborn Perrira",
+              "shortName": "SUNB",
+              "seed": 3,
+              "logo": "",
+              "group": "Group A",
+              "players": [
+                {
+                  "id": "p-sunborn-perrira",
+                  "name": "Sunborn Perrira",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          }
+        ]
+      },
+      "grp-b": {
+        "group": {
+          "id": "grp-b",
+          "name": "Group B",
+          "teams": [
+            {
+              "id": "p-nigel-moriera",
+              "name": "Nigel Moriera",
+              "shortName": "NIGE",
+              "seed": 1,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-nigel-moriera",
+                  "name": "Nigel Moriera",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-mario-chettiar",
+              "name": "Mario Chettiar",
+              "shortName": "MARI",
+              "seed": 2,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-mario-chettiar",
+                  "name": "Mario Chettiar",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-vincent-chettiar",
+              "name": "Vincent Chettiar",
+              "shortName": "VINC",
+              "seed": 3,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-vincent-chettiar",
+                  "name": "Vincent Chettiar",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-malcolm-corria",
+              "name": "Malcolm Corria",
+              "shortName": "MALC",
+              "seed": 4,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-malcolm-corria",
+                  "name": "Malcolm Corria",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            {
+              "id": "p-anthony-aranha",
+              "name": "Anthony Aranha",
+              "shortName": "ANTH",
+              "seed": 5,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-anthony-aranha",
+                  "name": "Anthony Aranha",
+                  "role": "PLAYER"
+                }
+              ]
+            }
+          ]
+        },
+        "standings": [
+          {
+            "team": {
+              "id": "p-anthony-aranha",
+              "name": "Anthony Aranha",
+              "shortName": "ANTH",
+              "seed": 5,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-anthony-aranha",
+                  "name": "Anthony Aranha",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-malcolm-corria",
+              "name": "Malcolm Corria",
+              "shortName": "MALC",
+              "seed": 4,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-malcolm-corria",
+                  "name": "Malcolm Corria",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-mario-chettiar",
+              "name": "Mario Chettiar",
+              "shortName": "MARI",
+              "seed": 2,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-mario-chettiar",
+                  "name": "Mario Chettiar",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-nigel-moriera",
+              "name": "Nigel Moriera",
+              "shortName": "NIGE",
+              "seed": 1,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-nigel-moriera",
+                  "name": "Nigel Moriera",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          },
+          {
+            "team": {
+              "id": "p-vincent-chettiar",
+              "name": "Vincent Chettiar",
+              "shortName": "VINC",
+              "seed": 3,
+              "logo": "",
+              "group": "Group B",
+              "players": [
+                {
+                  "id": "p-vincent-chettiar",
+                  "name": "Vincent Chettiar",
+                  "role": "PLAYER"
+                }
+              ]
+            },
+            "played": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "goalDifference": 0,
+            "points": 0,
+            "form": []
+          }
+        ]
+      }
+    },
+    "updatedAt": "2026-11-06T22:47:33.897Z"
   },
   {
     "id": "dmc-cricket-2026",
@@ -3492,7 +4817,111 @@
         "court": "Church Hall",
         "duration": "45 mins"
       }
-    ]
+    ],
+    "standings": [
+      {
+        "team": {
+          "id": "team-divine-united",
+          "name": "Divine United",
+          "shortName": "DU",
+          "seed": 1,
+          "logo": "",
+          "group": "League",
+          "players": []
+        },
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "goalDifference": 0,
+        "points": 0,
+        "form": []
+      },
+      {
+        "team": {
+          "id": "team-game-changers",
+          "name": "Game Changers",
+          "shortName": "GC",
+          "seed": 3,
+          "logo": "",
+          "group": "League",
+          "players": []
+        },
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "goalDifference": 0,
+        "points": 0,
+        "form": []
+      },
+      {
+        "team": {
+          "id": "team-green-goblin",
+          "name": "Green Goblin",
+          "shortName": "GG",
+          "seed": 5,
+          "logo": "",
+          "group": "League",
+          "players": []
+        },
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "goalDifference": 0,
+        "points": 0,
+        "form": []
+      },
+      {
+        "team": {
+          "id": "team-pink-panthers",
+          "name": "Pink Panthers",
+          "shortName": "PP",
+          "seed": 4,
+          "logo": "",
+          "group": "League",
+          "players": []
+        },
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "goalDifference": 0,
+        "points": 0,
+        "form": []
+      },
+      {
+        "team": {
+          "id": "team-yellow-palthans",
+          "name": "Yellow Palthans",
+          "shortName": "YP",
+          "seed": 2,
+          "logo": "",
+          "group": "League",
+          "players": []
+        },
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "goalDifference": 0,
+        "points": 0,
+        "form": []
+      }
+    ],
+    "groupStandings": null,
+    "updatedAt": "2026-11-06T22:47:36.526Z"
   },
   {
     "id": "dmc-throwball-2026",
@@ -3826,6 +5255,110 @@
         "court": "Grotto Area",
         "duration": "40 mins"
       }
-    ]
+    ],
+    "standings": [
+      {
+        "team": {
+          "id": "team-divine-united",
+          "name": "Divine United",
+          "shortName": "DU",
+          "seed": 1,
+          "logo": "",
+          "group": "League",
+          "players": []
+        },
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "goalDifference": 0,
+        "points": 0,
+        "form": []
+      },
+      {
+        "team": {
+          "id": "team-game-changers",
+          "name": "Game Changers",
+          "shortName": "GC",
+          "seed": 3,
+          "logo": "",
+          "group": "League",
+          "players": []
+        },
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "goalDifference": 0,
+        "points": 0,
+        "form": []
+      },
+      {
+        "team": {
+          "id": "team-green-goblin",
+          "name": "Green Goblin",
+          "shortName": "GG",
+          "seed": 5,
+          "logo": "",
+          "group": "League",
+          "players": []
+        },
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "goalDifference": 0,
+        "points": 0,
+        "form": []
+      },
+      {
+        "team": {
+          "id": "team-pink-panthers",
+          "name": "Pink Panthers",
+          "shortName": "PP",
+          "seed": 4,
+          "logo": "",
+          "group": "League",
+          "players": []
+        },
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "goalDifference": 0,
+        "points": 0,
+        "form": []
+      },
+      {
+        "team": {
+          "id": "team-yellow-palthans",
+          "name": "Yellow Palthans",
+          "shortName": "YP",
+          "seed": 2,
+          "logo": "",
+          "group": "League",
+          "players": []
+        },
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "goalDifference": 0,
+        "points": 0,
+        "form": []
+      }
+    ],
+    "groupStandings": null,
+    "updatedAt": "2026-11-06T22:47:39.488Z"
   }
 ]
