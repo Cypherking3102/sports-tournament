@@ -7,7 +7,7 @@ import ScoreModal from "@/components/ScoreModal";
 import ScheduleFilters from "@/components/ScheduleFilters";
 import SchedulePlayerBanner from "@/components/SchedulePlayerBanner";
 import ScheduleMatchCard from "@/components/ScheduleMatchCard";
-import { getClientTournaments, saveClientTournament } from "@/lib/clientStorage";
+import { getClientTournaments, saveClientTournament, mergeTournaments } from "@/lib/clientStorage";
 import { parseTimeToMinutes } from "@/lib/utils/timeUtils";
 
 export default function GlobalSchedulePage() {
@@ -38,7 +38,7 @@ export default function GlobalSchedulePage() {
       const res = await fetch("/api/tournaments");
       if (res.ok) {
         const data = await res.json();
-        setTournaments(Array.isArray(data) ? data : []);
+        setTournaments(mergeTournaments(Array.isArray(data) ? data : []));
       } else {
         setTournaments(getClientTournaments());
       }

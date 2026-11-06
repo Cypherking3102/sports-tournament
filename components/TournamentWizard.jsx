@@ -36,34 +36,30 @@ import {
 import { saveClientTournament } from "@/lib/clientStorage";
 
 const PRESET_SPORTS = [
-  { name: "Football", icon: "", unit: "Goals", format: "GROUP_KNOCKOUT", type: "TEAM", win: 3, draw: 1, loss: 0 },
-  { name: "Basketball", icon: "", unit: "Points", format: "ROUND_ROBIN", type: "TEAM", win: 2, draw: 0, loss: 0 },
-  { name: "Cricket", icon: "", unit: "Runs", format: "KNOCKOUT", type: "TEAM", win: 2, draw: 1, loss: 0 },
-  { name: "Volleyball", icon: "", unit: "Sets", format: "GROUP_KNOCKOUT", type: "TEAM", win: 2, draw: 0, loss: 0 },
-  { name: "Badminton", icon: "", unit: "Points", format: "KNOCKOUT", type: "INDIVIDUAL", win: 2, draw: 0, loss: 0 },
-  { name: "Table Tennis", icon: "", unit: "Points", format: "KNOCKOUT", type: "INDIVIDUAL", win: 2, draw: 0, loss: 0 },
-  { name: "Pickleball", icon: "", unit: "Points", format: "GROUP_KNOCKOUT", type: "INDIVIDUAL", win: 2, draw: 0, loss: 0 },
-  { name: "Carrom", icon: "", unit: "Points", format: "KNOCKOUT", type: "INDIVIDUAL", win: 2, draw: 0, loss: 0 },
-  { name: "Chess", icon: "", unit: "Points", format: "ROUND_ROBIN", type: "INDIVIDUAL", win: 1, draw: 0.5, loss: 0 }
+  { name: "Carrom", icon: "", unit: "Points", format: "GROUP_KNOCKOUT", type: "INDIVIDUAL", win: 2, draw: 1, loss: 0 },
+  { name: "Chess", icon: "", unit: "Points", format: "ROUND_ROBIN", type: "INDIVIDUAL", win: 1, draw: 0.5, loss: 0 },
+  { name: "Table Tennis", icon: "", unit: "Points", format: "GROUP_KNOCKOUT", type: "INDIVIDUAL", win: 2, draw: 0, loss: 0 },
+  { name: "Cricket", icon: "", unit: "Runs", format: "ROUND_ROBIN", type: "TEAM", win: 2, draw: 1, loss: 0 },
+  { name: "Throwball", icon: "", unit: "Points", format: "ROUND_ROBIN", type: "TEAM", win: 2, draw: 0, loss: 0 }
 ];
 
 export default function TournamentWizard() {
   const router = useRouter();
 
   // Sport selection
-  const [selectedSportPreset, setSelectedSportPreset] = useState("Football");
+  const [selectedSportPreset, setSelectedSportPreset] = useState("Carrom");
   const [isCustomSport, setIsCustomSport] = useState(false);
   const [customSportName, setCustomSportName] = useState("");
   const [sportIcon, setSportIcon] = useState("");
-  const [scoreUnit, setScoreUnit] = useState("Goals");
+  const [scoreUnit, setScoreUnit] = useState("Points");
 
   // Participant Type: "TEAM" (Teams with individual player rosters) or "INDIVIDUAL" (Singles / Solo players)
-  const [participantType, setParticipantType] = useState("TEAM");
+  const [participantType, setParticipantType] = useState("INDIVIDUAL");
 
   // Basic Info
-  const [title, setTitle] = useState("Divine Mercy Annual Football Cup 2026");
+  const [title, setTitle] = useState("Divine Mercy Parish Tournament 2026");
   const [format, setFormat] = useState("GROUP_KNOCKOUT");
-  const [location, setLocation] = useState("Parish Sports Turf");
+  const [location, setLocation] = useState("Church Hall");
   const [startDate, setStartDate] = useState(new Date().toISOString().split("T")[0]);
 
   // Dynamic Multi-Group Management (Can add Group A, B, C, D, E...)

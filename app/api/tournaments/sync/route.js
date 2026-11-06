@@ -4,7 +4,7 @@ import { syncTournaments, getAllTournaments } from "@/lib/db";
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { tournaments, tournament } = body;
+    const { tournaments, tournament, deletedIds } = body;
 
     const listToSync = Array.isArray(tournaments)
       ? tournaments
@@ -12,9 +12,7 @@ export async function POST(request) {
       ? [tournament]
       : [];
 
-    if (listToSync.length > 0) {
-      syncTournaments(listToSync);
-    }
+    syncTournaments(listToSync, Array.isArray(deletedIds) ? deletedIds : []);
 
     return NextResponse.json({
       success: true,

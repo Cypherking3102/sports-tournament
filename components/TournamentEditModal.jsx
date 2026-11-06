@@ -42,15 +42,15 @@ export default function TournamentEditModal({ tournament, onClose, onUpdated }) 
 
   // General details
   const [title, setTitle] = useState(tournament.title || "");
-  const [sport, setSport] = useState(tournament.sport || "Football");
+  const [sport, setSport] = useState(tournament.sport || "Carrom");
   const [sportIcon, setSportIcon] = useState(tournament.sportIcon || "");
   const [status, setStatus] = useState(tournament.status || "UPCOMING");
   const [location, setLocation] = useState(tournament.location || "");
   const [startDate, setStartDate] = useState(tournament.startDate || "");
-  const [scoreUnit, setScoreUnit] = useState(tournament.scoreUnit || "Goals");
+  const [scoreUnit, setScoreUnit] = useState(tournament.scoreUnit || "Points");
   const [bannerUrl, setBannerUrl] = useState(
     tournament.bannerUrl ||
-      "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80"
+      "https://images.unsplash.com/photo-1611195974226-a6a9be9dd763?auto=format&fit=crop&w=1200&q=80"
   );
   const [organizer, setOrganizer] = useState(
     tournament.organizer || "Divine Mercy Church"

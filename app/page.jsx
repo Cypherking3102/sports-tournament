@@ -11,12 +11,15 @@ import {
   ArrowRight,
   PlusCircle,
   Search,
-  Award
+  Award,
+  Trash2,
+  AlertTriangle
 } from "lucide-react";
 import {
   getClientTournaments,
   mergeTournaments,
   syncTournamentsToServer,
+  removeClientTournament,
   clearClientTournaments
 } from "@/lib/clientStorage";
 
@@ -25,6 +28,29 @@ export default function HomePage() {
   const [selectedSport, setSelectedSport] = useState("ALL");
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [tournamentToDelete, setTournamentToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDeleteTournament = async () => {
+    if (!tournamentToDelete) return;
+    setIsDeleting(true);
+    try {
+      removeClientTournament(tournamentToDelete.id);
+      await fetch(`/api/tournaments/${tournamentToDelete.id}`, {
+        method: "DELETE"
+      });
+      syncTournamentsToServer();
+      setTournaments((prev) => prev.filter((t) => t.id !== tournamentToDelete.id));
+      setTournamentToDelete(null);
+    } catch (err) {
+      removeClientTournament(tournamentToDelete.id);
+      syncTournamentsToServer();
+      setTournaments((prev) => prev.filter((t) => t.id !== tournamentToDelete.id));
+      setTournamentToDelete(null);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   useEffect(() => {
     fetchTournaments();
@@ -194,22 +220,39 @@ export default function HomePage() {
                       {t.sport}
                     </span>
 
-                    {liveMatches > 0 ? (
-                      <span className="flex items-center space-x-1 px-3 py-1 rounded-full bg-red-500 text-white text-xs font-bold animate-pulse shadow-md shadow-red-500/30">
-                        <Flame className="w-3.5 h-3.5" />
-                        <span>{liveMatches} LIVE</span>
-                      </span>
-                    ) : (
-                      <span
-                        className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider ${
-                          t.status === "LIVE"
-                            ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                            : "bg-slate-800/80 text-slate-400 border border-slate-700"
-                        }`}
-                      >
-                        {t.status}
-                      </span>
-                    )}
+                    <div className="flex items-center space-x-1.5">
+                      {liveMatches > 0 ? (
+                        <span className="flex items-center space-x-1 px-3 py-1 rounded-full bg-red-500 text-white text-xs font-bold animate-pulse shadow-md shadow-red-500/30">
+                          <Flame className="w-3.5 h-3.5" />
+                          <span>{liveMatches} LIVE</span>
+                        </span>
+                      ) : (
+                        <span
+                          className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider ${
+                            t.status === "LIVE"
+                              ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+                              : "bg-slate-800/80 text-slate-400 border border-slate-700"
+                          }`}
+                        >
+                          {t.status}
+                        </span>
+                      )}
+
+                      {isAdmin && (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setTournamentToDelete(t);
+                          }}
+                          className="p-1.5 rounded-full bg-red-950/80 hover:bg-red-600 border border-red-500/40 text-red-300 hover:text-white transition-all shadow-md"
+                          title="Delete tournament"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                    </div>
                   </div>
 
                   {/* Format tag bottom left */}
@@ -258,18 +301,71 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* Action Link */}
-                  <Link
-                    href={`/tournaments/${t.id}`}
-                    className="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-blue-600 hover:text-white text-slate-200 font-bold text-xs flex items-center justify-center space-x-2 transition-all mt-1 group-hover:shadow-md group-hover:shadow-blue-500/20"
-                  >
-                    <span>View Tables & Fixtures</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
+                  {/* Action Link & Admin Delete */}
+                  <div className="flex items-center space-x-2 mt-1">
+                    <Link
+                      href={`/tournaments/${t.id}`}
+                      className="flex-1 py-2 px-3 rounded-xl bg-slate-800 hover:bg-blue-600 hover:text-white text-slate-200 font-bold text-xs flex items-center justify-center space-x-2 transition-all group-hover:shadow-md group-hover:shadow-blue-500/20"
+                    >
+                      <span>View Tables & Fixtures</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+
+                    {isAdmin && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setTournamentToDelete(t);
+                        }}
+                        className="py-2 px-3 rounded-xl bg-red-500/10 hover:bg-red-600 text-red-400 hover:text-white border border-red-500/20 font-bold text-xs flex items-center justify-center transition-all"
+                        title="Delete Tournament"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* Delete Tournament Confirmation Modal */}
+      {tournamentToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4">
+          <div className="bg-slate-900 border border-red-500/30 rounded-3xl w-full max-w-md p-6 shadow-2xl space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 mx-auto">
+              <AlertTriangle className="w-6 h-6" />
+            </div>
+            <div className="text-center space-y-1.5">
+              <h3 className="text-lg font-black text-white">Delete Tournament</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Are you sure you want to permanently delete <span className="text-white font-bold">{tournamentToDelete.title}</span>? All match fixtures, team rosters, and standings will be removed.
+              </p>
+            </div>
+            <div className="flex items-center justify-end space-x-2 pt-2">
+              <button
+                type="button"
+                onClick={() => setTournamentToDelete(null)}
+                disabled={isDeleting}
+                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs transition-all"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleDeleteTournament}
+                disabled={isDeleting}
+                className="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs flex items-center space-x-1.5 transition-all shadow-lg shadow-red-600/30 disabled:opacity-50"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>{isDeleting ? "Deleting..." : "Yes, Delete Tournament"}</span>
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

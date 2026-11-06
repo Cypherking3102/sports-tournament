@@ -18,7 +18,9 @@ import {
   Users,
   Award,
   BarChart3,
-  Target
+  Target,
+  Trash2,
+  AlertTriangle
 } from "lucide-react";
 
 import BracketTree from "@/components/BracketTree";
@@ -37,6 +39,7 @@ import {
 import {
   getClientTournamentById,
   saveClientTournament,
+  removeClientTournament,
   syncTournamentsToServer
 } from "@/lib/clientStorage";
 
@@ -51,6 +54,24 @@ export default function TournamentDetailPage({ params }) {
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [showAddMatch, setShowAddMatch] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDeleteTournament = async () => {
+    setIsDeleting(true);
+    try {
+      removeClientTournament(id);
+      await fetch(`/api/tournaments/${id}`, {
+        method: "DELETE"
+      });
+      syncTournamentsToServer();
+      window.location.href = "/";
+    } catch (err) {
+      removeClientTournament(id);
+      syncTournamentsToServer();
+      window.location.href = "/";
+    }
+  };
 
   useEffect(() => {
     fetchTournament();
@@ -205,6 +226,15 @@ export default function TournamentDetailPage({ params }) {
             >
               <Plus className="w-3.5 h-3.5" />
               <span>+ Add Match</span>
+            </button>
+
+            <button
+              onClick={() => setShowDeleteModal(true)}
+              className="flex items-center space-x-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-bold px-3.5 py-1.5 rounded-full transition-all shadow-sm"
+              title="Permanently delete this tournament"
+            >
+              <Trash2 className="w-3.5 h-3.5 text-red-400" />
+              <span>Delete Tournament</span>
             </button>
           </div>
         )}
@@ -454,6 +484,42 @@ export default function TournamentDetailPage({ params }) {
           onClose={() => setShowEditModal(false)}
           onUpdated={handleTournamentUpdated}
         />
+      )}
+
+      {/* Delete Tournament Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4">
+          <div className="bg-slate-900 border border-red-500/30 rounded-3xl w-full max-w-md p-6 shadow-2xl space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 mx-auto">
+              <AlertTriangle className="w-6 h-6" />
+            </div>
+            <div className="text-center space-y-1.5">
+              <h3 className="text-lg font-black text-white">Delete Tournament</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Are you sure you want to permanently delete <span className="text-white font-bold">{tournament?.title}</span>? All fixture schedules, group standings, and match results will be removed.
+              </p>
+            </div>
+            <div className="flex items-center justify-end space-x-2 pt-2">
+              <button
+                type="button"
+                onClick={() => setShowDeleteModal(false)}
+                disabled={isDeleting}
+                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs transition-all"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleDeleteTournament}
+                disabled={isDeleting}
+                className="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs flex items-center space-x-1.5 transition-all shadow-lg shadow-red-600/30 disabled:opacity-50"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>{isDeleting ? "Deleting..." : "Yes, Delete Tournament"}</span>
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
